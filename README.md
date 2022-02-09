@@ -1,2 +1,1 @@
-# Blind
-Blind Engine
+# Blind [![License]
