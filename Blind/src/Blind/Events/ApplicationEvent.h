@@ -8,7 +8,7 @@
 
 namespace Blind
 {
-	class BLIND_API WindowResizeEvent : public Event
+	class  WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(uint32_t width, uint32_t height)
@@ -28,7 +28,7 @@ namespace Blind
 	private:
 		uint32_t m_Width, m_Height;
 	};
-	class BLIND_API WindowCloseEvent : public Event
+	class  WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent() {}
@@ -37,7 +37,7 @@ namespace Blind
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class BLIND_API AppTickEvent : public Event {
+	class  AppTickEvent : public Event {
 	public:
 		AppTickEvent() {}
 
@@ -45,7 +45,7 @@ namespace Blind
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class BLIND_API AppUpdateEvent : public Event {
+	class  AppUpdateEvent : public Event {
 	public:
 		AppUpdateEvent() {}
 
@@ -53,7 +53,7 @@ namespace Blind
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class BLIND_API AppRenderEvent : public Event {
+	class  AppRenderEvent : public Event {
 	public:
 		AppRenderEvent() {}
 

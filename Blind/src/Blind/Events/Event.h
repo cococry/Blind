@@ -8,7 +8,7 @@
    handled immediately as its being instantiated. The EventDispatcher takes care of this.*/
 
 #pragma once
-#include <Core.h>
+#include <Blind/Core.h>
 #include <blindpch.h>
 
 // STD Lib includes

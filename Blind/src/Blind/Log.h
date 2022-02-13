@@ -6,7 +6,7 @@
    a fully static logging class. Asserting macro is defined in the 
    Blind Core header.  */
 
-#include <Core.h>
+#include <Blind/Core.h>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -14,7 +14,7 @@
 
 namespace Blind
 {
-	class BLIND_API Log
+	class  Log
 	{
 		/* \Logging class is a spdlog wrapper class and its fully static. The main Init method needs to be called before 
 		    anything is done with this wrapper. Utility macros for log levels are defined within this header. Use them 

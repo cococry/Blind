@@ -1,9 +1,10 @@
 #pragma once
-#include <Core.h>
+#include <Blind/Core.h>
+#include <Blind/Window.h>
 
 namespace Blind
 {
-	class BLIND_API Application
+	class  Application
 	{
 	/* \Blind Application Class
 		This class is used to create a Application with Blind. It is implemented client side for now.
@@ -14,6 +15,8 @@ namespace Blind
 
 		void Run();
 	private:
+		std::unique_ptr<Window> m_Window;
+		bool m_Running = true;
 	};
 	Application* CreateApplication();
 }

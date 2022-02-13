@@ -11,55 +11,71 @@ workspace "Blind"
 
 project_output = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+Dependencies = {}
+Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
+
+include "Blind/vendor/GLFW"
+
 project "Blind"
 	location "Blind"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
-
-	pchheader "blindpch.h"
-	pchsource "Blind/src/blindpch.cpp"
+	cppdialect "C++17";
+	staticruntime "on"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
 
-	files 
+	pchheader "blindpch.h"
+	pchsource "Blind/src/blindpch.cpp"
+
+	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+	}
+
+	defines 
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
 	{
+		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src"
+		"%{Dependencies.GLFW}",
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
-		staticruntime "on"
 		systemversion "latest"
 
-		defines 
+		defines
 		{
 			"BLIND_PLATFORM_WINDOWS",
-			"BLIND_DLL"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. project_output .. "/Game")
+			"BLIND_DLL",
+			"GLFW_INCLUDE_NONE",
 		}
 
 	filter "configurations:Debug"
 		defines "BLIND_DEBUG"
+		runtime "Debug"
 		symbols "on"
-
+	
 	filter "configurations:Release"
 		defines "BLIND_RELEASE"
+		runtime "Release"
 		optimize "on"
 
-	filter "configurations:Distribution"
+	filter "configurations:Dist"
 		defines "BLIND_DIST"
+		runtime "Release"
 		optimize "on"
 
 project "Game"
