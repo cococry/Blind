@@ -1,0 +1,9 @@
+# Github commands ignore Files:
+
+# Directories
+.vs/
+bin/
+bin-int/
+
+# Files
+*.user
