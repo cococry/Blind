@@ -1,4 +1,6 @@
 #pragma once
+#include <Blind/Log.h>
+
 /* Blind Engine Entry Point Header */
 
 /* This header defines the main function and with that, it is the entry point to the engine.
@@ -12,6 +14,7 @@ extern Blind::Application* Blind::CreateApplication(); // Getting the extern fun
 int main(int argc, char** argv) // Win-Main
 {
 	// Instantiating the client application when program starts
+	Blind::Log::Init();
 	auto app = Blind::CreateApplication();
 	app->Run();
 	delete app;

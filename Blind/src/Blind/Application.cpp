@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <Blind/Log.h>
 
 namespace Blind
 {
