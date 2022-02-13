@@ -145,6 +145,10 @@
   <ItemGroup>
     <ClInclude Include="src\Blind\Application.h" />
     <ClInclude Include="src\Blind\EntryPoint.h" />
+    <ClInclude Include="src\Blind\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\Blind\Events\Event.h" />
+    <ClInclude Include="src\Blind\Events\KeyEvent.h" />
+    <ClInclude Include="src\Blind\Events\MouseEvent.h" />
     <ClInclude Include="src\Blind\Log.h" />
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Core.h" />

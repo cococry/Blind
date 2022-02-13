@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <Blind/Log.h>
+#include <Blind/Events/ApplicationEvent.h>
 
 namespace Blind
 {
@@ -17,6 +18,5 @@ namespace Blind
 	{
 		while (true);
 	}
-
 }
 

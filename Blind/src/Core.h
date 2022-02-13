@@ -14,3 +14,5 @@
 #else 
 	#error Blind Engine currently does only support Windows OS!
 #endif
+
+#define BIT(x) 1 << x
