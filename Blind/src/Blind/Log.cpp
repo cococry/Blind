@@ -1,3 +1,4 @@
+#include <blindpch.h>
 #include "Log.h"
 
 namespace Blind

@@ -17,6 +17,9 @@ project "Blind"
 	language "C++"
 	cppdialect "C++17"
 
+	pchheader "blindpch.h"
+	pchsource "Blind/src/blindpch.cpp"
+
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
 

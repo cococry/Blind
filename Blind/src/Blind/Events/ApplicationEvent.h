@@ -5,7 +5,6 @@
     inherits from the Event class from the main header. */
 
 #include "Event.h"
-#include <sstream>
 
 namespace Blind
 {

@@ -32,6 +32,7 @@
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\blindpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp">
@@ -40,5 +41,6 @@
     <ClCompile Include="src\Blind\Log.cpp">
       <Filter>Blind</Filter>
     </ClCompile>
+    <ClCompile Include="src\blindpch.cpp" />
   </ItemGroup>
 </Project>

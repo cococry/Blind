@@ -1,6 +1,5 @@
+#include <blindpch.h>
 #include "Application.h"
-#include <Blind/Log.h>
-#include <Blind/Events/ApplicationEvent.h>
 
 namespace Blind
 {

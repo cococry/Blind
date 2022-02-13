@@ -9,6 +9,8 @@
 
 #pragma once
 #include <Core.h>
+#include <blindpch.h>
+
 // STD Lib includes
 #include <string>
 #include <functional>
