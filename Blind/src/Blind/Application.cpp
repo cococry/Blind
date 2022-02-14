@@ -1,5 +1,6 @@
 #include <blindpch.h>
 #include "Application.h"
+#include <Blind/Log.h>
 
 namespace Blind
 {
@@ -17,6 +18,7 @@ namespace Blind
 	{
 		while (m_Running)
 		{
+
 			m_Window->OnUpdate();
 		}
 	}

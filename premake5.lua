@@ -18,7 +18,7 @@ include "Blind/vendor/GLFW"
 
 project "Blind"
 	location "Blind"
-	kind "StaticLib"
+	kind "SharedLib"
 	language "C++"
 	cppdialect "C++17";
 	staticruntime "on"

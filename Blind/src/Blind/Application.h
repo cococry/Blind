@@ -4,7 +4,7 @@
 
 namespace Blind
 {
-	class  Application
+	class BLIND_API Application
 	{
 	/* \Blind Application Class
 		This class is used to create a Application with Blind. It is implemented client side for now.

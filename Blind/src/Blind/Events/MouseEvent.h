@@ -9,7 +9,7 @@
 
 namespace Blind
 {
-	class  MouseButtonEvent : public Event
+	class BLIND_API MouseButtonEvent : public Event
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
@@ -21,7 +21,7 @@ namespace Blind
 
 		int m_Button;
 	};
-	class  MouseButtonPressedEvent : public MouseButtonEvent
+	class BLIND_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button) {}
@@ -35,7 +35,7 @@ namespace Blind
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
-	class  MouseButtonReleasedEvent : public MouseButtonEvent {
+	class BLIND_API MouseButtonReleasedEvent : public MouseButtonEvent {
 	public:
 		MouseButtonReleasedEvent(int button)
 			: MouseButtonEvent(button) {}
@@ -49,7 +49,7 @@ namespace Blind
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
 
-	class  MouseMovedEvent : public Event
+	class BLIND_API MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -70,7 +70,7 @@ namespace Blind
 		float m_X, m_Y;
 	};
 
-	class  MouseScrolledEvent : public Event
+	class BLIND_API MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)

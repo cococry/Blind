@@ -14,7 +14,7 @@
 
 namespace Blind
 {
-	class  Log
+	class BLIND_API Log
 	{
 		/* \Logging class is a spdlog wrapper class and its fully static. The main Init method needs to be called before 
 		    anything is done with this wrapper. Utility macros for log levels are defined within this header. Use them 

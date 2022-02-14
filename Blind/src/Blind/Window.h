@@ -16,7 +16,7 @@ namespace Blind
 			: title(title), width(width), height(height) {}
 	};
 
-	class  Window
+	class BLIND_API Window
 	{
 	public:
 		using EventCallbackFunction = std::function<void(Event&)>;

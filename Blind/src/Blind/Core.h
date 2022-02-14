@@ -5,6 +5,14 @@
    The core defines for using Blind on engine side are defined here.*/
 // ENGINE SIDE HEADER
 
+#ifdef BLIND_PLATFORM_WINDOWS
+	#ifdef BLIND_DLL
+		#define BLIND_API __declspec(dllexport)
+	#else 
+		#define BLIND_API __declspec(dllimport)
+	#endif
+#endif // BLIND_PLATFORM_WINDOWS
+
 #ifdef BLIND_DEBUG
 	#define  BLIND_ENABLE_ASSERTS
 #endif
