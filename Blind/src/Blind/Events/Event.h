@@ -8,8 +8,8 @@
    handled immediately as its being instantiated. The EventDispatcher takes care of this.*/
 
 #pragma once
-#include <Blind/Core.h>
 #include <blindpch.h>
+#include <Blind/Core.h>
 
 // STD Lib includes
 #include <string>
@@ -58,7 +58,6 @@ namespace Blind
 
 		bool m_Handled = false;
 	};
-
 	class EventDispatcher
 	{
 		/* \This EventDispatcher class takes an Event as argument at instantiation which should then be dispatched with
@@ -66,22 +65,21 @@ namespace Blind
 			type of the passed in event occurs. The return value of the callback function is then being assigned to the 
 			currently dispatching event. (m_Event) */
 
-		template <typename T>
+		template<typename T>
 		using EventFunction = std::function<bool(T)>;
 	public:
 		// Constructor taking in a Event reference
-		EventDispatcher(Event& e)
-			: m_Event(e) {}
+		EventDispatcher(Event& event_)
+			: m_Event(event_) {}
 
 		/* \Dispatch method calls the passed in callback if the passed in event
 		    type as the callback argument is equal to the currently dispatching event (m_Event Constructor parameter) 
 			returns true if the currently dispatching event type is the same as the callback argument event type and
 			false if not. */
 		template <typename T>
-		bool Dispatch(EventFunction<T> func )
-		{
-			if (m_Event.GetEventType() == T::GetStaticType()) {
-				m_Event.Handled = func(*(T*)&m_Event);
+		bool Dispatch(EventFunction<T> func) {
+			if (m_Event.GetType() == T::GetStaticType()) {
+				m_Event.m_Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;

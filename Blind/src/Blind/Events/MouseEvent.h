@@ -23,6 +23,7 @@ namespace Blind
 	};
 	class BLIND_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
+	public:
 		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button) {}
 

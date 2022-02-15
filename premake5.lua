@@ -39,7 +39,7 @@ project "Blind"
 	{
 		"_CRT_SECURE_NO_WARNINGS"
 	}
-
+	
 	includedirs
 	{
 		"%{prj.name}/src",
@@ -59,8 +59,11 @@ project "Blind"
 		defines
 		{
 			"BLIND_PLATFORM_WINDOWS",
-			"BLIND_DLL",
-			"GLFW_INCLUDE_NONE",
+			"BLIND_DLL"
+		}
+		postbuildcommands
+		{
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. project_output .. "/Game")
 		}
 
 	filter "configurations:Debug"

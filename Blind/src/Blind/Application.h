@@ -1,6 +1,7 @@
 #pragma once
 #include <Blind/Core.h>
 #include <Blind/Window.h>
+#include <Blind/Events/ApplicationEvent.h>
 
 namespace Blind
 {
@@ -14,7 +15,10 @@ namespace Blind
 		virtual ~Application();
 
 		void Run();
+		void OnEvent(Event& e);
 	private:
+		bool OnWindowClosed(WindowCloseEvent& e);
+
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 	};

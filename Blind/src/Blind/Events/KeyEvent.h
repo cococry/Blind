@@ -22,8 +22,8 @@ namespace Blind
 	class BLIND_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(uint32_t keycode)
-			: KeyEvent(keycode) {}
+		KeyPressedEvent(uint32_t keycode, uint32_t repeatcount)
+			: m_RepeatCount(repeatcount), KeyEvent(keycode) {}
 
 		virtual std::string ToString() const override
 		{
@@ -32,9 +32,12 @@ namespace Blind
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyPressed)
+	private:
+		uint32_t m_RepeatCount;
 	};
 	class KeyReleasedEvent : public KeyEvent
 	{
+	public:
 		KeyReleasedEvent(uint32_t keycode)
 			: KeyEvent(keycode) {}
 
