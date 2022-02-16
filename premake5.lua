@@ -13,8 +13,10 @@ project_output = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 Dependencies = {}
 Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
+Dependencies["Glad"] = "Blind/vendor/Glad/include"
 
 include "Blind/vendor/GLFW"
+include "Blind/vendor/Glad"
 
 project "Blind"
 	location "Blind"
@@ -45,11 +47,13 @@ project "Blind"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{Dependencies.GLFW}",
+		"%{Dependencies.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -59,7 +63,8 @@ project "Blind"
 		defines
 		{
 			"BLIND_PLATFORM_WINDOWS",
-			"BLIND_DLL"
+			"BLIND_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands
 		{

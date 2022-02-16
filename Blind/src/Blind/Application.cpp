@@ -1,7 +1,7 @@
 #include <blindpch.h>
 #include "Application.h"
 #include <Blind/Log.h>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Blind
 {
@@ -20,6 +20,8 @@ namespace Blind
 	void Application::Run()
 	{
 		while (m_Running) {
+			glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
 			m_Window->OnUpdate();
 
 			for (Layer* layer : m_LayerStack)

@@ -6,6 +6,7 @@
 #include <Blind/Events/KeyEvent.h>
 #include <Blind/Events/MouseEvent.h>
 
+#include <glad/glad.h>
 namespace Blind
 {
 	static bool s_InitializedGLFW = false;
@@ -68,6 +69,9 @@ namespace Blind
 
 		m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		int32_t status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		BLIND_ENGINE_ASSERT(status, "Library GLAD: Failed to initialize Glad!");
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
 
