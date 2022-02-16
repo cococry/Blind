@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -109,6 +110,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -150,6 +152,8 @@
     <ClInclude Include="src\Blind\Events\Event.h" />
     <ClInclude Include="src\Blind\Events\KeyEvent.h" />
     <ClInclude Include="src\Blind\Events\MouseEvent.h" />
+    <ClInclude Include="src\Blind\Layer.h" />
+    <ClInclude Include="src\Blind\LayerStack.h" />
     <ClInclude Include="src\Blind\Log.h" />
     <ClInclude Include="src\Blind\Window.h" />
     <ClInclude Include="src\BlindEngine.h" />
@@ -158,6 +162,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp" />
+    <ClCompile Include="src\Blind\Layer.cpp" />
+    <ClCompile Include="src\Blind\LayerStack.cpp" />
     <ClCompile Include="src\Blind\Log.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\blindpch.cpp">

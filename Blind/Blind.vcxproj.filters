@@ -36,6 +36,12 @@
     <ClInclude Include="src\Blind\Events\MouseEvent.h">
       <Filter>Blind\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Layer.h">
+      <Filter>Blind</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\LayerStack.h">
+      <Filter>Blind</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Log.h">
       <Filter>Blind</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp">
+      <Filter>Blind</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Layer.cpp">
+      <Filter>Blind</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\LayerStack.cpp">
       <Filter>Blind</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Log.cpp">

@@ -68,17 +68,17 @@ project "Blind"
 
 	filter "configurations:Debug"
 		defines "BLIND_DEBUG"
-		runtime "Debug"
+		buildoptions "/MDd"
 		symbols "on"
 	
 	filter "configurations:Release"
 		defines "BLIND_RELEASE"
-		runtime "Release"
+		buildoptions "/MD"
 		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BLIND_DIST"
-		runtime "Release"
+		buildoptions "/MD"
 		optimize "on"
 
 project "Game"
@@ -116,12 +116,15 @@ project "Game"
 	
 	filter "configurations:Debug"
 		defines "BLIND_DEBUG"
+		buildoptions "/MDd"
 		symbols "on"
 
 	filter "configurations:Release"
 		defines "BLIND_RELEASE"
+		buildoptions "/MD"
 		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "BLIND_DIST"
+		buildoptions "/MD"
 		optimize "on"

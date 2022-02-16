@@ -2,6 +2,7 @@
 #include <Blind/Core.h>
 #include <Blind/Window.h>
 #include <Blind/Events/ApplicationEvent.h>
+#include <Blind/LayerStack.h>
 
 namespace Blind
 {
@@ -16,11 +17,15 @@ namespace Blind
 
 		void Run();
 		void OnEvent(Event& e);
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
+		LayerStack m_LayerStack;
 	};
 	Application* CreateApplication();
 }
