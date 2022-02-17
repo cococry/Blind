@@ -1,3 +1,4 @@
+#pragma once
 /* Blind Event System Application Event Header */
 
 /* This header implements all of the necessary application events in Blind.
@@ -12,7 +13,7 @@ namespace Blind
 	{
 	public:
 		WindowResizeEvent(uint32_t width, uint32_t height)
-			: m_Width(width), m_Height(width) {}
+			: m_Width(width), m_Height(height) {}
 
 		inline float GetX() const { return m_Width; }
 		inline float GetY() const { return m_Height; }

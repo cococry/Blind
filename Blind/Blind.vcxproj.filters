@@ -7,8 +7,14 @@
     <Filter Include="Blind\Events">
       <UniqueIdentifier>{B2377805-9E9A-07AA-4720-40603362D32C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Blind\ImGui">
+      <UniqueIdentifier>{38BFE1D1-A474-5AC7-2D69-549E991D51CB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
@@ -36,6 +42,9 @@
     <ClInclude Include="src\Blind\Events\MouseEvent.h">
       <Filter>Blind\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\ImGui\ImGuiLayer.h">
+      <Filter>Blind\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Layer.h">
       <Filter>Blind</Filter>
     </ClInclude>
@@ -49,6 +58,9 @@
       <Filter>Blind</Filter>
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h" />
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
@@ -58,6 +70,9 @@
     <ClCompile Include="src\Blind\Application.cpp">
       <Filter>Blind</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\ImGui\ImGuiLayer.cpp">
+      <Filter>Blind\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\Blind\Layer.cpp">
       <Filter>Blind</Filter>
     </ClCompile>
@@ -66,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="src\Blind\Log.cpp">
       <Filter>Blind</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>

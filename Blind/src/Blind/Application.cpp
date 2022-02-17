@@ -5,11 +5,14 @@
 
 namespace Blind
 {
-#define BIND_EVENT_FUNCTION(x) std::bind(&Application::x, this, std::placeholders::_1)
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		BLIND_ENGINE_ASSERT(!s_Instance, "Blind application already exists!");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FUNCTION(OnEvent));
+		m_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -22,16 +25,15 @@ namespace Blind
 		while (m_Running) {
 			glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			m_Window->OnUpdate();
-
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+			m_Window->OnUpdate();
 		}
 	}
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(OnWindowClosed));
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosed));
 
 		for (auto i = m_LayerStack.end(); i != m_LayerStack.begin();)
 		{
@@ -44,11 +46,13 @@ namespace Blind
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 	bool Application::OnWindowClosed(WindowCloseEvent& e)

@@ -14,9 +14,11 @@ project_output = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 Dependencies = {}
 Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
 Dependencies["Glad"] = "Blind/vendor/Glad/include"
+Dependencies["ImGui"] = "Blind/vendor/imgui"
 
 include "Blind/vendor/GLFW"
 include "Blind/vendor/Glad"
+include "Blind/vendor/imgui"
 
 project "Blind"
 	location "Blind"
@@ -47,12 +49,14 @@ project "Blind"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{Dependencies.GLFW}",
-		"%{Dependencies.Glad}"
+		"%{Dependencies.Glad}",
+		"%{Dependencies.ImGui}",
 	}
 
 	links
 	{
 		"GLFW",
+		"ImGui",
 		"Glad",
 		"opengl32.lib"
 	}
@@ -64,7 +68,8 @@ project "Blind"
 		{
 			"BLIND_PLATFORM_WINDOWS",
 			"BLIND_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
 		}
 		postbuildcommands
 		{
@@ -117,6 +122,7 @@ project "Game"
 		defines 
 		{
 			"BLIND_PLATFORM_WINDOWS",
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
 		}
 	
 	filter "configurations:Debug"

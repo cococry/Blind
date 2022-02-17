@@ -14,7 +14,7 @@ namespace Blind
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		BLIND_ENGINE_ERROR("GLFW Error: ({0}): {1}", error, description);
-	}
+	}		
 
 	Window* Window::Create(const WindowProperties& props)
 	{
@@ -141,6 +141,13 @@ namespace Blind
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			data.EventCallback(event);
 			});
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			KeyTypedEvent event(keycode);
+			data.EventCallback(event);
+		});
 
 	}
 

@@ -10,3 +10,4 @@
 #include <Blind/EntryPoint.h>
 #include <Blind/Log.h>
 #include <Blind/Layer.h>
+#include <Blind/ImGui/ImGuiLayer.h>

@@ -1,6 +1,12 @@
 [submodule "Blind/vendor/spdlog"]
 	path = Blind/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/thecherno/imgui
 [submodule "Blind/vendor/GLFW"]
 	path = Blind/vendor/GLFW
 	url = https://github.com/cococry/glfw
+[submodule "Blind/vendor/imgui"]
+	path = Blind/vendor/imgui
+	url = https://github.com/cococry/imgui

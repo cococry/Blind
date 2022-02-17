@@ -21,7 +21,7 @@ namespace Blind
 	enum class EventType
 	{
 		None = 0,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		WindowClose, WindowResize, WindowMoved, WindowFocus, WindowLostFocus,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
 		AppTick, AppUpdate, AppRender

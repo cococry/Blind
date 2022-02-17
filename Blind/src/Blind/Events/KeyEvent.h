@@ -28,7 +28,7 @@ namespace Blind
 		virtual std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: (Key-code) " << m_Keycode;
+			ss << "KeyPressedEvent: (Key-code) " << m_Keycode << ": Repeat Count: " << m_RepeatCount;
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyPressed)
@@ -48,5 +48,19 @@ namespace Blind
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyReleased)
+	};
+	class BLIND_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(uint32_t keycode)
+			: KeyEvent(keycode) {}
+
+		virtual std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: (Key-code) " << m_Keycode;
+			return ss.str();
+		}
+		EVENT_CLASS_TYPE(KeyTyped)
 	};
 }

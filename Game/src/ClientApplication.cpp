@@ -24,6 +24,7 @@ public:
 	SandboxApp()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Blind::ImGuiLayer());
 	}
 	~SandboxApp()
 	{
