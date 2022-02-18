@@ -1,6 +1,9 @@
 #include <blindpch.h>
 #include "Application.h"
+
 #include <Blind/Log.h>
+#include <Blind/Input.h>
+
 #include <glad/glad.h>
 
 namespace Blind
@@ -22,11 +25,16 @@ namespace Blind
 
 	void Application::Run()
 	{
-		while (m_Running) {
+		while (m_Running)
+		{
 			glClearColor(0.2f, 0.1f, 0.9f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto [x, y] = Input::GetMousePosition();
+			BLIND_ENGINE_TRACE("{0}, {1}", x, y);
 
 			m_Window->OnUpdate();
 		}

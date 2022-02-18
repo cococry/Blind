@@ -18,6 +18,8 @@ namespace Blind
 		inline void SetEventCallback(const EventCallbackFunction& callback) override { m_Data.EventCallback = callback; }
 		void SetVsync(bool enabled) override;
 		bool IsVsync() const;
+
+		inline virtual void* GetNativeWindow() const override { return m_Window; }
 	private:
 		virtual void Init(const WindowProperties& props);
 		virtual void Shutdown();

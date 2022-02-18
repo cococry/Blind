@@ -10,11 +10,9 @@ public:
 
 	void OnUpdate() override
 	{
-		BLIND_CLIENT_INFO("ExampleLayer::Update");
 	}
 	void OnEvent(Blind::Event& e) override
 	{
-		BLIND_CLIENT_TRACE("{0}", e);
 	}
 };
 

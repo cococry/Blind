@@ -21,8 +21,8 @@
 	#define BLIND_CLIENT_ASSERT(x, ...) {if(!(x)) {BLIND_CLIENT_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
 	#define BLIND_ENGINE_ASSERT(x, ...) {if(!(x)) {BLIND_ENGINE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
 #else
-	#define MRN_ASSERT(x, ...)
-	#define BLIND_CORE_ASSERT(x, ...)
+	#define BLIND_CLIENT_ASSERT(x, ...)
+	#define BLIND_ENGINE_ASSERT(x, ...)
 
 #endif
 

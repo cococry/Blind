@@ -151,12 +151,14 @@
     <ClInclude Include="src\Blind\Events\KeyEvent.h" />
     <ClInclude Include="src\Blind\Events\MouseEvent.h" />
     <ClInclude Include="src\Blind\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Blind\Input.h" />
     <ClInclude Include="src\Blind\Layer.h" />
     <ClInclude Include="src\Blind\LayerStack.h" />
     <ClInclude Include="src\Blind\Log.h" />
     <ClInclude Include="src\Blind\Window.h" />
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\blindpch.h" />
   </ItemGroup>
@@ -167,6 +169,7 @@
     <ClCompile Include="src\Blind\LayerStack.cpp" />
     <ClCompile Include="src\Blind\Log.cpp" />
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\blindpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
