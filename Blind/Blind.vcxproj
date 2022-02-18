@@ -152,9 +152,11 @@
     <ClInclude Include="src\Blind\Events\MouseEvent.h" />
     <ClInclude Include="src\Blind\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Blind\Input.h" />
+    <ClInclude Include="src\Blind\KeyCodes.h" />
     <ClInclude Include="src\Blind\Layer.h" />
     <ClInclude Include="src\Blind\LayerStack.h" />
     <ClInclude Include="src\Blind\Log.h" />
+    <ClInclude Include="src\Blind\MouseCodes.h" />
     <ClInclude Include="src\Blind\Window.h" />
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />

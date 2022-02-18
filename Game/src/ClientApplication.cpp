@@ -13,6 +13,8 @@ public:
 	}
 	void OnEvent(Blind::Event& e) override
 	{
+		if (Blind::Input::IsKeyPressed(BL_KEY_TAB))
+			BLIND_CLIENT_INFO("Tab key is pressed! ");
 	}
 };
 
