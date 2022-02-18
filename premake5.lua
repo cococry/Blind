@@ -16,16 +16,18 @@ Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
 Dependencies["Glad"] = "Blind/vendor/Glad/include"
 Dependencies["ImGui"] = "Blind/vendor/imgui"
 
-include "Blind/vendor/GLFW"
-include "Blind/vendor/Glad"
-include "Blind/vendor/imgui"
+group "Dependencies"
+	include "Blind/vendor/GLFW"
+	include "Blind/vendor/Glad"
+	include "Blind/vendor/imgui"
+group ""
 
 project "Blind"
 	location "Blind"
 	kind "SharedLib"
 	language "C++"
 	cppdialect "C++17";
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
@@ -73,28 +75,30 @@ project "Blind"
 		}
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. project_output .. "/Game")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. project_output .. "/Game/\"")
+
 		}
 
 	filter "configurations:Debug"
 		defines "BLIND_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "on"
 	
 	filter "configurations:Release"
 		defines "BLIND_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BLIND_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "on"
 
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
@@ -116,7 +120,6 @@ project "Game"
 	}
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "on"
 		systemversion "latest"
 
 		defines 
@@ -127,15 +130,15 @@ project "Game"
 	
 	filter "configurations:Debug"
 		defines "BLIND_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
 		defines "BLIND_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "BLIND_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "on"

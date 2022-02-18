@@ -1,7 +1,7 @@
 #pragma once
 /* Blind Engine Core Header */
 
-/* This header defines major defines about the building and linking of the engine.
+/* This header defines major macros about the building and linking of the engine.
    The core defines for using Blind on engine side are defined here.*/
 // ENGINE SIDE HEADER
 
