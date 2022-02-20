@@ -10,3 +10,6 @@
 [submodule "Blind/vendor/imgui"]
 	path = Blind/vendor/imgui
 	url = https://github.com/cococry/imgui
+[submodule "Blind/vendor/glm"]
+	path = Blind/vendor/glm
+	url = https://github.com/g-truc/glm

@@ -15,6 +15,7 @@ Dependencies = {}
 Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
 Dependencies["Glad"] = "Blind/vendor/Glad/include"
 Dependencies["ImGui"] = "Blind/vendor/imgui"
+Dependencies["glm"] = "Blind/vendor/glm"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
@@ -39,6 +40,8 @@ project "Blind"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	defines 
@@ -53,6 +56,7 @@ project "Blind"
 		"%{Dependencies.GLFW}",
 		"%{Dependencies.Glad}",
 		"%{Dependencies.ImGui}",
+		"%{Dependencies.glm}"
 	}
 
 	links
@@ -112,7 +116,8 @@ project "Game"
 	includedirs
 	{
 		"Blind/vendor/spdlog/include",
-		"Blind/src"
+		"Blind/src",
+		 "%{Dependencies.glm}"
 	}
 	links
 	{

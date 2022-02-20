@@ -4,6 +4,7 @@
 #include <Blind/Log.h>
 #include <Blind/Input.h>
 
+#include <glm/vec3.hpp>
 #include <glad/glad.h>
 
 namespace Blind
@@ -32,7 +33,7 @@ namespace Blind
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-
+ 
 			m_Window->OnUpdate();
 		}
 	}
