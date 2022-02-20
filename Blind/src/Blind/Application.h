@@ -3,6 +3,7 @@
 #include <Blind/Window.h>
 #include <Blind/Events/ApplicationEvent.h>
 #include <Blind/LayerStack.h>
+#include <Blind/ImGui/ImGuiLayer.h>
 
 namespace Blind
 {
@@ -27,6 +28,7 @@ namespace Blind
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		static Application* s_Instance;

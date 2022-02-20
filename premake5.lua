@@ -75,7 +75,7 @@ project "Blind"
 			"BLIND_PLATFORM_WINDOWS",
 			"BLIND_DLL",
 			"GLFW_INCLUDE_NONE",
-			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
 		}
 		postbuildcommands
 		{
@@ -117,7 +117,8 @@ project "Game"
 	{
 		"Blind/vendor/spdlog/include",
 		"Blind/src",
-		 "%{Dependencies.glm}"
+		"Blind/vendor",
+		"%{Dependencies.glm}"
 	}
 	links
 	{
@@ -130,7 +131,7 @@ project "Game"
 		defines 
 		{
 			"BLIND_PLATFORM_WINDOWS",
-			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
 		}
 	
 	filter "configurations:Debug"

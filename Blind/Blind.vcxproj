@@ -159,7 +159,6 @@
     <ClInclude Include="src\Blind\MouseCodes.h" />
     <ClInclude Include="src\Blind\Window.h" />
     <ClInclude Include="src\BlindEngine.h" />
-    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\blindpch.h" />
@@ -581,11 +580,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp" />
+    <ClCompile Include="src\Blind\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Blind\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Blind\Layer.cpp" />
     <ClCompile Include="src\Blind\LayerStack.cpp" />
     <ClCompile Include="src\Blind\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\blindpch.cpp">

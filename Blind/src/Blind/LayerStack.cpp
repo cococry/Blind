@@ -5,7 +5,6 @@ namespace Blind
 {
 	LayerStack::LayerStack()
 	{
-		m_LayerInstertPos = m_Layers.begin();
 	}
 
 	LayerStack::~LayerStack()
@@ -16,7 +15,8 @@ namespace Blind
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_LayerInstertPos = m_Layers.emplace(m_LayerInstertPos, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInstertIndex, layer);
+		m_LayerInstertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -31,7 +31,7 @@ namespace Blind
 		if (iterator != m_Layers.end())
 		{
 			m_Layers.erase(iterator);
-			m_LayerInstertPos--;
+			m_LayerInstertIndex--;
 		}
 	}
 

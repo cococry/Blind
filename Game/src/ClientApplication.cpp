@@ -10,7 +10,9 @@ public:
 
 	void OnUpdate() override
 	{
-	}
+	}					 
+
+
 	void OnEvent(Blind::Event& e) override
 	{
 		if (Blind::Input::IsKeyPressed(BL_KEY_TAB))
@@ -23,8 +25,6 @@ class SandboxApp : public Blind::Application
 public:
 	SandboxApp()
 	{
-		PushLayer(new ExampleLayer());
-		PushOverlay(new Blind::ImGuiLayer());
 	}
 	~SandboxApp()
 	{
