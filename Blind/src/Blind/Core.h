@@ -6,10 +6,14 @@
 // ENGINE SIDE HEADER
 
 #ifdef BLIND_PLATFORM_WINDOWS
-	#ifdef BLIND_DLL
-		#define BLIND_API __declspec(dllexport)
-	#else 
-		#define BLIND_API __declspec(dllimport)
+	#ifdef BLIND_DYNAMIC_LINK
+		#ifdef BLIND_DLL
+			#define BLIND_API __declspec(dllexport)
+		#else 
+			#define BLIND_API __declspec(dllimport)
+		#endif
+	#else
+		#define BLIND_API
 	#endif
 #endif // BLIND_PLATFORM_WINDOWS
 

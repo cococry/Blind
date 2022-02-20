@@ -15,8 +15,8 @@ namespace Blind
 		WindowResizeEvent(uint32_t width, uint32_t height)
 			: m_Width(width), m_Height(height) {}
 
-		inline float GetX() const { return m_Width; }
-		inline float GetY() const { return m_Height; }
+		inline uint32_t GetX() { return m_Width; }
+		inline uint32_t GetY() { return m_Height; }
 
 		std::string ToString() const override
 		{

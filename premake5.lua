@@ -25,10 +25,10 @@ group ""
 
 project "Blind"
 	location "Blind"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17";
-	staticruntime "off"
+	staticruntime "on"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
@@ -43,12 +43,6 @@ project "Blind"
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
-
-	defines 
-	{
-		"_CRT_SECURE_NO_WARNINGS"
-	}
-	
 	includedirs
 	{
 		"%{prj.name}/src",
@@ -66,21 +60,20 @@ project "Blind"
 		"Glad",
 		"opengl32.lib"
 	}
-
+	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
 	filter "system:windows"
 		systemversion "latest"
 
 		defines
 		{
 			"BLIND_PLATFORM_WINDOWS",
-			"BLIND_DLL",
 			"GLFW_INCLUDE_NONE",
 			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
-		}
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. project_output .. "/Game/\"")
-
+			"IMGUI_API=__declspec(dllexport)"
 		}
 
 	filter "configurations:Debug"
@@ -102,7 +95,8 @@ project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17";
+	staticruntime "on"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")

@@ -68,6 +68,7 @@ namespace Blind
 		}
 
 		m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+
 		glfwMakeContextCurrent(m_Window);
 		int32_t status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BLIND_ENGINE_ASSERT(status, "Library GLAD: Failed to initialize Glad!");
