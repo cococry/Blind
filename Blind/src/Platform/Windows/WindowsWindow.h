@@ -1,5 +1,6 @@
 #pragma once
 #include <Blind/Window.h>
+#include <Blind/Renderer/GraphicsContext.h>
 #include <GLFW/glfw3.h>
 
 namespace Blind
@@ -25,6 +26,7 @@ namespace Blind
 		virtual void Shutdown();
 		
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

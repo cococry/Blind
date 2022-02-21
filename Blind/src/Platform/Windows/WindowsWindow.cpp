@@ -5,6 +5,7 @@
 #include <Blind/Events/ApplicationEvent.h>
 #include <Blind/Events/KeyEvent.h>
 #include <Blind/Events/MouseEvent.h>
+#include <Platform/OpenGL/OpenGLContext.h>
 
 #include <glad/glad.h>
 namespace Blind
@@ -33,7 +34,7 @@ namespace Blind
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVsync(bool enabled)
@@ -69,9 +70,8 @@ namespace Blind
 
 		m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
 
-		glfwMakeContextCurrent(m_Window);
-		int32_t status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		BLIND_ENGINE_ASSERT(status, "Library GLAD: Failed to initialize Glad!");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
