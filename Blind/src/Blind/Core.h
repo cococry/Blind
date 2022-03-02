@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 /* Blind Engine Core Header */
 
 /* This header defines major macros about the building and linking of the engine.
@@ -33,3 +34,12 @@
 #define BIT(x) 1 << x
 
 #define BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
+
+namespace Blind
+{
+	template <typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template <typename T>
+	using Ref = std::shared_ptr<T>;
+}

@@ -4,6 +4,8 @@
 #include <Blind/Events/ApplicationEvent.h>
 #include <Blind/LayerStack.h>
 #include <Blind/ImGui/ImGuiLayer.h>
+#include <Blind/Renderer/Shader.h>
+#include <Blind/Renderer/Buffer.h>
 
 namespace Blind
 {
@@ -27,10 +29,17 @@ namespace Blind
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 
-		std::unique_ptr<Window> m_Window;
-		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
+		uint32_t m_VertexArray;
+		Ref<Shader> m_Shader;
+		Ref<VertexBuffer> m_VertexBuffer;
+		Ref<IndexBuffer> m_IndexBuffer;
+
+		Scope<Window> m_Window;
+
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+
 		static Application* s_Instance;
 	};
 	Application* CreateApplication();

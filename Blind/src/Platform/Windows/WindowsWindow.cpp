@@ -6,6 +6,7 @@
 #include <Blind/Events/KeyEvent.h>
 #include <Blind/Events/MouseEvent.h>
 #include <Platform/OpenGL/OpenGLContext.h>
+#include <Blind/Renderer/Renderer.h>
 
 #include <glad/glad.h>
 namespace Blind
@@ -75,6 +76,7 @@ namespace Blind
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
+		BLIND_ENGINE_INFO("Successfully created Window: {0} ({1}x{2}) with Rendering API {3}", props.title, props.width, props.height, Renderer::RendererAPIToString()); 
 
 		// GLFW Callbacks 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {

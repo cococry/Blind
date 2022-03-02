@@ -13,6 +13,8 @@
 // STD LIB includes
 #include <iostream>
 #include <sstream>
+#include <fstream>
+
 #include <functional>
 #include <algorithm>
 #include <utility>

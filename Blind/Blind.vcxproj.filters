@@ -13,8 +13,14 @@
     <Filter Include="src\Blind\ImGui">
       <UniqueIdentifier>{CFF2BBE9-3B7E-29AE-448F-ACA2B09985AE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blind\Renderer">
+      <UniqueIdentifier>{2B1B4499-17FF-04EF-805F-FF416C62EF70}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -84,11 +90,20 @@
     <ClInclude Include="src\Blind\MouseCodes.h">
       <Filter>src\Blind</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\GraphicsContext.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Renderer.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Window.h">
       <Filter>src\Blind</Filter>
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1344,8 +1359,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Blind\Renderer\Shader.h" />
+    <ClInclude Include="src\Blind\Renderer\Buffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp">
@@ -1366,6 +1382,12 @@
     <ClCompile Include="src\Blind\Log.cpp">
       <Filter>src\Blind</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\Renderer.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1375,6 +1397,8 @@
     <ClCompile Include="src\blindpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Blind\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
   </ItemGroup>
 </Project>

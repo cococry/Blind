@@ -32,6 +32,8 @@ namespace Blind
 	};
 }
 
+#ifdef BLIND_DEBUG
+
 // Utility macros for logging
 #define BLIND_ENGINE_INFO(...) ::Blind::Log::GetEngineLogger()->info(__VA_ARGS__)
 #define BLIND_ENGINE_TRACE(...) ::Blind::Log::GetEngineLogger()->trace(__VA_ARGS__)
@@ -42,3 +44,17 @@ namespace Blind
 #define BLIND_CLIENT_TRACE(...) ::Blind::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define BLIND_CLIENT_WARN(...) ::Blind::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define BLIND_CLIENT_ERROR(...) ::Blind::Log::GetClientLogger()->error(__VA_ARGS__)
+
+#else
+#define BLIND_ENGINE_INFO(...) 
+#define BLIND_ENGINE_TRACE(...)
+#define BLIND_ENGINE_WARN(...) 
+#define BLIND_ENGINE_ERROR(...)
+
+#define BLIND_CLIENT_INFO(...) 
+#define BLIND_CLIENT_TRACE(...)
+#define BLIND_CLIENT_WARN(...) 
+#define BLIND_CLIENT_ERROR(...)
+
+#endif // BLIND_DEBUG
+
