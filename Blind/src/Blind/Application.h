@@ -6,6 +6,8 @@
 #include <Blind/ImGui/ImGuiLayer.h>
 #include <Blind/Renderer/Shader.h>
 #include <Blind/Renderer/Buffer.h>
+#include <Blind/Renderer/VertexArray.h>
+#include <Blind/Renderer/OrthographicCamera.h>
 
 namespace Blind
 {
@@ -30,10 +32,14 @@ namespace Blind
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		bool m_Running = true;
-		uint32_t m_VertexArray;
+
 		Ref<Shader> m_Shader;
-		Ref<VertexBuffer> m_VertexBuffer;
-		Ref<IndexBuffer> m_IndexBuffer;
+		Ref<Shader> m_BlueShader;
+		Ref<VertexArray> m_VertexArray;
+
+		Ref<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 
 		Scope<Window> m_Window;
 

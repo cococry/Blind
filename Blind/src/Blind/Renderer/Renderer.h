@@ -1,20 +1,27 @@
 #pragma once
 #include <string>
+#include "RenderCommand.h"
+
+#include "OrthographicCamera.h"
+#include "Shader.h"
+
 
 namespace Blind
 {
-	enum class RendererAPI
-	{
-		None = 0,
-		OpenGL,
-	};
 	class Renderer
 	{
 	public:
-		inline static RendererAPI GetAPI() { return s_RendererAPI; }
-		static std::string RendererAPIToString();
+		static void BeginScene(OrthographicCamera& camera);
+		static void EndScene();
 
+		static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray);
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+		static std::string RendererAPIToString();
 	private:
-		static RendererAPI s_RendererAPI;
+		struct SceneData
+		{
+			glm::mat4 ViewProjectionMatrix;
+		};
+		static SceneData* m_SceneData;
 	};
 }

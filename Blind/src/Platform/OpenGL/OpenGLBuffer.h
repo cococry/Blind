@@ -10,16 +10,14 @@ namespace Blind
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		virtual ~OpenGLVertexBuffer();
 
-		virtual void Bind() override;
-		virtual void Unbind() override;
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
 
-		inline uint32_t GetID() const { return m_RendererID; }
-		inline bool Bound() const { return m_Bound; }
+		inline uint32_t GetID() const override { return m_RendererID; }
 
 		virtual const BufferLayout& GetLayout() const override { return m_Layout; }
 		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
 	private:
-		bool m_Bound;
 		uint32_t m_RendererID;
 		BufferLayout m_Layout;
 	};
@@ -29,14 +27,12 @@ namespace Blind
 		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
 		virtual ~OpenGLIndexBuffer();
 
-		virtual void Bind() override;
-		virtual void Unbind() override;
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
 
-		inline uint32_t GetID() const { return m_RendererID; }
+		inline uint32_t GetID() const override { return m_RendererID; }
 		virtual uint32_t GetCount() const override { return m_Count; }
-		inline bool Bound() const { return m_Bound; }
 	private:
-		bool m_Bound;
 		uint32_t m_RendererID;
 		uint32_t m_Count;
 	};

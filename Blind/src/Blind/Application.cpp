@@ -5,35 +5,14 @@
 #include <Blind/Input.h>
 
 #include <glm/vec3.hpp>
-#include <glad/glad.h>
+#include <Blind/Renderer/Renderer.h>
 
 namespace Blind
 {
 	Application* Application::s_Instance = nullptr;
 
-	
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-		case Blind::ShaderDataType::Float:		return GL_FLOAT;
-		case Blind::ShaderDataType::Float2:		return GL_FLOAT;
-		case Blind::ShaderDataType::Float3:		return GL_FLOAT;
-		case Blind::ShaderDataType::Float4:		return GL_FLOAT;
-		case Blind::ShaderDataType::Mat3:		return GL_FLOAT;
-		case Blind::ShaderDataType::Mat4:		return GL_FLOAT;
-		case Blind::ShaderDataType::Int:		return GL_INT;
-		case Blind::ShaderDataType::Int2:		return GL_INT;
-		case Blind::ShaderDataType::Int3:		return GL_INT;
-		case Blind::ShaderDataType::Int4:		return GL_INT;
-		case Blind::ShaderDataType::Bool:		return GL_BOOL;
-		}
-		BLIND_ENGINE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
-
-
 	Application::Application()
+		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		BLIND_ENGINE_ASSERT(!s_Instance, "Blind application already exists!");
 		s_Instance = this;
@@ -43,8 +22,7 @@ namespace Blind
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		float vertices[3 * 7] =
 		{
@@ -53,39 +31,55 @@ namespace Blind
 			 0.0f, 0.5f, 0.0f,	0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		Ref<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		BufferLayout layout = 
 		{
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color" }
 		};
-		
-		m_VertexBuffer->SetLayout(layout);
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-		uint32_t index = 0;
-		for (const auto& element : m_VertexBuffer->GetLayout())
-		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.GetComponentCount(), 
-				ShaderDataTypeToOpenGLBaseType(element.Type), 
-				element.Normalized ? GL_TRUE : GL_FALSE, 
-				layout.GetStride(), 
-				(const void*)(element.Offset));
-			index++;
-		}
-
-	
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		Ref<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
+
+		m_SquareVA.reset(VertexArray::Create());
+
+
+		float squareVertices[3 * 4] =
+		{
+			-0.5f,-0.5f, 0.0f,	
+			 0.5f,-0.5f, 0.0f,	
+			 0.5f, 0.5f, 0.0f,	
+			-0.5f, 0.5f, 0.0f,	
+		};
+
+		Ref<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB->SetLayout(
+		{
+			{ ShaderDataType::Float3, "a_Position" },
+		});
+		m_SquareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		Ref<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		m_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSource = R"(
 		#version 330 core
 		
 		layout(location = 0) in vec3 a_Position;
 		layout(location = 1) in vec4 a_Color;
-		
+
+		uniform mat4 u_ViewProjection;		
+			
 		out vec3 v_Position;
 		out vec4 v_Color;
 
@@ -93,7 +87,7 @@ namespace Blind
 		{
 			v_Position = a_Position;
 			v_Color = a_Color;
-			gl_Position = vec4(a_Position - 0.1, 1.0);
+			gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 		}
 		)";
 		std::string fragmentSource = R"(
@@ -106,13 +100,42 @@ namespace Blind
 		
 		void main()
 		{
-			color = vec4(v_Position * 0.5 + 0.5, 1.0);
 			color = v_Color;
 		}
 		)";
 
 		m_Shader.reset(new Shader(vertexSource, fragmentSource));
-		m_Shader->Bind();
+
+
+		std::string vertexSourceBlue = R"(
+		#version 330 core
+		
+		layout(location = 0) in vec3 a_Position;
+		
+		uniform mat4 u_ViewProjection;				
+
+		out vec3 v_Position;
+		
+		void main()
+		{
+			v_Position = a_Position;
+			gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+		}
+		)";
+		std::string fragmentSourceBlue = R"(
+		#version 330 core
+		
+		layout(location = 0) out vec4 color;
+
+		in vec3 v_Position;
+
+		void main()
+		{
+			color = vec4(0.2, 0.3, 0.8, 1.0);
+		}
+		)";
+
+		m_BlueShader.reset(new Shader(vertexSourceBlue, fragmentSourceBlue));
 	}
 
 	Application::~Application()
@@ -123,11 +146,18 @@ namespace Blind
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RenderCommand::Clear();
 
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
+
+			Renderer::BeginScene(m_Camera);
+
+			Renderer::Submit(m_BlueShader, m_SquareVA);
+			Renderer::Submit(m_Shader, m_VertexArray);
+
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

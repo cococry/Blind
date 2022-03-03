@@ -16,32 +16,18 @@ namespace Blind
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 
-		m_Bound = true;
 	}
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
 		glDeleteBuffers(1, &m_RendererID);
 	}
-	void OpenGLVertexBuffer::Bind()
+	void OpenGLVertexBuffer::Bind() const
 	{
-		if (!m_Bound)
-		{
-			glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-			m_Bound = true;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to bind already bound Vertex Buffer ({0}).", m_RendererID);
-			
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
-	void OpenGLVertexBuffer::Unbind()
+	void OpenGLVertexBuffer::Unbind() const
 	{
-		if (m_Bound)
-		{
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			m_Bound = false;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to unbind not bound Vertex Buffer ({0}).", m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +42,6 @@ namespace Blind
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 
-		m_Bound = true;
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
@@ -64,26 +49,14 @@ namespace Blind
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
-	void OpenGLIndexBuffer::Bind()
+	void OpenGLIndexBuffer::Bind() const
 	{
-		if (!m_Bound)
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-			m_Bound = true;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to bind already bound Index Buffer ({0}).", m_RendererID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
-	void OpenGLIndexBuffer::Unbind()
+	void OpenGLIndexBuffer::Unbind() const 
 	{
-		if (m_Bound)
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			m_Bound = false;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to unbind not bound Index Buffer ({0}).", m_RendererID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 }

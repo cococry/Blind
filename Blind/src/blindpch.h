@@ -9,7 +9,6 @@
 	#include <Windows.h>
 #endif
 
-#define _CRT_SECURE_NO_WARNINGS
 // STD LIB includes
 #include <iostream>
 #include <sstream>

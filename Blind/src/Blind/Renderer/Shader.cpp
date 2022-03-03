@@ -2,12 +2,13 @@
 #include "Shader.h"
 #include <Blind/Log.h>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Blind
 {
 	Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
 	{
-		m_Bound = false;
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 		// Send the vertex shader source code to GL
@@ -111,6 +112,48 @@ namespace Blind
 		glDetachShader(m_RendererID, fragmentShader);
 	}
 
+	void Shader::UploadMat4(const std::string& name, glm::mat4 val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, false, glm::value_ptr(val));
+	}
+
+	void Shader::UploadMat3(const std::string& name, glm::mat4 val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix3fv(location, 1, false, glm::value_ptr(val));
+	}
+
+	void Shader::UploadVec4(const std::string& name, glm::vec4 val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform4fv(location, 1, glm::value_ptr(val));
+	}
+
+	void Shader::UploadVec3(const std::string& name, glm::vec3 val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform3fv(location, 1, glm::value_ptr(val));
+	}
+
+	void Shader::UploadVec2(const std::string& name, glm::vec2 val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform2fv(location, 1, glm::value_ptr(val));
+	}
+
+	void Shader::UploadFloat(const std::string& name, float val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1f(location, val);
+	}
+
+	void Shader::UploadInt(const std::string& name, int val)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1i(location, val);
+	}
+
 	Shader::~Shader()
 	{
 		glDeleteProgram(m_RendererID);
@@ -118,25 +161,13 @@ namespace Blind
 
 	void Shader::Bind()
 	{
-		if (!m_Bound)
-		{
-			glUseProgram(m_RendererID);
-			m_Bound = true;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to bind already bound shader program ({0}).", m_RendererID);
-
+		glUseProgram(m_RendererID);
 	}
 
 	void Shader::Unbind()
 	{
-		if (m_Bound)
-		{
-			glUseProgram(0);
-			m_Bound = false;
-		}
-		else
-			BLIND_ENGINE_WARN("Tried to unbind not bound shader program ({0}).", m_RendererID);
+
+		glUseProgram(0);
 	}
 
 }

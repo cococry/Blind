@@ -39,7 +39,8 @@ namespace Blind
 		uint32_t Size;
 		bool Normalized;
 
-		BufferElement() {}
+		BufferElement()
+			: Name(""), Type(ShaderDataType::None), Offset(0), Size(0), Normalized(false) {}
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
@@ -68,7 +69,8 @@ namespace Blind
 	class BufferLayout
 	{
 	public:
-		BufferLayout() {}
+		BufferLayout()
+			: m_Stride(0) {}
 
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: m_Elements(elements) 
@@ -106,11 +108,13 @@ namespace Blind
 	public:
 		virtual ~VertexBuffer() {}
 
-		virtual void Bind() = 0;
-		virtual void Unbind() = 0;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
+
+		virtual inline uint32_t GetID() const = 0;
 
 		static VertexBuffer* Create(float* vertices, uint32_t size);
 	};
@@ -119,10 +123,12 @@ namespace Blind
 	public:
 		virtual ~IndexBuffer() {}
 
-		virtual void Bind() = 0;
-		virtual void Unbind() = 0;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
 		virtual uint32_t GetCount() const = 0;
+
+		virtual inline uint32_t GetID() const = 0;
 
 		static IndexBuffer* Create(uint32_t* indices, uint32_t size);
 	};
