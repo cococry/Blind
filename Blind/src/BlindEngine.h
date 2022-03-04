@@ -25,3 +25,8 @@
 #include <Blind/Renderer/Renderer.h>
 #include <Blind/Renderer/RenderCommand.h>
 #include <Blind/Renderer/OrthographicCamera.h>
+
+#include <Blind/OrthographicCameraController.h>
+
+#define APPLICATION Blind::Application::Get()
+#define APPLICATION_WINDOW Blind::Application::Get().GetWindow()

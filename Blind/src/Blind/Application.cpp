@@ -38,16 +38,17 @@ namespace Blind
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
- 
+			if (!m_Minimized)
+			{
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 			m_ImGuiLayer->Begin();
 
 			for (Layer* Layer : m_LayerStack)
 				Layer->OnImGuiDraw();
 
 			m_ImGuiLayer->End();
-
 			m_Window->OnUpdate();
 		}
 	}
@@ -55,6 +56,7 @@ namespace Blind
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosed));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(Application::OnWindowResized));
 
 		if (Input::IsKeyPressed(BL_KEY_ESCAPE))
 		{
@@ -89,6 +91,18 @@ namespace Blind
 		BLIND_ENGINE_INFO("Closing Application...");
 		m_Running = false;
 		return true;
+	}
+	bool Application::OnWindowResized(WindowResizeEvent& e)
+	{
+		if (e.GetX() == 0 || e.GetY() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetX(), e.GetY());
+
+		return false;
 	}
 }
 

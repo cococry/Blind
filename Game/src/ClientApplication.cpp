@@ -9,7 +9,7 @@ class ExampleLayer : public Blind::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f, 0.0f, 0.0f)
+		: Layer("Example"), m_CameraController((float)APPLICATION_WINDOW.GetWidth() / (float)APPLICATION_WINDOW.GetHeight())
 	{
 	}
 
@@ -146,31 +146,12 @@ public:
 
 	virtual void OnUpdate(Blind::Timestep ts) override
 	{
-		if(Blind::Input::IsKeyPressed(BL_KEY_A))
-			m_CameraPosition.x -= m_MoveCameraSpeed * ts;
-		else if (Blind::Input::IsKeyPressed(BL_KEY_D))
-			m_CameraPosition.x += m_MoveCameraSpeed * ts;
-
-		if (Blind::Input::IsKeyPressed(BL_KEY_W))
-			m_CameraPosition.y += m_MoveCameraSpeed * ts;
-
-		else if (Blind::Input::IsKeyPressed(BL_KEY_S))
-			m_CameraPosition.y -= m_MoveCameraSpeed * ts;
-
-		if (Blind::Input::IsKeyPressed(BL_KEY_LEFT))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-
-		else if (Blind::Input::IsKeyPressed(BL_KEY_RIGHT))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
-		
+		m_CameraController.OnUpdate(ts);
 
 		Blind::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Blind::RenderCommand::Clear();
-		
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
 
-		Blind::Renderer::BeginScene(m_Camera);
+		Blind::Renderer::BeginScene(m_CameraController.GetCamera());
 
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -195,15 +176,12 @@ public:
 		m_PlayerTexture->Bind();
 		Blind::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
-		// Triangle
-		//Blind::Renderer::Submit(m_Shader, m_VertexArray);
-
 		Blind::Renderer::EndScene();
 	}					 
 
 	virtual void OnEvent(Blind::Event& e) override
 	{
-		 
+		m_CameraController.OnEvent(e);
 	}
 
 	virtual void OnImGuiDraw() override
@@ -222,13 +200,7 @@ private:
 
 	Blind::Ref<Blind::VertexArray> m_SquareVA;
 
-	Blind::OrthographicCamera m_Camera;
-
-	glm::vec3 m_CameraPosition;
-
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 180.0f;
-	float m_MoveCameraSpeed = 5.0f;
+	Blind::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };

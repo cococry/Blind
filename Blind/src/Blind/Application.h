@@ -32,8 +32,10 @@ namespace Blind
 
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
+		bool OnWindowResized(WindowResizeEvent& e);
 
 		bool m_Running = true;
+		bool m_Minimized = false;
 
 		Scope<Window> m_Window;
 

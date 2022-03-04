@@ -59,7 +59,7 @@ namespace Blind
 		m_Data.height = props.height;
 		m_Data.title = props.title;
 
-		BLIND_ENGINE_INFO("Creating GLFW Window {0}: ({1}x{2})", props.title, props.width, props.height);
+		BLIND_ENGINE_INFO("Creating GLFW Window {0}: ({1}x{2}).", props.title, props.width, props.height);
 
 		if (!s_InitializedGLFW)
 		{
@@ -76,7 +76,7 @@ namespace Blind
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
-		BLIND_ENGINE_INFO("Successfully created Window: {0} ({1}x{2}) with Rendering API {3}", props.title, props.width, props.height, Renderer::RendererAPIToString()); 
+		BLIND_ENGINE_INFO("Successfully created Window: {0} ({1}x{2}) with Rendering API {3}.", props.title, props.width, props.height, Renderer::RendererAPIToString()); 
 
 		// GLFW Callbacks 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {

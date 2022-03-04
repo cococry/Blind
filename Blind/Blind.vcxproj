@@ -149,6 +149,7 @@
     <ClInclude Include="src\Blind\LayerStack.h" />
     <ClInclude Include="src\Blind\Log.h" />
     <ClInclude Include="src\Blind\MouseCodes.h" />
+    <ClInclude Include="src\Blind\OrthographicCameraController.h" />
     <ClInclude Include="src\Blind\Renderer\Buffer.h" />
     <ClInclude Include="src\Blind\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h" />
@@ -593,6 +594,7 @@
     <ClCompile Include="src\Blind\Layer.cpp" />
     <ClCompile Include="src\Blind\LayerStack.cpp" />
     <ClCompile Include="src\Blind\Log.cpp" />
+    <ClCompile Include="src\Blind\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Blind\Renderer\RenderCommand.cpp" />

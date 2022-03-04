@@ -99,6 +99,9 @@
     <ClInclude Include="src\Blind\MouseCodes.h">
       <Filter>src\Blind</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\OrthographicCameraController.h">
+      <Filter>src\Blind</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Renderer\Buffer.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
@@ -1425,6 +1428,9 @@
       <Filter>src\Blind</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Log.cpp">
+      <Filter>src\Blind</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\OrthographicCameraController.cpp">
       <Filter>src\Blind</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Renderer\Buffer.cpp">
