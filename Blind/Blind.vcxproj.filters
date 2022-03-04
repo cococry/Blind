@@ -7,6 +7,9 @@
     <Filter Include="src\Blind">
       <UniqueIdentifier>{E565A3B2-51D0-5729-9A0E-09CF06B8357E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blind\Core">
+      <UniqueIdentifier>{5D013183-49CF-2489-3263-95AF1ED000EE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Blind\Events">
       <UniqueIdentifier>{29DE9818-15D7-B76A-3E09-9DEF2A619776}</UniqueIdentifier>
     </Filter>
@@ -46,6 +49,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Blind\Application.h">
@@ -53,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="src\Blind\Core.h">
       <Filter>src\Blind</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Core\Timestep.h">
+      <Filter>src\Blind\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Blind\EntryPoint.h">
       <Filter>src\Blind</Filter>
@@ -90,10 +99,31 @@
     <ClInclude Include="src\Blind\MouseCodes.h">
       <Filter>src\Blind</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Buffer.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Renderer\GraphicsContext.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\RenderCommand.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Renderer\Renderer.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\RendererAPI.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Shader.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Texture.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\VertexArray.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Blind\Window.h">
@@ -102,7 +132,22 @@
     <ClInclude Include="src\BlindEngine.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
@@ -1359,15 +1404,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Renderer\Shader.h" />
-    <ClInclude Include="src\Blind\Renderer\Buffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\Blind\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Blind\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Blind\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Application.cpp">
@@ -1388,10 +1427,46 @@
     <ClCompile Include="src\Blind\Log.cpp">
       <Filter>src\Blind</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\Buffer.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\RenderCommand.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Blind\Renderer\Renderer.cpp">
       <Filter>src\Blind\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\RendererAPI.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\Shader.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\Texture.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\VertexArray.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -1403,14 +1478,8 @@
     <ClCompile Include="src\blindpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Blind\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Blind\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Blind\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\Blind\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

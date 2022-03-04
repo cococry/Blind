@@ -8,7 +8,7 @@
 
 namespace Blind
 {
-	class BLIND_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		inline uint32_t GetKeyCode() { return m_Keycode; }
@@ -19,7 +19,7 @@ namespace Blind
 
 		int m_Keycode;
 	};
-	class BLIND_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(uint32_t keycode, uint32_t repeatcount)
@@ -49,7 +49,7 @@ namespace Blind
 		}
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
-	class BLIND_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(uint32_t keycode)

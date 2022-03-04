@@ -14,7 +14,7 @@ namespace Blind
 		   The Init method initializes the Engine- and Client side loggers colors and formating.*/
 
 		spdlog::set_pattern("%^[%T] %n: %v%$");
-
+		 
 		s_Engine_logger = spdlog::stdout_color_mt("BLIND");
 		s_Engine_logger->set_level(spdlog::level::trace);
 

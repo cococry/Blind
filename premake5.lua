@@ -16,6 +16,7 @@ Dependencies["GLFW"] = "Blind/vendor/GLFW/include"
 Dependencies["Glad"] = "Blind/vendor/Glad/include"
 Dependencies["ImGui"] = "Blind/vendor/imgui"
 Dependencies["glm"] = "Blind/vendor/glm"
+Dependencies["stb_image"] = "Blind/vendor/stb_image"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
@@ -42,6 +43,8 @@ project "Blind"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h"
 	}
 	includedirs
 	{
@@ -50,7 +53,8 @@ project "Blind"
 		"%{Dependencies.GLFW}",
 		"%{Dependencies.Glad}",
 		"%{Dependencies.ImGui}",
-		"%{Dependencies.glm}"
+		"%{Dependencies.glm}",
+		"%{Dependencies.stb_image}"
 	}
 
 	links
@@ -112,7 +116,7 @@ project "Game"
 		"Blind/vendor/spdlog/include",
 		"Blind/src",
 		"Blind/vendor",
-		"%{Dependencies.glm}"
+		"%{Dependencies.glm}",		
 	}
 	links
 	{

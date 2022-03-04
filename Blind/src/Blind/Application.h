@@ -8,10 +8,11 @@
 #include <Blind/Renderer/Buffer.h>
 #include <Blind/Renderer/VertexArray.h>
 #include <Blind/Renderer/OrthographicCamera.h>
+#include <Blind/Core/Timestep.h>
 
 namespace Blind
 {
-	class BLIND_API Application
+	class Application
 	{
 	/* \Blind Application Class
 		This class is used to create a Application with Blind. It is implemented client side for now.
@@ -28,23 +29,17 @@ namespace Blind
 
 		inline Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
+
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		bool m_Running = true;
 
-		Ref<Shader> m_Shader;
-		Ref<Shader> m_BlueShader;
-		Ref<VertexArray> m_VertexArray;
-
-		Ref<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
-
 		Scope<Window> m_Window;
 
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f; // Time that it took to render last frame
 
 		static Application* s_Instance;
 	};

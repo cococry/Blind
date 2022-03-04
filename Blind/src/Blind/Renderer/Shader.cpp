@@ -1,173 +1,71 @@
 #include "blindpch.h"
 #include "Shader.h"
-#include <Blind/Log.h>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
+#include "Renderer.h"
+#include <Platform/OpenGL/OpenGLShader.h>
 
 namespace Blind
 {
-	Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
+
+
+
+	Ref<Shader> Shader::Create(const std::string& name, std::string& vertexSource, const std::string& fragmentSource)
 	{
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		const GLchar* source = (const GLchar*)vertexSource.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
-
-		// Compile the vertex shader
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		switch (Renderer::GetAPI())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(vertexShader);
-
-			// Use the infoLog as you see fit.
-
-			// In this simple program, we'll just leave
-			return;
+			case RendererAPI::API::None: BLIND_ENGINE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
+			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
+		return nullptr;
+		BLIND_ENGINE_ASSERT(false, "Unknown Rendering API is being used!");
+	}
 
-		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		source = (const GLchar*)fragmentSource.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
-
-		// Compile the fragment shader
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+	Ref<Shader> Shader::Create(const std::string& filepath)
+	{
+		switch (Renderer::GetAPI())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(fragmentShader);
-			// Either of them. Don't leak shaders.
-			glDeleteShader(vertexShader);
-
-			// Use the infoLog as you see fit.
-
-			// In this simple program, we'll just leave
-			return;
+			case RendererAPI::API::None: BLIND_ENGINE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
+			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filepath);
 		}
-
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		m_RendererID = glCreateProgram();
-
-		// Attach our shaders to our program
-		glAttachShader(m_RendererID, vertexShader);
-		glAttachShader(m_RendererID, fragmentShader);
-
-		// Link our program
-		glLinkProgram(m_RendererID);
-
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
-		GLint isLinked = 0;
-		glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the program anymore.
-			glDeleteProgram(m_RendererID);
-			// Don't leak shaders either.
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			// Use the infoLog as you see fit.
-
-			// In this simple program, we'll just leave
-			return;
-		}
-
-		// Always detach shaders after a successful link.
-		glDetachShader(m_RendererID, vertexShader);
-		glDetachShader(m_RendererID, fragmentShader);
+		return nullptr;
+		BLIND_ENGINE_ASSERT(false, "Unknown Rendering API is being used!");
+	}
+	void ShaderLibrary::Add(const Ref<Shader>& shader)
+	{
+		auto& name = shader->GetName();
+		BLIND_ENGINE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader already exists in Shader library!");
+		m_Shaders[name] = shader;
 	}
 
-	void Shader::UploadMat4(const std::string& name, glm::mat4 val)
+	void ShaderLibrary::Add(const std::string& name, Ref<Shader>& shader)
 	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniformMatrix4fv(location, 1, false, glm::value_ptr(val));
+		BLIND_ENGINE_ASSERT(!Exists(name), "Shader already exists in Shader library!");
+		m_Shaders[name] = shader;
 	}
 
-	void Shader::UploadMat3(const std::string& name, glm::mat4 val)
+	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
 	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniformMatrix3fv(location, 1, false, glm::value_ptr(val));
+		auto shader = Shader::Create(filepath);
+		Add(shader);
+		return shader;
 	}
 
-	void Shader::UploadVec4(const std::string& name, glm::vec4 val)
+	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
 	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniform4fv(location, 1, glm::value_ptr(val));
+		auto shader = Shader::Create(filepath);
+		Add(name, shader);
+		return shader;
 	}
 
-	void Shader::UploadVec3(const std::string& name, glm::vec3 val)
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
 	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniform3fv(location, 1, glm::value_ptr(val));
+		BLIND_ENGINE_ASSERT(Exists(name), "Shader not found!");
+		return m_Shaders[name];
 	}
 
-	void Shader::UploadVec2(const std::string& name, glm::vec2 val)
+	bool ShaderLibrary::Exists(const std::string& name) const
 	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniform2fv(location, 1, glm::value_ptr(val));
-	}
-
-	void Shader::UploadFloat(const std::string& name, float val)
-	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniform1f(location, val);
-	}
-
-	void Shader::UploadInt(const std::string& name, int val)
-	{
-		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniform1i(location, val);
-	}
-
-	Shader::~Shader()
-	{
-		glDeleteProgram(m_RendererID);
-	}
-
-	void Shader::Bind()
-	{
-		glUseProgram(m_RendererID);
-	}
-
-	void Shader::Unbind()
-	{
-
-		glUseProgram(0);
+		return m_Shaders.find(name) != m_Shaders.end();
 	}
 
 }

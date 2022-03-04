@@ -7,7 +7,7 @@ namespace Blind
 	class VertexArray
 	{
 	public:
-		virtual ~VertexArray() {}
+		virtual ~VertexArray() = default;
 
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
@@ -19,7 +19,7 @@ namespace Blind
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffs() const = 0;
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 		
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 
 	private:
 	};

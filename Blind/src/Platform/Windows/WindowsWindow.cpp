@@ -151,7 +151,7 @@ namespace Blind
 			KeyTypedEvent event(keycode);
 			data.EventCallback(event);
 		});
-
+		
 	}
 
 	void WindowsWindow::Shutdown()

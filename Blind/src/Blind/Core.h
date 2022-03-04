@@ -11,7 +11,7 @@
 		#ifdef BLIND_DLL
 			#define BLIND_API __declspec(dllexport)
 		#else 
-			#define BLIND_API __declspec(dllimport)
+			#define   __declspec(dllimport)
 		#endif
 	#else
 		#define BLIND_API

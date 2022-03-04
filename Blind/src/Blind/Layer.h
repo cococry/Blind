@@ -2,10 +2,11 @@
 
 #include <Blind/Core.h>
 #include <Blind/Events/Event.h>
+#include <Blind/Core/Timestep.h>
 
 namespace Blind
 {
-	class BLIND_API Layer
+	class Layer
 	{
 	public:
 		Layer(const std::string& debugName = "Layer");
@@ -13,7 +14,7 @@ namespace Blind
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiDraw() {}
 		virtual void OnEvent(Event& e) {}
 

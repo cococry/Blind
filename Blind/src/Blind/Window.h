@@ -12,11 +12,11 @@ namespace Blind
 		std::string title;
 		uint32_t width, height;
 
-		WindowProperties(const std::string& title = "Blind Engine", uint32_t width = 1280, uint32_t height = 720)
+		WindowProperties(const std::string& title = "Blind Engine", uint32_t width = 1920, uint32_t height = 1080)
 			: title(title), width(width), height(height) {}
 	};
 
-	class BLIND_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFunction = std::function<void(Event&)>;

@@ -7,7 +7,7 @@
 
 namespace Blind
 {
-	class BLIND_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack();

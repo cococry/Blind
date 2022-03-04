@@ -19,4 +19,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\checkerboard.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="assets\textures\player.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\Texture.glsl" />
+  </ItemGroup>
 </Project>
