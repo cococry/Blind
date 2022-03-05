@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Blind/Renderer/OrthographicCamera.h>
+#include <Blind/Renderer/Texture.h>
 
 namespace Blind
 {
@@ -15,5 +16,8 @@ namespace Blind
 
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
+
+		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture);
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture);
 	};
 }

@@ -14,7 +14,6 @@ namespace Blind
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnImGuiDraw() override;
 
 		void Begin();
 		void End();

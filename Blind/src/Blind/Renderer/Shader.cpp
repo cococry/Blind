@@ -14,7 +14,7 @@ namespace Blind
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: BLIND_ENGINE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 		return nullptr;
 		BLIND_ENGINE_ASSERT(false, "Unknown Rendering API is being used!");
@@ -25,7 +25,7 @@ namespace Blind
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: BLIND_ENGINE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filepath);
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(filepath);
 		}
 		return nullptr;
 		BLIND_ENGINE_ASSERT(false, "Unknown Rendering API is being used!");

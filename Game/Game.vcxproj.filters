@@ -25,6 +25,7 @@
   <ItemGroup>
     <None Include="assets\shaders\Default.glsl" />
     <None Include="assets\shaders\FlatColor.glsl" />
+    <None Include="assets\shaders\Texture.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Sandbox2D.h">

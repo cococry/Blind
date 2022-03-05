@@ -61,12 +61,6 @@ namespace Blind
 
 	}
 
-	void ImGuiLayer::OnImGuiDraw()
-	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-	}
-
 	void ImGuiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
