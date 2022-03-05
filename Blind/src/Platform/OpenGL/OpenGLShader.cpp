@@ -1,6 +1,6 @@
 #include "blindpch.h"
 #include "OpenGLShader.h"
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -91,6 +91,41 @@ namespace Blind
 	{
 		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1i(location, val);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, glm::mat4 value)
+	{
+		UploadMat4(name, value);
+	}
+
+	void OpenGLShader::SetMat3(const std::string& name, glm::mat3 value)
+	{
+		UploadMat3(name, value);
+	}
+
+	void OpenGLShader::SetVec4(const std::string& name, glm::vec4 value)
+	{
+		UploadVec4(name, value);
+	}
+
+	void OpenGLShader::SetVec3(const std::string& name, glm::vec3 value)
+	{
+		UploadVec3(name, value);
+	}
+
+	void OpenGLShader::SetVec2(const std::string& name, glm::vec2 value)
+	{
+		UploadVec2(name, value);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, float value)
+	{
+		UploadFloat(name, value);
+	}
+
+	void OpenGLShader::SetInt(const std::string& name, int value)
+	{
+		UploadInt(name, value);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)

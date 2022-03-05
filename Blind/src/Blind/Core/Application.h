@@ -1,8 +1,8 @@
 #pragma once
-#include <Blind/Core.h>
-#include <Blind/Window.h>
+#include <Blind/Core/Core.h>
+#include <Blind/Core/Window.h>
 #include <Blind/Events/ApplicationEvent.h>
-#include <Blind/LayerStack.h>
+#include <Blind/Core/LayerStack.h>
 #include <Blind/ImGui/ImGuiLayer.h>
 #include <Blind/Renderer/Shader.h>
 #include <Blind/Renderer/Buffer.h>

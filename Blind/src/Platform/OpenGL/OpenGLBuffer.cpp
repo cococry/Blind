@@ -1,6 +1,6 @@
 #include "blindpch.h"
 #include "OpenGLBuffer.h"
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 
 #include <glad/glad.h>
 

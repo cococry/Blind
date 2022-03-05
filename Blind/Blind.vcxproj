@@ -134,32 +134,33 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Blind\Application.h" />
-    <ClInclude Include="src\Blind\Core.h" />
+    <ClInclude Include="src\Blind\Core\Application.h" />
+    <ClInclude Include="src\Blind\Core\Core.h" />
+    <ClInclude Include="src\Blind\Core\EntryPoint.h" />
+    <ClInclude Include="src\Blind\Core\Input.h" />
+    <ClInclude Include="src\Blind\Core\KeyCodes.h" />
+    <ClInclude Include="src\Blind\Core\Layer.h" />
+    <ClInclude Include="src\Blind\Core\LayerStack.h" />
+    <ClInclude Include="src\Blind\Core\Log.h" />
+    <ClInclude Include="src\Blind\Core\MouseCodes.h" />
     <ClInclude Include="src\Blind\Core\Timestep.h" />
-    <ClInclude Include="src\Blind\EntryPoint.h" />
+    <ClInclude Include="src\Blind\Core\Window.h" />
     <ClInclude Include="src\Blind\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Blind\Events\Event.h" />
     <ClInclude Include="src\Blind\Events\KeyEvent.h" />
     <ClInclude Include="src\Blind\Events\MouseEvent.h" />
     <ClInclude Include="src\Blind\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Blind\Input.h" />
-    <ClInclude Include="src\Blind\KeyCodes.h" />
-    <ClInclude Include="src\Blind\Layer.h" />
-    <ClInclude Include="src\Blind\LayerStack.h" />
-    <ClInclude Include="src\Blind\Log.h" />
-    <ClInclude Include="src\Blind\MouseCodes.h" />
-    <ClInclude Include="src\Blind\OrthographicCameraController.h" />
     <ClInclude Include="src\Blind\Renderer\Buffer.h" />
     <ClInclude Include="src\Blind\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Blind\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Blind\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Blind\Renderer\Renderer.h" />
+    <ClInclude Include="src\Blind\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Blind\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Blind\Renderer\Shader.h" />
     <ClInclude Include="src\Blind\Renderer\Texture.h" />
     <ClInclude Include="src\Blind\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Blind\Window.h" />
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -588,17 +589,18 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Blind\Application.cpp" />
+    <ClCompile Include="src\Blind\Core\Application.cpp" />
+    <ClCompile Include="src\Blind\Core\Layer.cpp" />
+    <ClCompile Include="src\Blind\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Blind\Core\Log.cpp" />
     <ClCompile Include="src\Blind\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Blind\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Blind\Layer.cpp" />
-    <ClCompile Include="src\Blind\LayerStack.cpp" />
-    <ClCompile Include="src\Blind\Log.cpp" />
-    <ClCompile Include="src\Blind\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Blind\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Blind\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Blind\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Blind\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Blind\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Blind\Renderer\Shader.cpp" />
     <ClCompile Include="src\Blind\Renderer\Texture.cpp" />

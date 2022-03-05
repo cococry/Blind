@@ -1,5 +1,5 @@
 #include <blindpch.h>
-#include <Blind/Application.h>
+#include <Blind/Core/Application.h>
 #include "WindowsInput.h"
 
 #include <GLFW/glfw3.h>

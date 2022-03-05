@@ -6,7 +6,7 @@
    a fully static logging class. Asserting macro is defined in the 
    Blind Core header.  */
 
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>

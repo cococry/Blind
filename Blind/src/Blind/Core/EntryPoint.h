@@ -1,5 +1,5 @@
 #pragma once
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 
 /* Blind Engine Entry Point Header */
 

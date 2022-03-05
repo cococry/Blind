@@ -1,5 +1,5 @@
 #pragma once
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 #include <string>
 
 namespace Blind

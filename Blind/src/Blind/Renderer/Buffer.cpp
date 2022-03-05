@@ -2,8 +2,8 @@
 #include "Buffer.h"
 #include "Renderer.h"
 #include <Platform/OpenGL/OpenGLBuffer.h>
-#include <Blind/Log.h>
-#include <Blind/Core.h>
+#include <Blind/Core/Log.h>
+#include <Blind/Core/Core.h>
 
 
 namespace Blind

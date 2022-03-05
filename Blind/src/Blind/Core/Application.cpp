@@ -1,9 +1,9 @@
 #include <blindpch.h>
 #include "Application.h"
 
-#include <Blind/Log.h>
-#include <Blind/Input.h>
-#include <Blind/KeyCodes.h>
+#include <Blind/Core/Log.h>
+#include <Blind/Core/Input.h>
+#include <Blind/Core/KeyCodes.h>
 
 #include <glm/vec3.hpp>
 #include <Blind/Renderer/Renderer.h>

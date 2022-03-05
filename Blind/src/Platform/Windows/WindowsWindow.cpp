@@ -1,6 +1,6 @@
 #include "blindpch.h"
 #include "WindowsWindow.h"
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 
 #include <Blind/Events/ApplicationEvent.h>
 #include <Blind/Events/KeyEvent.h>

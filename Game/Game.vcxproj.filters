@@ -18,16 +18,17 @@
     <ClCompile Include="src\ClientApplication.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sandbox2D.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\textures\checkerboard.png">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="assets\textures\player.png">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
+    <None Include="assets\shaders\Default.glsl" />
+    <None Include="assets\shaders\FlatColor.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\Texture.glsl" />
+    <ClInclude Include="src\Sandbox2D.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

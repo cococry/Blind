@@ -1,9 +1,9 @@
 #include <blindpch.h>
 #include "OrthographicCameraController.h"
 
-#include <Blind/Input.h>
-#include <Blind/KeyCodes.h>
-#include <Blind/Log.h>
+#include <Blind/Core/Input.h>
+#include <Blind/Core/KeyCodes.h>
+#include <Blind/Core/Log.h>
 
 namespace Blind
 {
@@ -29,11 +29,8 @@ namespace Blind
 
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(BL_KEY_Q))
+			if (Input::IsKeyPressed(BL_KEY_R))
 				m_CameraRotation += m_CameraRotationSpeed * ts;
-
-			else if (Blind::Input::IsKeyPressed(BL_KEY_E))
-				m_CameraRotation -= m_CameraRotationSpeed * ts;
 
 			m_Camera.SetRotation(m_CameraRotation);
 		} 
@@ -61,7 +58,6 @@ namespace Blind
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
 		m_AspectRatio = (float)e.GetX() / (float)e.GetY();
-		BLIND_ENGINE_INFO("{0}", m_AspectRatio);
 
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;

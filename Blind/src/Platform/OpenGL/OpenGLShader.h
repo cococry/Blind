@@ -29,6 +29,14 @@ namespace Blind
 		void UploadFloat(const std::string& name, float val);
 		void UploadInt(const std::string& name, int val);
 
+		virtual void SetMat4(const std::string& name, glm::mat4 value) override;
+		virtual void SetMat3(const std::string& name, glm::mat3 value) override;
+		virtual void SetVec4(const std::string& name, glm::vec4 value) override;
+		virtual void SetVec3(const std::string& name, glm::vec3 value) override;
+		virtual void SetVec2(const std::string& name, glm::vec2 value) override;
+		virtual void SetFloat(const std::string& name, float value) override;
+		virtual void SetInt(const std::string& name, int value) override;
+
 		virtual inline uint32_t GetID() const override { return m_RendererID; }
 	private:
 		std::string ReadFile(const std::string& filepath);

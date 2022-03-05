@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 #include <Blind/Events/Event.h>
 #include <Blind/Core/Timestep.h>
 

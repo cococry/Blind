@@ -1,5 +1,5 @@
 #pragma once
-#include <Blind/Window.h>
+#include <Blind/Core/Window.h>
 #include <Blind/Renderer/GraphicsContext.h>
 #include <GLFW/glfw3.h>
 

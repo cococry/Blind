@@ -2,7 +2,7 @@
 
 #include <blindpch.h>
 
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 #include <Blind/Events/Event.h>
 
 namespace Blind

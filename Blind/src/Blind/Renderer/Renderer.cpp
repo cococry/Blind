@@ -1,5 +1,6 @@
 #include "blindpch.h"
 #include "Renderer.h"
+#include "Renderer2D.h"
 
 #include <Platform/OpenGL/OpenGLShader.h>
 namespace Blind
@@ -9,6 +10,7 @@ namespace Blind
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)

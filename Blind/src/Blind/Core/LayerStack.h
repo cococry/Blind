@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Blind/Core.h>
-#include <Blind/Layer.h>
+#include <Blind/Core/Core.h>
+#include <Blind/Core/Layer.h>
 
 #include <vector>
 

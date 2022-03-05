@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Blind/Input.h>
+#include <Blind/Core/Input.h>
 
 namespace Blind
 {

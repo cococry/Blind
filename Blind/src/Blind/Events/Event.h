@@ -9,7 +9,7 @@
 
 #pragma once
 #include <blindpch.h>
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 
 // STD Lib includes
 #include <string>

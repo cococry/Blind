@@ -3,8 +3,8 @@
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include <Blind/Core.h>
-#include <Blind/Log.h>
+#include <Blind/Core/Core.h>
+#include <Blind/Core/Log.h>
 
 namespace Blind
 {
@@ -22,6 +22,15 @@ namespace Blind
 		BLIND_ENGINE_ASSERT(status, "Library GLAD: Failed to initialize Glad!");
 
 		BLIND_ENGINE_INFO("OpenGL Renderer: {0} {1}", glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+
+#ifdef BLIND_ENABLE_ASSERTS
+		int versionMajor, versionMinor;
+
+		glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+		glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+		BLIND_ENGINE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "Blind engine requires at least OpenGL 4.5 to run!");
+#endif
 	}
 
 	void OpenGLContext::SwapBuffers()

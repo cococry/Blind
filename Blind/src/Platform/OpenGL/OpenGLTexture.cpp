@@ -4,7 +4,7 @@
 #include <stb_image.h>
 #include <glad/glad.h>
 
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 
 namespace Blind
 {

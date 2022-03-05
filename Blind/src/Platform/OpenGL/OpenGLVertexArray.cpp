@@ -1,7 +1,7 @@
 #include "blindpch.h"
 #include "OpenGLVertexArray.h"
 #include <glad/glad.h>
-#include <Blind/Log.h>
+#include <Blind/Core/Log.h>
 
 namespace Blind
 {
@@ -53,8 +53,6 @@ namespace Blind
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		BLIND_ENGINE_TRACE("Added Vertex Buffer ({0}) to Vertex Array ({1}).", vertexBuffer->GetID(), m_RendererID);
-
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
@@ -73,6 +71,7 @@ namespace Blind
 			index++;
 		}
 		m_VertexBuffers.push_back(vertexBuffer);
+		BLIND_ENGINE_TRACE("Added Vertex Buffer ({0}) to Vertex Array ({1}).", vertexBuffer->GetID(), m_RendererID);
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)

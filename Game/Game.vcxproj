@@ -132,11 +132,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientApplication.cpp" />
+    <ClCompile Include="src\Sandbox2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blind\Blind.vcxproj">
       <Project>{8E57E60C-FA6B-0EBE-C3ED-B11D2FC10AEF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\Default.glsl" />
+    <None Include="assets\shaders\FlatColor.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Sandbox2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

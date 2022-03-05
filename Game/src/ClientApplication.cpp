@@ -1,9 +1,12 @@
 #include <BlindEngine.h>
+#include <Blind/Core/EntryPoint.h>
 #include <Platform/OpenGL/OpenGLShader.h>
 
 #include <imgui/imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Blind::Layer
 {
@@ -66,75 +69,8 @@ public:
 		squareIB = Blind::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		std::string vertexSource = R"(
-		#version 330 core
-		
-		layout(location = 0) in vec3 a_Position;
-		layout(location = 1) in vec4 a_Color;
-
-		uniform mat4 u_ViewProjection;		
-		uniform mat4 u_Transform;		
-			
-		out vec3 v_Position;
-		out vec4 v_Color;
-
-		void main()
-		{
-			v_Position = a_Position;
-			v_Color = a_Color;
-			gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-		}
-		)";
-		std::string fragmentSource = R"(
-		#version 330 core
-		
-		layout(location = 0) out vec4 color;
-
-		in vec3 v_Position;
-		in vec4 v_Color;
-		
-		void main()
-		{
-			color = v_Color;
-		}
-		)";
-
-		m_Shader = Blind::Shader::Create("VertexPosColor", vertexSource, fragmentSource);
-
-
-		std::string flatColorShaderVertexSource = R"(
-		#version 330 core
-		
-		layout(location = 0) in vec3 a_Position;
-		
-		uniform mat4 u_ViewProjection;				
-		uniform mat4 u_Transform;		
-
-		out vec3 v_Position;
-		
-		void main()
-		{
-			v_Position = a_Position;
-			gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-		}
-		)";
-		std::string flatColorShaderFragmentSource = R"(
-		#version 330 core
-		
-		layout(location = 0) out vec4 color;
-
-		in vec3 v_Position;
-
-		uniform vec3 u_Color;
-
-		void main()
-		{
-			color = vec4(u_Color, 1.0);
-		}
-		)";
-
-		m_FlatColorShader = Blind::Shader::Create("FlatColor", flatColorShaderVertexSource, flatColorShaderFragmentSource);
-
+		m_Shader = Blind::Shader::Create("assets/shaders/Default.glsl");
+		m_FlatColorShader = Blind::Shader::Create("assets/shaders/FlatColor.glsl");
 		auto& textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = Blind::Texture2D::Create("assets/textures/checkerboard.png");
@@ -190,6 +126,10 @@ public:
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
+	virtual void OnDetach() override
+	{
+	
+	}
 private:
 	Blind::ShaderLibrary m_ShaderLibrary;
 	Blind::Ref<Blind::Shader> m_Shader;
@@ -210,7 +150,8 @@ class SandboxApp : public Blind::Application
 public:
 	SandboxApp()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~SandboxApp()
 	{

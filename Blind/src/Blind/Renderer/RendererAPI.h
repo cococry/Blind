@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <Blind/Core.h>
+#include <Blind/Core/Core.h>
 #include "VertexArray.h"
 
 namespace Blind
