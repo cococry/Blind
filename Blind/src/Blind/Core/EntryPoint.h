@@ -1,5 +1,5 @@
 #pragma once
-#include <Blind/Core/Log.h>
+#include <Blind/Core/Core.h>
 
 /* Blind Engine Entry Point Header */
 
@@ -15,8 +15,16 @@ int main(int argc, char** argv) // Win-Main
 {
 	// Instantiating the client application when program starts
 	Blind::Log::Init();
+	BL_PROFILE_BEGIN_SESSION("Startup", "BlindProfile-Startup.json");
 	auto app = Blind::CreateApplication();
+	BL_PROFILE_END_SESSION();
+
+	BL_PROFILE_BEGIN_SESSION("Runtime", "BlindProfile-Runtime.json");
 	app->Run();
+	BL_PROFILE_END_SESSION();
+
+	BL_PROFILE_BEGIN_SESSION("Shutdown", "BlindProfile-Shutdown.json");
 	delete app;
+	BL_PROFILE_END_SESSION();
 }
 #endif

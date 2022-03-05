@@ -21,3 +21,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <array>
+
+#include <Blind/Core/Log.h>
+#include <Blind/Debug/Instrumentor.h>

@@ -145,6 +145,7 @@
     <ClInclude Include="src\Blind\Core\MouseCodes.h" />
     <ClInclude Include="src\Blind\Core\Timestep.h" />
     <ClInclude Include="src\Blind\Core\Window.h" />
+    <ClInclude Include="src\Blind\Debug\Instrumentor.h" />
     <ClInclude Include="src\Blind\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Blind\Events\Event.h" />
     <ClInclude Include="src\Blind\Events\KeyEvent.h" />
