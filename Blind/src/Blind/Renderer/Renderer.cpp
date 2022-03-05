@@ -9,6 +9,8 @@ namespace Blind
 
 	void Renderer::Init()
 	{
+		BL_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
@@ -43,6 +45,11 @@ namespace Blind
 			return "None";
 		}
 		return "";
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)

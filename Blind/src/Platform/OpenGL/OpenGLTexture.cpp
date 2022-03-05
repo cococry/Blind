@@ -11,9 +11,16 @@ namespace Blind
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
 		: m_Path(filepath)
 	{
+		BL_PROFILE_FUNCTION();
+
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(true);
-		stbi_uc* data = stbi_load(filepath.c_str(), &width, &height, &channels, 0);
+		stbi_uc* data = nullptr;
+		{
+			BL_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
+			data = stbi_load(filepath.c_str(), &width, &height, &channels, 0);
+		}
+
 		BLIND_ENGINE_ASSERT(data, "Failed to load image!");
 
 		m_Width = width;
@@ -72,11 +79,15 @@ namespace Blind
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glDeleteTextures(1, &m_RendererID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
 	{
+		BL_PROFILE_FUNCTION();
+
 		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
 		BLIND_ENGINE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 
@@ -86,6 +97,8 @@ namespace Blind
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
+		BL_PROFILE_FUNCTION();
+
 		glBindTextureUnit(slot, m_RendererID);
 	}
 

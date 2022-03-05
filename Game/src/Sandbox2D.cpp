@@ -10,22 +10,21 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
+	BL_PROFILE_FUNCTION();
+
 	m_CheckerboardTexture = Blind::Texture2D::Create("assets/textures/checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
 {
-
+	BL_PROFILE_FUNCTION();
 }
 
 void Sandbox2D::OnUpdate(Blind::Timestep ts)
 {
 	BL_PROFILE_FUNCTION();
 
-	{
-		BL_PROFILE_SCOPE("CameraController::OnUpadte");
-		m_CameraController.OnUpdate(ts);
-	}
+	m_CameraController.OnUpdate(ts);
 
 	{
 		BL_PROFILE_SCOPE("Renderer Prep");
@@ -47,6 +46,8 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 
 void Sandbox2D::OnImGuiDraw()
 {
+	BL_PROFILE_FUNCTION();
+
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();

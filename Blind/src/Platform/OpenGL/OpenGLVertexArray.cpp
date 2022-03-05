@@ -28,27 +28,37 @@ namespace Blind
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &m_RendererID);
 		BLIND_ENGINE_ASSERT(m_RendererID, "Failed to create Vertex Array!");
 		BLIND_ENGINE_TRACE("Created Vertex Array ({0}) successfully.", m_RendererID);
 	}
 	void OpenGLVertexArray::Bind()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::Unbind()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
+		BL_PROFILE_FUNCTION();
+
 		BLIND_ENGINE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no Layout. Use VertexBuffer.SetLayout(...)!");
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
@@ -76,6 +86,8 @@ namespace Blind
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
+		BL_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 

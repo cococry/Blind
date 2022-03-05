@@ -17,6 +17,8 @@ namespace Blind
 
 	void OpenGLContext::Init()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int32_t status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BLIND_ENGINE_ASSERT(status, "Library GLAD: Failed to initialize Glad!");
@@ -35,6 +37,8 @@ namespace Blind
 
 	void OpenGLContext::SwapBuffers()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 

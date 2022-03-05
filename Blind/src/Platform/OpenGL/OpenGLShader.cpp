@@ -36,6 +36,8 @@ namespace Blind
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 	{
+		BL_PROFILE_FUNCTION();
+
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -95,41 +97,56 @@ namespace Blind
 
 	void OpenGLShader::SetMat4(const std::string& name, glm::mat4 value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadMat4(name, value);
 	}
 
 	void OpenGLShader::SetMat3(const std::string& name, glm::mat3 value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadMat3(name, value);
 	}
 
 	void OpenGLShader::SetVec4(const std::string& name, glm::vec4 value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadVec4(name, value);
 	}
 
 	void OpenGLShader::SetVec3(const std::string& name, glm::vec3 value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadVec3(name, value);
 	}
 
 	void OpenGLShader::SetVec2(const std::string& name, glm::vec2 value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadVec2(name, value);
 	}
 
 	void OpenGLShader::SetFloat(const std::string& name, float value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadFloat(name, value);
 	}
 
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		BL_PROFILE_FUNCTION();
+
 		UploadInt(name, value);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
+		BL_PROFILE_FUNCTION();
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
@@ -149,6 +166,8 @@ namespace Blind
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		BL_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -172,6 +191,8 @@ namespace Blind
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		BL_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		BLIND_ENGINE_ASSERT(shaderSources.size() <= 2, "Too many shaders specified. Only 2 Shaders are supported.");
 		std::array<GLenum, 2> glShaderIDs;
@@ -239,16 +260,21 @@ namespace Blind
 
 	OpenGLShader::~OpenGLShader()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const
 	{
+		BL_PROFILE_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Unbind() const
 	{
+		BL_PROFILE_FUNCTION();
 
 		glUseProgram(0);
 	}

@@ -12,23 +12,28 @@
 namespace Blind
 {
 	static bool s_InitializedGLFW = false;
+	static uint32_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		BLIND_ENGINE_ERROR("GLFW Error: ({0}): {1}", error, description);
 	}		
 
-	Window* Window::Create(const WindowProperties& props)
+	Scope<Window> Window::Create(const WindowProperties& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 	WindowsWindow::WindowsWindow(const WindowProperties& props)
 	{
+		BL_PROFILE_FUNCTION();
+
 		this->Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		BL_PROFILE_FUNCTION();
+
 		this->Shutdown();
 	}
 
@@ -40,6 +45,8 @@ namespace Blind
 
 	void WindowsWindow::SetVsync(bool enabled)
 	{
+		BL_PROFILE_FUNCTION();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else
@@ -55,6 +62,8 @@ namespace Blind
 
 	void WindowsWindow::Init(const WindowProperties& props)
 	{
+		BL_PROFILE_FUNCTION();
+
 		m_Data.width = props.width;
 		m_Data.height = props.height;
 		m_Data.title = props.title;
@@ -69,7 +78,12 @@ namespace Blind
 			s_InitializedGLFW = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+		{
+			BL_PROFILE_SCOPE("Creating GLFW Window - WindowsWindow::Init");
+			m_Window = glfwCreateWindow((int)props.width, (int)props.height, m_Data.title.c_str(), nullptr, nullptr);
+			s_GLFWWindowCount++;
+		}
+
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
@@ -77,6 +91,7 @@ namespace Blind
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVsync(true);
 		BLIND_ENGINE_INFO("Successfully created Window: {0} ({1}x{2}) with Rendering API {3}.", props.title, props.width, props.height, Renderer::RendererAPIToString()); 
+
 
 		// GLFW Callbacks 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
@@ -156,7 +171,15 @@ namespace Blind
 
 	void WindowsWindow::Shutdown()
 	{
+		BL_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
+		--s_GLFWWindowCount;
+
+		if (s_GLFWWindowCount == 0)
+		{
+			glfwTerminate();
+		}
 	}
 }
 

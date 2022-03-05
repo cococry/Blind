@@ -15,9 +15,11 @@ namespace Blind
 
 	Application::Application()
 	{
+		BL_PROFILE_FUNCTION();
+
 		BLIND_ENGINE_ASSERT(!s_Instance, "Blind application already exists!");
 		s_Instance = this;
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = Window::Create();
 		m_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 
 		Renderer::Init();
@@ -28,10 +30,15 @@ namespace Blind
 
 	Application::~Application()
 	{
+		BL_PROFILE_FUNCTION();
+		
+		Renderer::Shutdown();
 	}
 
 	void Application::Run()
 	{
+		BL_PROFILE_SCOPE("RunLoop");
+
 		while (m_Running)
 		{
 			float time = (float)glfwGetTime();
@@ -40,20 +47,27 @@ namespace Blind
 
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate(timestep);
+				{
+					BL_PROFILE_SCOPE("Layer Stack Update - Application");
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
+				m_ImGuiLayer->Begin();
+				{
+					BL_PROFILE_SCOPE("Layer Stack OnImGuiRender - Application");
+					for (Layer* Layer : m_LayerStack)
+						Layer->OnImGuiDraw();
+				}
+				m_ImGuiLayer->End();
 			}
-			m_ImGuiLayer->Begin();
 
-			for (Layer* Layer : m_LayerStack)
-				Layer->OnImGuiDraw();
-
-			m_ImGuiLayer->End();
 			m_Window->OnUpdate();
 		}
 	}
 	void Application::OnEvent(Event& e)
 	{
+		BL_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosed));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(Application::OnWindowResized));
@@ -74,6 +88,8 @@ namespace Blind
 
 	void Application::PushLayer(Layer* layer)
 	{
+		BL_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 		BLIND_ENGINE_TRACE("Pushed Layer '{0}' to LayerStack.", layer->GetName());
@@ -81,9 +97,30 @@ namespace Blind
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		BL_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 		BLIND_ENGINE_TRACE("Pushed Overlay '{0}' to LayerStack.", overlay->GetName());
+	}
+
+	void Application::PopLayer(Layer* layer)
+	{
+		BL_PROFILE_FUNCTION();
+
+		m_LayerStack.PopLayer(layer);
+		layer->OnDetach();
+		BLIND_ENGINE_TRACE("Removed Layer '{0}' from LayerStack.", layer->GetName());
+	}
+
+	void Application::PopOverlay(Layer* overlay)
+	{
+
+		BL_PROFILE_FUNCTION();
+
+		m_LayerStack.PopOverlay(overlay);
+		overlay->OnDetach();
+		BLIND_ENGINE_TRACE("Removed Overlay '{0}' from LayerStack.", overlay->GetName());
 	}
 
 	bool Application::OnWindowClosed(WindowCloseEvent& e)
@@ -94,6 +131,8 @@ namespace Blind
 	}
 	bool Application::OnWindowResized(WindowResizeEvent& e)
 	{
+		BL_PROFILE_FUNCTION();
+
 		if (e.GetX() == 0 || e.GetY() == 0)
 		{
 			m_Minimized = true;
