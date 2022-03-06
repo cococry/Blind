@@ -95,6 +95,12 @@ namespace Blind
 		glUniform1i(location, val);
 	}
 
+	void OpenGLShader::UploadIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1iv(location, count, values);
+	}
+
 	void OpenGLShader::SetMat4(const std::string& name, glm::mat4 value)
 	{
 		BL_PROFILE_FUNCTION();
@@ -142,6 +148,13 @@ namespace Blind
 		BL_PROFILE_FUNCTION();
 
 		UploadInt(name, value);
+	}
+
+	void OpenGLShader::SetIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		BL_PROFILE_FUNCTION();
+
+		UploadIntArray(name, values, count);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)

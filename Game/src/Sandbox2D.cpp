@@ -13,6 +13,7 @@ void Sandbox2D::OnAttach()
 	BL_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = Blind::Texture2D::Create("assets/textures/checkerboard.png");
+	m_PlayerTexture = Blind::Texture2D::Create("assets/textures/player.png");
 }
 
 void Sandbox2D::OnDetach()
@@ -38,8 +39,9 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 
 		//Blind::Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, glm::radians(-45.0f), { 0.8f, 0.2f, 0.3f, 1.0f });
 		Blind::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-		Blind::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-		//Blind::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture, 5.0f);
+		Blind::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, m_SquareColor);
+		Blind::Renderer2D::DrawQuad({ -5.0f, -5.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture, 5.0f);
+		Blind::Renderer2D::DrawQuad({ -0.5f, -0.5f, 0.0f }, { 1.0f, 1.0f }, m_PlayerTexture);
 
 		Blind::Renderer2D::EndScene();
 	}

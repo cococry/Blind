@@ -95,6 +95,11 @@ namespace Blind
 
 	}
 
+	bool OpenGLTexture2D::operator==(const Texture& other) const
+	{
+		return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+	}
+
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		BL_PROFILE_FUNCTION();

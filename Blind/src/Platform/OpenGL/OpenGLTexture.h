@@ -17,6 +17,9 @@ namespace Blind
 
 		virtual void SetData(void* data, uint32_t size) override;
 
+		virtual bool operator==(const Texture& other) const override;
+
+
 		virtual void Bind(uint32_t slot = 0) const override;
 	private:
 		std::string m_Path;
