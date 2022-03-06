@@ -22,6 +22,8 @@ namespace Blind
 		static std::string RendererAPIToString();
 
 		static void Shutdown();
+
+
 	private:
 		struct SceneData
 		{

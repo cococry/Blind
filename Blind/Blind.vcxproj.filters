@@ -10,6 +10,9 @@
     <Filter Include="src\Blind\Core">
       <UniqueIdentifier>{5D013183-49CF-2489-3263-95AF1ED000EE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blind\Debug">
+      <UniqueIdentifier>{1B885DE9-8713-CBAD-9024-4EA2FC2E27AE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Blind\Events">
       <UniqueIdentifier>{29DE9818-15D7-B76A-3E09-9DEF2A619776}</UniqueIdentifier>
     </Filter>
@@ -87,6 +90,9 @@
     <ClInclude Include="src\Blind\Core\Window.h">
       <Filter>src\Blind\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Debug\Instrumentor.h">
+      <Filter>src\Blind\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Events\ApplicationEvent.h">
       <Filter>src\Blind\Events</Filter>
     </ClInclude>
@@ -118,6 +124,9 @@
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Blind\Renderer\Renderer.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Renderer2D.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Blind\Renderer\RendererAPI.h">
@@ -1410,8 +1419,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\Blind\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Core\Application.cpp">
@@ -1445,6 +1452,9 @@
       <Filter>src\Blind\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Renderer\Renderer.cpp">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Renderer\Renderer2D.cpp">
       <Filter>src\Blind\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Renderer\RendererAPI.cpp">
@@ -1489,6 +1499,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Blind\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>
