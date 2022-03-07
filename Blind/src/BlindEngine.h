@@ -19,6 +19,7 @@
 
 #include <Blind/Renderer/Shader.h>
 #include <Blind/Renderer/Texture.h>
+#include <Blind/Renderer/SubTexture2D.h>
 #include <Blind/Renderer/VertexArray.h>
 #include <Blind/Renderer/Buffer.h>
 #include <Blind/Renderer/Renderer.h>

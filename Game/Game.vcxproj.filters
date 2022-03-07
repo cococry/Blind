@@ -21,14 +21,15 @@
     <ClCompile Include="src\Sandbox2D.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\Default.glsl" />
-    <None Include="assets\shaders\FlatColor.glsl" />
-    <None Include="assets\shaders\Texture.glsl" />
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Sandbox2D.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleSystem.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -160,6 +160,7 @@
     <ClInclude Include="src\Blind\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Blind\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Blind\Renderer\Shader.h" />
+    <ClInclude Include="src\Blind\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Blind\Renderer\Texture.h" />
     <ClInclude Include="src\Blind\Renderer\VertexArray.h" />
     <ClInclude Include="src\BlindEngine.h" />
@@ -604,6 +605,7 @@
     <ClCompile Include="src\Blind\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Blind\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Blind\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Blind\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Blind\Renderer\Texture.cpp" />
     <ClCompile Include="src\Blind\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />

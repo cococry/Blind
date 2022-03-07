@@ -1,12 +1,13 @@
 # Github commands ignore Files:
+# Blind Engine 
 
 # Directories
 .vs/
 bin/
 bin-int/
 
-# Files
 *.user
 *.sln
 *.vsxproj
 *.filters
+*.json
