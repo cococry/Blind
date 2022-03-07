@@ -31,4 +31,7 @@ private:
 
 	glm::vec4 m_Particle_system_color_begin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	glm::vec4 m_Particle_system_color_end = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };;
+
+	uint32_t m_MapWidth, m_MapHeight;
+	std::unordered_map<char, Blind::Ref<Blind::SubTexture2D>> s_TextureMap;
 };
