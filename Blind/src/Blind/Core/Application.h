@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <Blind/Core/Core.h>
 #include <Blind/Core/Window.h>
 #include <Blind/Events/ApplicationEvent.h>
@@ -31,6 +31,8 @@ namespace Blind
 
 		inline Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
+
+		void Close();
 
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);

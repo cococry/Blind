@@ -86,6 +86,11 @@ namespace Blind
 		}
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void Application::PushLayer(Layer* layer)
 	{
 		BL_PROFILE_FUNCTION();
