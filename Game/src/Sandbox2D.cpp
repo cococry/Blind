@@ -22,6 +22,11 @@ void Sandbox2D::OnAttach()
 	m_TextureTree = Blind::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 0, 4 }, { 128, 128 }, {1, 2});
 
 	m_CameraController.SetZoomLevel(5.0f); 
+
+	Blind::FrameBufferSpecification frameBufferSpecification;
+	frameBufferSpecification.Width = APPLICATION_WINDOW.GetWidth();
+	frameBufferSpecification.Height = APPLICATION_WINDOW.GetHeight();
+	m_FrameBuffer = Blind::FrameBuffer::Create(frameBufferSpecification);
 }
 
 void Sandbox2D::OnDetach()
@@ -37,6 +42,7 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 
 	{
 		BL_PROFILE_SCOPE("Renderer Prep");
+		m_FrameBuffer->Bind();
 		Blind::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Blind::RenderCommand::Clear();
 	}
@@ -46,6 +52,7 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 		rotation += ts * 20.0f;
 
 		BL_PROFILE_SCOPE("Renderer Draw");
+
 		Blind::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 		Blind::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, glm::radians(rotation), { 0.2f, 0.8f, 0.4f, 1.0f });
@@ -53,7 +60,6 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 		Blind::Renderer2D::DrawQuad({ 0.f, 4.0f }, { 1.0f, 1.0f }, { 0.8f, 0.3, 0.3f, 1.0f });
 		Blind::Renderer2D::DrawQuad({ 0.0, 1.0f }, { 1.0f, 3.0f }, m_SquareColor);
 		Blind::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 15.0f, 15.0f }, m_CheckerboardTexture, 5.0f);
-
 
 		Blind::Renderer2D::EndScene();
 
@@ -67,15 +73,15 @@ void Sandbox2D::OnUpdate(Blind::Timestep ts)
 			}
 		}
 		Blind::Renderer2D::EndScene();
+		m_FrameBuffer->Unbind();
 	}
-	Blind::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiDraw()
 {
 	BL_PROFILE_FUNCTION();
 
-	static bool dockingEnabled = false;
+	static bool dockingEnabled = true;
 
 	if (dockingEnabled)
 	{
@@ -142,8 +148,8 @@ void Sandbox2D::OnImGuiDraw()
 	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-	uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-	ImGui::Image((void*)textureID, ImVec2{256.0f, 256.0f});
+	uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+	ImGui::Image((void*)textureID, ImVec2{1280.0f, 720.0f}, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
 	ImGui::End();
 	if(dockingEnabled)

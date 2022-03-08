@@ -152,6 +152,7 @@
     <ClInclude Include="src\Blind\Events\MouseEvent.h" />
     <ClInclude Include="src\Blind\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Blind\Renderer\Buffer.h" />
+    <ClInclude Include="src\Blind\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Blind\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Blind\Renderer\OrthographicCameraController.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\BlindEngine.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
@@ -598,6 +600,7 @@
     <ClCompile Include="src\Blind\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Blind\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Blind\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Blind\Renderer\RenderCommand.cpp" />
@@ -610,6 +613,7 @@
     <ClCompile Include="src\Blind\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />

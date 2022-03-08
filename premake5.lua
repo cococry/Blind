@@ -23,6 +23,7 @@ group "Dependencies"
 	include "Blind/vendor/Glad"
 	include "Blind/vendor/imgui"
 group ""
+												
 
 project "Blind"
 	location "Blind"

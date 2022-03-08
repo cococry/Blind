@@ -19,6 +19,7 @@ private:
 
 	Blind::Ref<Blind::Shader> m_FlatColorShader;
 	Blind::Ref<Blind::VertexArray> m_SquareVA;
+	Blind::Ref<Blind::FrameBuffer> m_FrameBuffer;
 
 	Blind::Ref<Blind::Texture2D> m_CheckerboardTexture;
 	Blind::Ref<Blind::Texture2D> m_SpriteSheet;
