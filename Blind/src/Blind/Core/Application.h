@@ -18,7 +18,7 @@ namespace Blind
 		This class is used to create a Application with Blind. It is implemented client side for now.
 		It is DLL exported by Blind into the Client. The class will be created only by client side. */
 	public:
-		Application();
+		Application(const std::string& name = "Blind Application");
 		virtual ~Application();
 
 		void Run();
@@ -32,8 +32,9 @@ namespace Blind
 		inline Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
 
-		void Close();
+		inline ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
+		void Close();
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);

@@ -52,4 +52,6 @@ namespace Blind
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
+	using MouseCode = int;
+	using KeyCode = int;
 }

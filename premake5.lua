@@ -1,5 +1,5 @@
 workspace "Blind"
-	startproject "Game"
+	startproject "BMB"
 	architecture "x64"
 
 	configurations 
@@ -96,6 +96,58 @@ project "Blind"
 		runtime "Release"
 		optimize "on"
 
+project "BMB"
+	location "BMB"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17";
+	staticruntime "on"
+
+	targetdir ("bin/" .. project_output .. "/%{prj.name}")
+	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Blind/vendor/spdlog/include",
+		"Blind/src",
+		"Blind/vendor",
+		"%{Dependencies.glm}",		
+	}
+	links
+	{
+		"Blind"
+	}
+	filter "system:windows"
+		systemversion "latest"
+
+		defines 
+		{
+			"BLIND_PLATFORM_WINDOWS",
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
+		}
+	
+	filter "configurations:Debug"
+		defines "BLIND_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "BLIND_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Distribution"
+		defines "BLIND_DIST"
+		runtime "Release"
+		optimize "on"
+
+
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
@@ -124,7 +176,6 @@ project "Game"
 		"Blind"
 	}
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines 

@@ -13,13 +13,13 @@ namespace Blind
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		BL_PROFILE_FUNCTION();
 
 		BLIND_ENGINE_ASSERT(!s_Instance, "Blind application already exists!");
 		s_Instance = this;
-		m_Window = Window::Create();
+		m_Window = Window::Create(WindowProperties(name));
 		m_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 
 		Renderer::Init();
@@ -78,11 +78,11 @@ namespace Blind
 			BLIND_ENGINE_INFO("Closing Application...");
 		}
 
-		for (auto i = m_LayerStack.end(); i != m_LayerStack.begin();)
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			(*--i)->OnEvent(e);
-			if(e.handled)
+			if (e.handled)
 				break;
+			(*it)->OnEvent(e);
 		}
 	}
 
