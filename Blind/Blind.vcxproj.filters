@@ -22,6 +22,9 @@
     <Filter Include="src\Blind\Renderer">
       <UniqueIdentifier>{2B1B4499-17FF-04EF-805F-FF416C62EF70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blind\Scene">
+      <UniqueIdentifier>{C2EA6BEA-2E76-D9AE-3787-5CA3A39135AF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="src\Blind\Renderer\VertexArray.h">
       <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Scene\Scene.h">
+      <Filter>src\Blind\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h">
       <Filter>src</Filter>
@@ -1425,6 +1431,11 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Scene\Components.h" />
+    <ClInclude Include="src\Blind\Scene\Entity.h" />
+    <ClInclude Include="src\Blind\Renderer\Camera.h" />
+    <ClInclude Include="src\Blind\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Blind\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Core\Application.cpp">
@@ -1481,6 +1492,9 @@
     <ClCompile Include="src\Blind\Renderer\VertexArray.cpp">
       <Filter>src\Blind\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Scene\Scene.cpp">
+      <Filter>src\Blind\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1514,5 +1528,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Scene\Entity.cpp" />
+    <ClCompile Include="src\Blind\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

@@ -18,20 +18,20 @@ namespace Blind
 	{
 		BL_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(BL_KEY_A))
+		if (Input::IsKeyPressed(Key::A))
 			m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(BL_KEY_D))
+		else if (Input::IsKeyPressed(Key::D))
 			m_CameraPosition.x += m_CameraTranslationSpeed * ts;
 
-		if (Input::IsKeyPressed(BL_KEY_W))
+		if (Input::IsKeyPressed(Key::W))
 			m_CameraPosition.y += m_CameraTranslationSpeed * ts;
 
-		else if (Input::IsKeyPressed(BL_KEY_S))
+		else if (Input::IsKeyPressed(Key::S))
 			m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
 
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(BL_KEY_R))
+			if (Input::IsKeyPressed(Key::R))
 				m_CameraRotation += m_CameraRotationSpeed * ts;
 
 			m_Camera.SetRotation(m_CameraRotation);
@@ -63,7 +63,7 @@ namespace Blind
 
 		m_ZoomLevel -= e.GetYOffset() * 0.25f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-		CalculateView();
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
 	}
 
@@ -76,8 +76,9 @@ namespace Blind
 	}
 	void OrthographicCameraController::OnResize(float width, float height)
 	{
+		BL_PROFILE_FUNCTION();
+
 		m_AspectRatio = width / height;
-		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
 		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
 	}
 }

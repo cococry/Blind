@@ -3,7 +3,7 @@
 /* Blind Engine Core Header */
 
 /* This header defines major macros about the building and linking of the engine.
-   The core defines for using Blind on engine side are defined here.*/
+   The core macros for using Blind on engine side are defined here.*/
 // ENGINE SIDE HEADER
 
 #ifdef BLIND_PLATFORM_WINDOWS

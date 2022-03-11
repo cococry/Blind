@@ -12,7 +12,7 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 	virtual void OnUpdate(Blind::Timestep ts) override;
-	virtual virtual void OnImGuiDraw() override;
+	virtual void OnImGuiDraw() override;
 	virtual void OnEvent(Blind::Event& e) override;
 private:
 	Blind::OrthographicCameraController m_CameraController;

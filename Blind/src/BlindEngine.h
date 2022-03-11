@@ -17,6 +17,11 @@
 #include <Blind/Core/Layer.h>
 #include <Blind/ImGui/ImGuiLayer.h>
 
+#include <Blind/Scene/Scene.h>
+#include <Blind/Scene/Components.h>
+#include <Blind/Scene/Entity.h>
+#include <Blind/Scene/ScriptableEntity.h>
+
 #include <Blind/Renderer/Shader.h>
 #include <Blind/Renderer/Texture.h>
 #include <Blind/Renderer/SubTexture2D.h>

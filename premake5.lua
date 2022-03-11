@@ -17,6 +17,7 @@ Dependencies["Glad"] = "Blind/vendor/Glad/include"
 Dependencies["ImGui"] = "Blind/vendor/imgui"
 Dependencies["glm"] = "Blind/vendor/glm"
 Dependencies["stb_image"] = "Blind/vendor/stb_image"
+Dependencies["entt"] = "Blind/vendor/entt/include"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
@@ -37,7 +38,10 @@ project "Blind"
 
 	pchheader "blindpch.h"
 	pchsource "Blind/src/blindpch.cpp"
-
+	defines
+	{
+		"NOMINMAX"
+	}
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -55,7 +59,8 @@ project "Blind"
 		"%{Dependencies.Glad}",
 		"%{Dependencies.ImGui}",
 		"%{Dependencies.glm}",
-		"%{Dependencies.stb_image}"
+		"%{Dependencies.stb_image}",
+		"%{Dependencies.entt}"
 	}
 
 	links
@@ -96,58 +101,6 @@ project "Blind"
 		runtime "Release"
 		optimize "on"
 
-project "BMB"
-	location "BMB"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17";
-	staticruntime "on"
-
-	targetdir ("bin/" .. project_output .. "/%{prj.name}")
-	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Blind/vendor/spdlog/include",
-		"Blind/src",
-		"Blind/vendor",
-		"%{Dependencies.glm}",		
-	}
-	links
-	{
-		"Blind"
-	}
-	filter "system:windows"
-		systemversion "latest"
-
-		defines 
-		{
-			"BLIND_PLATFORM_WINDOWS",
-			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
-		}
-	
-	filter "configurations:Debug"
-		defines "BLIND_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "BLIND_RELEASE"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Distribution"
-		defines "BLIND_DIST"
-		runtime "Release"
-		optimize "on"
-
-
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
@@ -157,7 +110,10 @@ project "Game"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
-
+	defines
+	{
+		"NOMINMAX"
+	}
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -169,7 +125,7 @@ project "Game"
 		"Blind/vendor/spdlog/include",
 		"Blind/src",
 		"Blind/vendor",
-		"%{Dependencies.glm}",		
+		"%{Dependencies.glm}"
 	}
 	links
 	{
@@ -198,3 +154,61 @@ project "Game"
 		defines "BLIND_DIST"
 		runtime "Release"
 		optimize "on"
+
+
+project "BMB"
+	location "BMB"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17";
+	staticruntime "on"
+
+	targetdir ("bin/" .. project_output .. "/%{prj.name}")
+	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
+	defines
+	{
+		"NOMINMAX"
+	}
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Blind/vendor/spdlog/include",
+		"Blind/src",
+		"Blind/vendor",
+		"%{Dependencies.glm}",
+		"%{Dependencies.entt}"
+		
+	}
+	links
+	{
+		"Blind"
+	}
+	filter "system:windows"
+		systemversion "latest"
+
+		defines 
+		{
+			"BLIND_PLATFORM_WINDOWS",
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM",
+		}
+	
+	filter "configurations:Debug"
+		defines "BLIND_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "BLIND_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Distribution"
+		defines "BLIND_DIST"
+		runtime "Release"
+		optimize "on"
+

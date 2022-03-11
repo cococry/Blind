@@ -3,6 +3,7 @@
 #include <Blind/Renderer/OrthographicCamera.h>
 #include <Blind/Renderer/Texture.h>
 #include <Blind/Renderer/SubTexture2D.h>
+#include <Blind/Renderer/Camera.h>
 
 namespace Blind
 {
@@ -12,6 +13,7 @@ namespace Blind
 		static void Init();
 		static void Shutdown();
 
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		static void Flush();
@@ -22,6 +24,9 @@ namespace Blind
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4 tintColor = glm::vec4(1.0f));
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subtexture, float tilingFactor = 1.0f, const glm::vec4 tintColor = glm::vec4(1.0f));
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subtexture, float tilingFactor = 1.0f, const glm::vec4 tintColor = glm::vec4(1.0f));
+
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
+		static void DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor = 1.0f, const glm::vec4 tintColor = glm::vec4(1.0f));
 
 		static void DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, glm::vec4 color);
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, glm::vec4 color);

@@ -5,6 +5,7 @@
 
 namespace Blind
 {
+	static const uint32_t s_MaxFramebufferSize = 8192;
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec)
 		: m_Specification(spec)
