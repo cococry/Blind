@@ -1,6 +1,7 @@
 #pragma once
 
 #include <BlindEngine.h>
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace Blind
 {
@@ -8,7 +9,7 @@ namespace Blind
 	{
 	public:
 		EditorLayer();
-		virtual ~EditorLayer() = default;
+		virtual ~EditorLayer() {};
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
@@ -35,6 +36,8 @@ namespace Blind
 		bool m_PrimaryCamera   = true;
 
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 
 	};
 }

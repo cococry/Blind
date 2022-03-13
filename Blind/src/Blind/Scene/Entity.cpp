@@ -8,6 +8,7 @@ Blind::Entity::Entity(entt::entity handle, Scene* scene)
 }
 
 Blind::Entity::Entity(const Entity& other)
+	: m_EntityHandle(other.m_EntityHandle), m_Scene(other.m_Scene)
 {
 
 }

@@ -52,7 +52,7 @@ namespace Blind
 			void OnUpdate(Timestep ts)
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
-				float speed = 5.0f;
+				static float speed = 5.0f;
 
 				if (Input::IsKeyPressed(Key::A))
 					transform[3][0] -= speed * ts;
@@ -65,6 +65,9 @@ namespace Blind
 			}
 		};
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -155,6 +158,8 @@ namespace Blind
 			ImGui::EndMenuBar();
 		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
@@ -185,7 +190,7 @@ namespace Blind
 		{
 			auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
 			float orthoSize = camera.GetOrthographicSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
+			if (ImGui::DragFloat("2. Cam Size", &orthoSize))
 				camera.SetOrthographicSize(orthoSize);
 		}
 	
