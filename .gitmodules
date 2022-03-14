@@ -11,3 +11,6 @@
 [submodule "Blind/vendor/glm"]
 	path = Blind/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "Blind/vendor/yaml-cpp"]
+	path = Blind/vendor/yaml-cpp
+	url = https://github.com/cococry/yaml-cpp

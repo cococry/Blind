@@ -114,6 +114,9 @@
     <ClInclude Include="src\Blind\Renderer\Buffer.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Renderer\Camera.h">
+      <Filter>src\Blind\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Renderer\FrameBuffer.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
@@ -150,7 +153,19 @@
     <ClInclude Include="src\Blind\Renderer\VertexArray.h">
       <Filter>src\Blind\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Scene\Components.h">
+      <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Scene\Entity.h">
+      <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Scene\Scene.h">
+      <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Scene\SceneCamera.h">
+      <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Scene\ScriptableEntity.h">
       <Filter>src\Blind\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h">
@@ -1431,11 +1446,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Scene\Components.h" />
-    <ClInclude Include="src\Blind\Scene\Entity.h" />
-    <ClInclude Include="src\Blind\Renderer\Camera.h" />
-    <ClInclude Include="src\Blind\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Blind\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Blind\Scene\SceneSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Core\Application.cpp">
@@ -1492,7 +1503,13 @@
     <ClCompile Include="src\Blind\Renderer\VertexArray.cpp">
       <Filter>src\Blind\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Scene\Entity.cpp">
+      <Filter>src\Blind\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Blind\Scene\Scene.cpp">
+      <Filter>src\Blind\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Scene\SceneCamera.cpp">
       <Filter>src\Blind\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1528,7 +1545,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Blind\Scene\Entity.cpp" />
-    <ClCompile Include="src\Blind\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\Blind\Scene\SceneSerializer.cpp" />
   </ItemGroup>
 </Project>

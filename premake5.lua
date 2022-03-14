@@ -18,11 +18,13 @@ Dependencies["ImGui"] = "Blind/vendor/imgui"
 Dependencies["glm"] = "Blind/vendor/glm"
 Dependencies["stb_image"] = "Blind/vendor/stb_image"
 Dependencies["entt"] = "Blind/vendor/entt/include"
+Dependencies["yaml_cpp"] = "Blind/vendor/yaml-cpp"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
 	include "Blind/vendor/Glad"
 	include "Blind/vendor/imgui"
+	include "Blind/vendor/yaml-cpp"
 group ""
 												
 
@@ -60,7 +62,8 @@ project "Blind"
 		"%{Dependencies.ImGui}",
 		"%{Dependencies.glm}",
 		"%{Dependencies.stb_image}",
-		"%{Dependencies.entt}"
+		"%{Dependencies.entt}",
+		"%{Dependencies.yaml_cpp}"
 	}
 
 	links
@@ -68,6 +71,7 @@ project "Blind"
 		"GLFW",
 		"ImGui",
 		"Glad",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 	
