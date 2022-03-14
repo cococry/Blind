@@ -1,7 +1,7 @@
 #pragma once
 
 #include <BlindEngine.h>
-#include "Panels/SceneHierarchyPanel.h"
+#include "Panels/SceneHierarchyPanel.h" 
 
 namespace Blind
 {

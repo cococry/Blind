@@ -13,7 +13,7 @@ namespace Blind
 
 		void SetContext(const Ref<Scene>& context);
 
-		void OnImGuiRender();
+		void OnImGuiDraw();
 	private:
 		void DrawComponents(Entity entity);
 		Ref<Scene> m_Context;
