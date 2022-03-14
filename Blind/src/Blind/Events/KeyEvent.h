@@ -31,6 +31,7 @@ namespace Blind
 			ss << "KeyPressedEvent: (Key-code) " << m_Keycode << ": Repeat Count: " << m_RepeatCount;
 			return ss.str();
 		}
+		uint32_t GetRepeatCount() { return m_RepeatCount; }
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
 		uint32_t m_RepeatCount;

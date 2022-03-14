@@ -18,7 +18,8 @@ Dependencies["ImGui"] = "Blind/vendor/imgui"
 Dependencies["glm"] = "Blind/vendor/glm"
 Dependencies["stb_image"] = "Blind/vendor/stb_image"
 Dependencies["entt"] = "Blind/vendor/entt/include"
-Dependencies["yaml_cpp"] = "Blind/vendor/yaml-cpp"
+Dependencies["yaml_cpp"] = "Blind/vendor/yaml-cpp/include"
+Dependencies["ImGuizmo"] = "Blind/vendor/imguizmo"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
@@ -51,7 +52,9 @@ project "Blind"
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 		"%{prj.name}/vendor/stb_image/**.cpp",
-		"%{prj.name}/vendor/stb_image/**.h"
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/imguizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/imguizmo/ImGuizmo.cpp"
 	}
 	includedirs
 	{
@@ -63,7 +66,8 @@ project "Blind"
 		"%{Dependencies.glm}",
 		"%{Dependencies.stb_image}",
 		"%{Dependencies.entt}",
-		"%{Dependencies.yaml_cpp}"
+		"%{Dependencies.yaml_cpp}",
+		"%{Dependencies.ImGuizmo}"
 	}
 
 	links
@@ -74,6 +78,9 @@ project "Blind"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+
+	filter "files:vendor/imguizmo/**.cpp"
+		flags {"NoPCH"}
 	
 	defines
 	{
@@ -185,7 +192,9 @@ project "BMB"
 		"Blind/src",
 		"Blind/vendor",
 		"%{Dependencies.glm}",
-		"%{Dependencies.entt}"
+		"%{Dependencies.entt}",
+		"%{Dependencies.yaml_cpp}",
+		"%{Dependencies.ImGuizmo}"
 		
 	}
 	links

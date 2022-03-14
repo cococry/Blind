@@ -25,6 +25,9 @@
     <Filter Include="src\Blind\Scene">
       <UniqueIdentifier>{C2EA6BEA-2E76-D9AE-3787-5CA3A39135AF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blind\Utils">
+      <UniqueIdentifier>{057F99EA-710A-07AF-7A1B-8AA3E62563AF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -54,6 +57,9 @@
     </Filter>
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\imguizmo">
+      <UniqueIdentifier>{B36F5F1F-1FFB-CCE3-280C-50D8941629E4}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\stb_image">
       <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
@@ -165,8 +171,14 @@
     <ClInclude Include="src\Blind\Scene\SceneCamera.h">
       <Filter>src\Blind\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Scene\SceneSerializer.h">
+      <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Scene\ScriptableEntity.h">
       <Filter>src\Blind\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blind\Utils\PlatformUtils.h">
+      <Filter>src\Blind\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\BlindEngine.h">
       <Filter>src</Filter>
@@ -1443,10 +1455,13 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\imguizmo\ImGuizmo.h">
+      <Filter>vendor\imguizmo</Filter>
+    </ClInclude>
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Scene\SceneSerializer.h" />
+    <ClInclude Include="src\Blind\Math\Mathematics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Core\Application.cpp">
@@ -1512,6 +1527,9 @@
     <ClCompile Include="src\Blind\Scene\SceneCamera.cpp">
       <Filter>src\Blind\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Blind\Scene\SceneSerializer.cpp">
+      <Filter>src\Blind\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1536,15 +1554,21 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\blindpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="vendor\imguizmo\ImGuizmo.cpp">
+      <Filter>vendor\imguizmo</Filter>
+    </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Blind\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\Blind\Math\Mathematics.cpp" />
   </ItemGroup>
 </Project>

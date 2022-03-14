@@ -6,7 +6,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <Blind/Renderer/RenderCommand.h>
 namespace Blind
 {
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -17,6 +17,7 @@ namespace Blind
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectionContext = {};
 	}
 
 	static void DrawVec3Conrol(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)

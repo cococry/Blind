@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NOMINMAX;BLIND_PLATFORM_WINDOWS;IMGUI_IMPL_OPENGL_LOADER_CUSTOM;BLIND_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;..\Blind\vendor\yaml-cpp\include;..\Blind\vendor\imguizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NOMINMAX;BLIND_PLATFORM_WINDOWS;IMGUI_IMPL_OPENGL_LOADER_CUSTOM;BLIND_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;..\Blind\vendor\yaml-cpp\include;..\Blind\vendor\imguizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NOMINMAX;BLIND_PLATFORM_WINDOWS;IMGUI_IMPL_OPENGL_LOADER_CUSTOM;BLIND_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Blind\vendor\spdlog\include;..\Blind\src;..\Blind\vendor;..\Blind\vendor\glm;..\Blind\vendor\entt\include;..\Blind\vendor\yaml-cpp\include;..\Blind\vendor\imguizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

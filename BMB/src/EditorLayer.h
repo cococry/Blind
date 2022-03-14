@@ -17,6 +17,10 @@ namespace Blind
 		virtual void OnImGuiDraw() override;
 		virtual void OnEvent(Event& e) override;
 	private:
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+		bool OnKeyPressed(KeyPressedEvent& e);
 		OrthographicCameraController m_CameraController;
 
 		Ref<Shader> m_FlatColorShader;
@@ -36,6 +40,8 @@ namespace Blind
 		bool m_PrimaryCamera   = true;
 
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+		int32_t m_GuizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
