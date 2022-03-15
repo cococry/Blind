@@ -317,13 +317,19 @@ namespace Blind
 			case Key::O: 
 			{
 				if (ctrl)
+				{
 					OpenScene();
+				}
+					
 				break;
 			}
 			case Key::S:
 			{
 				if (ctrl)
+				{
 					SaveSceneAs();
+
+				}
 				break;
 			}
 			case Key::Q:

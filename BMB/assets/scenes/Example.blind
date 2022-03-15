@@ -2,23 +2,23 @@ Scene: Untitled
 Entities:
   - Entity: 2136252346236261
     TagComponent:
-      Tag: Empty Entity
+      Tag: Color
     TransformComponent:
-      Translation: [-1.5, 2.25, 3.1500001]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [1, 0.843592048, 0.0579150319, 1]
+      Color: [1, 0.949806929, 0, 1]
   - Entity: 2136252346236261
     TagComponent:
-      Tag: Cube 1
+      Tag: CAmera
     TransformComponent:
-      Translation: [-1.20000005, 1.5, 9.30000019]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
       Camera:
-        ProjectionType: 0
+        ProjectionType: 1
         PerspectiveFOV: 0.785398185
         PerspectiveNear: 0.00999999978
         PerspectiveFar: 1000

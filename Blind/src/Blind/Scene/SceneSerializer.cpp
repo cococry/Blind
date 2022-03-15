@@ -237,7 +237,7 @@ namespace Blind
 
 	bool SceneSerializer::DeserialzeRuntime(const std::string& filepath)
 	{
-		BLIND_ENGINE_ASSERT(false);
+		BLIND_ENGINE_ASSERT(false, "");
 		return false;
 	}
 }
