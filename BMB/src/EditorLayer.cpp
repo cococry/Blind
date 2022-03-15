@@ -25,6 +25,7 @@ namespace Blind
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/checkerboard.png");
 
 		FrameBufferSpecification frameBufferSpecification;
+		frameBufferSpecification.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		frameBufferSpecification.Width = APPLICATION_WINDOW.GetWidth();
 		frameBufferSpecification.Height = APPLICATION_WINDOW.GetHeight();
 		m_FrameBuffer = FrameBuffer::Create(frameBufferSpecification);
@@ -32,50 +33,6 @@ namespace Blind
 		m_ActiveScene = CreateRef<Scene>();
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778, 0.1f, 1000.0f);
-#if 0
-		auto square = m_ActiveScene->CreateEntity("Green Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-
-		auto redSquare = m_ActiveScene->CreateEntity("Red Square");
-		redSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-
-		m_SquareEntity = square;
-
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-		m_CameraEntity.AddComponent<CameraComponent>();
-
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-		cc.Primary = false;
-
-		class CameraController : public ScriptableEntity
-		{
-		public:
-			void OnCreate()
-			{
-			}
-			void OnDestroy()
-			{
-			
-			}
-			void OnUpdate(Timestep ts)
-			{
-				auto& translation = GetComponent<TransformComponent>().Translation;
-				static float speed = 5.0f;
-
-				if (Input::IsKeyPressed(Key::A))
-					translation.x -= speed * ts;
-				else if (Input::IsKeyPressed(Key::D))
-					translation.x += speed * ts;
-				if (Input::IsKeyPressed(Key::W))
-					translation.y += speed * ts;
-				else if (Input::IsKeyPressed(Key::S))
-					translation.y -= speed * ts;
-			}
-		};
-		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-#endif
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
@@ -87,7 +44,7 @@ namespace Blind
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
 		BL_PROFILE_FUNCTION();
-		
+
 		if (FrameBufferSpecification spec = m_FrameBuffer->GetSpecification();
 			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f &&
 			(spec.Width != m_ViewportSize.x || spec.Width != m_ViewportSize.y))
@@ -98,19 +55,18 @@ namespace Blind
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
-		if (m_ViewportFocused)
-		{
-			m_CameraController.OnUpdate(ts);
-			m_EditorCamera.OnUpdate(ts);
-		}
-
-
 		Renderer2D::ResetStats();
 		m_FrameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		if (m_ViewportFocused)
+		{
+			m_CameraController.OnUpdate(ts);
+			m_EditorCamera.OnUpdate(ts);
+		}
+
 
 		m_FrameBuffer->Unbind();
 	}
@@ -174,7 +130,6 @@ namespace Blind
 				ImGui::Separator();
 				if (ImGui::MenuItem("Open...", "Ctrl+O"))
 				{
-					m_SceneHierarchyPanel.ClearScene();
 					OpenScene();
 				}
 				ImGui::Separator();
@@ -275,7 +230,7 @@ namespace Blind
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		
+
 		m_CameraController.OnEvent(e);
 		m_EditorCamera.OnEvent(e);
 
@@ -298,7 +253,7 @@ namespace Blind
 			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialze(filepath);
+			serializer.Deserialize(filepath);
 		}
 	}
 	void EditorLayer::SaveSceneAs()
@@ -313,50 +268,48 @@ namespace Blind
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
 		if (e.GetRepeatCount() > 0)
-			return false; 
+			return false;
 
-		bool ctrl = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
-
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 		switch (e.GetKeyCode())
 		{
-			case Key::N:
-			{
-				if (ctrl)
-					NewScene();
-				break;
-			}
-			case Key::O: 
-			{
-				if (ctrl)
-				{
-					OpenScene();
-				}
-					
-				break;
-			}
-			case Key::S:
-			{
-				if (ctrl)
-				{
-					SaveSceneAs();
+		case Key::N:
+		{
+			if (control)
+				NewScene();
 
-				}
-				break;
-			}
-			case Key::Q:
-			{
-				m_GuizmoType = -1;
-				break;
-			}
-			case Key::W:
-				m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
-				break;
-			case Key::E:
-				m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
-				break;
-			case Key::R:
-				m_GuizmoType = ImGuizmo::OPERATION::SCALE;
-				break;
+			break;
 		}
+		case Key::O:
+		{
+			if (control)
+				OpenScene();
+
+			break;
+		}
+		case Key::S:
+		{
+			if (control && shift)
+				SaveSceneAs();
+
+			break;
+		}
+
+		case Key::Q:
+		{
+			m_GuizmoType = -1;
+			break;
+		}
+		case Key::W:
+			m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			break;
+		case Key::E:
+			m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
+			break;
+		case Key::R:
+			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
+			break;
+	}
 	}
 }

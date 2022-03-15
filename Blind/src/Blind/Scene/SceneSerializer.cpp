@@ -1,13 +1,15 @@
-#include <blindpch.h>
+#include "blindpch.h"
 #include "SceneSerializer.h"
 
-#include <yaml-cpp/yaml.h>
 #include "Entity.h"
 #include "Components.h"
+
 #include <fstream>
 
-namespace YAML
-{
+#include <yaml-cpp/yaml.h>
+
+namespace YAML {
+
 	template<>
 	struct convert<glm::vec3>
 	{
@@ -17,8 +19,10 @@ namespace YAML
 			node.push_back(rhs.x);
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
+
 		static bool decode(const Node& node, glm::vec3& rhs)
 		{
 			if (!node.IsSequence() || node.size() != 3)
@@ -30,6 +34,7 @@ namespace YAML
 			return true;
 		}
 	};
+
 	template<>
 	struct convert<glm::vec4>
 	{
@@ -40,8 +45,10 @@ namespace YAML
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
 			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
+
 		static bool decode(const Node& node, glm::vec4& rhs)
 		{
 			if (!node.IsSequence() || node.size() != 4)
@@ -54,9 +61,10 @@ namespace YAML
 			return true;
 		}
 	};
+
 }
-namespace Blind
-{
+namespace Blind {
+
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
 		out << YAML::Flow;
@@ -70,6 +78,7 @@ namespace Blind
 		out << YAML::BeginSeq << v.x << v.y << v.z << v.w << YAML::EndSeq;
 		return out;
 	}
+
 	SceneSerializer::SceneSerializer(const Ref<Scene>& scene)
 		: m_Scene(scene)
 	{
@@ -77,8 +86,8 @@ namespace Blind
 
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
-		out << YAML::BeginMap;
-		out << YAML::Key << "Entity" << YAML::Value << "2136252346236261";
+		out << YAML::BeginMap; // Entity
+		out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -90,6 +99,7 @@ namespace Blind
 
 			out << YAML::EndMap;
 		}
+
 		if (entity.HasComponent<TransformComponent>())
 		{
 			out << YAML::Key << "TransformComponent";
@@ -102,8 +112,8 @@ namespace Blind
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
 
 			out << YAML::EndMap;
-
 		}
+
 		if (entity.HasComponent<CameraComponent>())
 		{
 			out << YAML::Key << "CameraComponent";
@@ -114,13 +124,13 @@ namespace Blind
 
 			out << YAML::Key << "Camera" << YAML::Value;
 			out << YAML::BeginMap;
-			out << YAML::Key << "ProjectionType"	<< YAML::Value << (int)camera.GetProjectionType();
-			out << YAML::Key << "PerspectiveFOV"	<< YAML::Value << camera.GetPerspectiveVerticalFOV();
-			out << YAML::Key << "PerspectiveNear"	<< YAML::Value << camera.GetPerspectiveNearClip();
-			out << YAML::Key << "PerspectiveFar"	<< YAML::Value << camera.GetPerspectiveFarClip();
-			out << YAML::Key << "OrthographicSize"	<< YAML::Value << camera.GetOrthographicSize();
-			out << YAML::Key << "OrthograhpicNear"	<< YAML::Value << camera.GetOrthographicNearClip();
-			out << YAML::Key << "OrthographicFar"	<< YAML::Value << camera.GetOrthographicFarClip();
+			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
+			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
+			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
+			out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
+			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
+			out << YAML::Key << "OrthograhpicNear" << YAML::Value << camera.GetOrthographicNearClip();
+			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
 			out << YAML::EndMap;
 
 			out << YAML::Key << "Primary" << YAML::Value << cc.Primary;
@@ -128,6 +138,7 @@ namespace Blind
 
 			out << YAML::EndMap;
 		}
+
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
 			out << YAML::Key << "SpriteRendererComponent";
@@ -138,7 +149,8 @@ namespace Blind
 
 			out << YAML::EndMap;
 		}
-		out << YAML::EndMap;
+
+		out << YAML::EndMap; // Entity
 	}
 
 	void SceneSerializer::Serialize(const std::string& filepath)
@@ -147,12 +159,12 @@ namespace Blind
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene" << YAML::Value << "Untitled";
 		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
-
 		m_Scene->m_Registry.each([&](auto entityID)
 			{
 				Entity entity = { entityID, m_Scene.get() };
 				if (!entity)
 					return;
+
 				SerializeEntity(out, entity);
 			});
 		out << YAML::EndSeq;
@@ -162,17 +174,17 @@ namespace Blind
 		fout << out.c_str();
 	}
 
-	void SceneSerializer::SerialzeRuntime(const std::string& filepath)
+	void SceneSerializer::SerializeRuntime(const std::string& filepath)
 	{
+		// Not implemented
+		BLIND_ENGINE_ASSERT(false);
 	}
 
-	bool SceneSerializer::Deserialze(const std::string& filepath)
+	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		std::ifstream stream(filepath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
+		YAML::Node data = YAML::LoadFile(filepath);
 
-		YAML::Node data = YAML::Load(strStream.str());
+
 		if (!data["Scene"])
 			return false;
 
@@ -184,20 +196,21 @@ namespace Blind
 		{
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["Entity"].as<uint64_t>();
+				uint64_t uuid = entity["Entity"].as<uint64_t>(); // TODO
 
 				std::string name;
 				auto tagComponent = entity["TagComponent"];
 				if (tagComponent)
 					name = tagComponent["Tag"].as<std::string>();
 
-				BLIND_ENGINE_TRACE("Deserializing entity with ID = {0}, name = {1}", uuid, name);
-				
+				BLIND_ENGINE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
+
 				Entity deserializedEntity = m_Scene->CreateEntity(name);
 
 				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent)
 				{
+					// Entities always have transforms
 					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
 					tc.Translation = transformComponent["Translation"].as<glm::vec3>();
 					tc.Rotation = transformComponent["Rotation"].as<glm::vec3>();
@@ -232,12 +245,15 @@ namespace Blind
 				}
 			}
 		}
+
 		return true;
 	}
 
-	bool SceneSerializer::DeserialzeRuntime(const std::string& filepath)
+	bool SceneSerializer::DeserializeRuntime(const std::string& filepath)
 	{
-		BLIND_ENGINE_ASSERT(false, "");
+		// Not implemented
+		BLIND_ENGINE_TRACE(false);
 		return false;
 	}
+
 }

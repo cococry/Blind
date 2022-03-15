@@ -72,12 +72,6 @@ namespace Blind
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosed));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(Application::OnWindowResized));
 
-		if (Input::IsKeyPressed(Key::Escape))
-		{
-			m_Running = false;
-			BLIND_ENGINE_INFO("Closing Application...");
-		}
-
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
 			if (e.handled)

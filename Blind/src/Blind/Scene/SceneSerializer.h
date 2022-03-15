@@ -11,10 +11,10 @@ namespace Blind
 		SceneSerializer(const Ref<Scene>& scene);
 
 		void Serialize(const std::string& filepath);
-		void SerialzeRuntime(const std::string& filepath);
+		void SerializeRuntime(const std::string& filepath);
 
-		bool Deserialze(const std::string& filepath);
-		bool DeserialzeRuntime(const std::string& filepath);
+		bool Deserialize(const std::string& filepath);
+		bool DeserializeRuntime(const std::string& filepath);
 	private:
 		Ref<Scene> m_Scene;
 	};
