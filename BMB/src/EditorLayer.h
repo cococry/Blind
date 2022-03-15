@@ -2,6 +2,7 @@
 
 #include <BlindEngine.h>
 #include "Panels/SceneHierarchyPanel.h" 
+#include "Blind/Renderer/EditorCamera.h" 
 
 namespace Blind
 {
@@ -44,6 +45,7 @@ namespace Blind
 		int32_t m_GuizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		EditorCamera m_EditorCamera;
 
 	};
 }

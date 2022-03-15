@@ -154,6 +154,7 @@
     <ClInclude Include="src\Blind\Math\Mathematics.h" />
     <ClInclude Include="src\Blind\Renderer\Buffer.h" />
     <ClInclude Include="src\Blind\Renderer\Camera.h" />
+    <ClInclude Include="src\Blind\Renderer\EditorCamera.h" />
     <ClInclude Include="src\Blind\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Blind\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Blind\Renderer\OrthographicCamera.h" />
@@ -610,6 +611,7 @@
     <ClCompile Include="src\Blind\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Blind\Math\Mathematics.cpp" />
     <ClCompile Include="src\Blind\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Blind\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Blind\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Blind\Renderer\OrthographicCameraController.cpp" />

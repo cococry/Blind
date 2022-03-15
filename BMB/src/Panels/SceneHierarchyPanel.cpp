@@ -140,6 +140,13 @@ namespace Blind
 
 			ImGui::EndPopup();
 		}
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (ImGui::MenuItem("Duplicate Entity"))
+				DuplicateEntity(m_SelectionContext);
+
+			ImGui::EndPopup();
+		}
 
 		if (opened)
 		{
@@ -152,6 +159,34 @@ namespace Blind
 				m_SelectionContext = {};
 		}
 
+	}
+
+	void SceneHierarchyPanel::DuplicateEntity(Entity entity)
+	{
+		auto new_entity = m_Context->CreateEntity("Duplicate");
+		new_entity.GetComponent<TransformComponent>().Translation = entity.GetComponent<TransformComponent>().Translation;
+		new_entity.GetComponent<TransformComponent>().Rotation = entity.GetComponent<TransformComponent>().Rotation;
+		new_entity.GetComponent<TransformComponent>().Scale = entity.GetComponent<TransformComponent>().Scale;
+
+		new_entity.GetComponent<TagComponent>().Tag = entity.GetComponent<TagComponent>().Tag;
+
+		if (entity.HasComponent<SpriteRendererComponent>())
+		{
+			new_entity.AddComponent<SpriteRendererComponent>(entity.GetComponent<SpriteRendererComponent>().Color);
+		}
+		if (entity.HasComponent<CameraComponent>())
+		{
+			new_entity.AddComponent<CameraComponent>();
+			new_entity.GetComponent<CameraComponent>().Camera = entity.GetComponent<CameraComponent>().Camera;
+			new_entity.GetComponent<CameraComponent>().Primary = entity.GetComponent<CameraComponent>().Primary;
+			new_entity.GetComponent<CameraComponent>().FixedAspectRatio = entity.GetComponent<CameraComponent>().FixedAspectRatio;
+		}
+		m_SelectionContext = new_entity;
+	}
+
+	void SceneHierarchyPanel::ClearScene()
+	{
+		m_Context->m_Registry.clear();
 	}
 
 	template <typename T, typename UIFunction>

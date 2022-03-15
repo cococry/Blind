@@ -2,6 +2,7 @@
 #include <entt.hpp>
 
 #include <Blind/Core/Timestep.h>
+#include <Blind/Renderer/EditorCamera.h>
 namespace Blind
 {
 	class Entity;
@@ -15,7 +16,8 @@ namespace Blind
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(Timestep ts);
+		void OnUpdateRuntime(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();

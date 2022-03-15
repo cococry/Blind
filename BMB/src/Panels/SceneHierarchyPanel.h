@@ -16,6 +16,9 @@ namespace Blind
 		void OnImGuiDraw();
 		
 		Entity GetSelectedEntity() const { return m_SelectionContext; }
+
+		void DuplicateEntity(Entity entity);
+		void ClearScene();
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
