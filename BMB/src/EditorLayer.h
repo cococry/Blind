@@ -21,7 +21,9 @@ namespace Blind
 		void NewScene();
 		void OpenScene();
 		void SaveSceneAs();
+
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		void SetupImGuiDockspaceForDraw();
 		void HandleAndDrawMenuBar();
@@ -33,6 +35,7 @@ namespace Blind
 		Ref<FrameBuffer> m_FrameBuffer;
 
 		Ref<Scene> m_ActiveScene;
+		Entity m_HoveredEntity;
 
 		glm::vec2 m_ViewportSize = {0.0f, 0.0f};
 		glm::vec2 m_ViewportBounds[2];

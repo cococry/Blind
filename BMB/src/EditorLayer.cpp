@@ -57,6 +57,8 @@ namespace Blind
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
+		m_FrameBuffer->ClearAttachment(1, -1);
+
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 		if (m_ViewportFocused)
 		{
@@ -68,13 +70,16 @@ namespace Blind
 		iMouseY -= m_ViewportBounds[0].y;
 		
 		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
-		iMouseY = viewportSize.y - iMouseY; // Making the bottom left 0, 0
+		iMouseY = (viewportSize.y - iMouseY) - 26; // Making the bottom left 0, 0
 		int mouseX = (int)iMouseX;
 		int mouseY = (int)iMouseY;
-		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+		if (mouseX >= 0 && mouseY + 26 >= 0 && mouseX < (int)viewportSize.x && mouseY + 26 < (int)viewportSize.y)
 		{
-			int pixeldata = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
-			BLIND_ENGINE_WARN("Pixeldata: {0}", pixeldata);
+			int pixelData = m_FrameBuffer->ReadPixel(1, mouseX, mouseY + 26);
+			if (pixelData == -1)
+				m_HoveredEntity = {};
+			else
+				m_HoveredEntity = { (entt::entity)pixelData, m_ActiveScene.get()};
 		}
 
 		m_FrameBuffer->Unbind();
@@ -97,6 +102,7 @@ namespace Blind
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnKeyPressed));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnMouseButtonPressed));
 	}
 	void EditorLayer::NewScene()
 	{
@@ -156,7 +162,9 @@ namespace Blind
 
 			break;
 		}
-
+		}
+		switch (e.GetKeyCode())
+		{
 		case Key::Q:
 		{
 			m_GuizmoType = -1;
@@ -165,13 +173,20 @@ namespace Blind
 		case Key::W:
 			m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
 			break;
-		case Key::E:
+		case Key::R:
 			m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
 			break;
-		case Key::R:
+		case Key::S:
 			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
+		}
 	}
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == Mouse::ButtonLeft)
+			if(m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
+				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+		return false;
 	}
 	void EditorLayer::SetupImGuiDockspaceForDraw()
 	{
@@ -298,7 +313,7 @@ namespace Blind
 	}
 	void EditorLayer::DrawImGuiSettingsPanel()
 	{
-		ImGui::Begin("Settings");
+		ImGui::Begin("Stats");
 
 		auto stats = Renderer2D::GetStats();
 		ImGui::Text("Renderer2D Stats:");
@@ -307,6 +322,18 @@ namespace Blind
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
+		ImGui::End();
+
+		ImGui::Begin("Help");
+		ImGui::Text("Camera Controller Input:");
+		ImGui::Text("Pan: Ctrl + Middle-Mouse");
+		ImGui::Text("Orbit: Ctrl + Left_Mouse");
+		ImGui::Text("Zoom: Scrollwheel");
+		ImGui::Text("Gizmos:");
+		ImGui::Text("Move: W");
+		ImGui::Text("Rotate: R");
+		ImGui::Text("Scale: S");
+		ImGui::Text("Disable: Q");
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));

@@ -4,7 +4,7 @@ namespace Blind
 {
 	namespace Mouse
 	{
-		enum 
+		enum
 		{
 			// From glfw3.h
 			Button0 = 0,

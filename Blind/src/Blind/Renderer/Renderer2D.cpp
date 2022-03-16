@@ -16,6 +16,9 @@ namespace Blind
 		glm::vec2 TexCoord;
 		float TexIndex;
 		float TilingFactor;
+
+		// Editor
+		int EntityID;
 	};
 	struct Renderer2DData
 	{
@@ -54,11 +57,12 @@ namespace Blind
 		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
 		s_Data.QuadVertexBuffer->SetLayout(
 			{
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" },	
-				{ ShaderDataType::Float2, "a_TexCoord" },
-				{ ShaderDataType::Float, "a_TexIndex" },
-				{ ShaderDataType::Float, "a_TilingFator" },
+				{ ShaderDataType::Float3,		"a_Position" },
+				{ ShaderDataType::Float4,		"a_Color" },	
+				{ ShaderDataType::Float2,		"a_TexCoord" },
+				{ ShaderDataType::Float,		"a_TexIndex" },
+				{ ShaderDataType::Float,		"a_TilingFator" },
+				{ ShaderDataType::Int,			"a_EntityID" },
 			});
 
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
@@ -160,14 +164,17 @@ namespace Blind
 	{
 		BL_PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase;
-		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
-
 		Flush();
 	}
 
 	void Renderer2D::Flush()
 	{
+		if (s_Data.QuadIndexCount == 0)
+			return;
+
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
+		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
+
 		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 		{
 			s_Data.TextureSlots[i]->Bind(i);
@@ -302,7 +309,7 @@ namespace Blind
 		s_Data.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		BL_PROFILE_FUNCTION();
 
@@ -311,9 +318,9 @@ namespace Blind
 
 		const float texIndex = 0.0f; // White
 		const float tilingFactor = 1.0f;
-		const uint32_t quadVertexCount = 4;
+		constexpr size_t quadVertexCount = 4;
 
-		glm::vec2 textureCoords[] = { {0.0f, 0.0f,}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f,}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		for (uint32_t i = 0; i < quadVertexCount; i++)
 		{
@@ -322,6 +329,7 @@ namespace Blind
 			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = texIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 		s_Data.QuadIndexCount += 6;
@@ -329,7 +337,7 @@ namespace Blind
 		s_Data.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4 tintColor)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4 tintColor, int entityID)
 	{
 
 		BL_PROFILE_FUNCTION();
@@ -367,6 +375,7 @@ namespace Blind
 			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 		s_Data.QuadIndexCount += 6;
@@ -446,6 +455,11 @@ namespace Blind
 		s_Data.QuadIndexCount += 6;
 
 		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	{
+		DrawQuad(transform, src.Color, entityID);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, glm::vec4 color)

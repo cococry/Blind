@@ -70,6 +70,16 @@ namespace Blind
 			}
 			return false;
 		}
+		static GLenum ToGLTextureFormat(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::RGBA8: return GL_RGBA8;
+				case FramebufferTextureFormat::SHADER_RED_INT: return GL_RED_INTEGER;
+			}
+			BLIND_ENGINE_ASSERT(false, "Unknown Texture format!");
+			return 0;
+		}
 	}
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec)
@@ -179,5 +189,12 @@ namespace Blind
 		int pixeldata;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixeldata);
 		return pixeldata;
+	}
+	void OpenGLFrameBuffer::ClearAttachment(uint32_t attachmentI, int clearData)
+	{
+		BLIND_ENGINE_ASSERT(attachmentI < m_ColorAttachments.size(), "Attachment Index out of bounds!");
+
+		auto& spec = m_ColorAttachmentSpecs[attachmentI];
+		glClearTexImage(m_ColorAttachments[attachmentI], 0, Utils::ToGLTextureFormat(spec.TextureFormat), GL_INT, &clearData);
 	}
 }

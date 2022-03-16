@@ -67,18 +67,59 @@ namespace Blind
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, 
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(void*)(element.Offset));
+			switch (element.Type)
+			{
+				case ShaderDataType::Float:
+				case ShaderDataType::Float2:
+				case ShaderDataType::Float3:
+				case ShaderDataType::Float4:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribPointer(index,
+						element.GetComponentCount(),
+						ShaderDataTypeToOpenGLBaseType(element.Type),
+						element.Normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(element.Offset));
+					index++;
+					break;
+				}
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribIPointer(index,
+						element.GetComponentCount(),
+						ShaderDataTypeToOpenGLBaseType(element.Type),
+						layout.GetStride(),
+						(const void*)(element.Offset));
+					index++;
+					break;
+				}
+				case ShaderDataType::Mat3:
+				case ShaderDataType::Mat4:
+				{
+					uint8_t count = element.GetComponentCount();
+					for (uint8_t i = 0; i < count; i++)
+					{
+						glEnableVertexAttribArray(index);
+						glVertexAttribIPointer(index,
+							count,
+							ShaderDataTypeToOpenGLBaseType(element.Type),
+							layout.GetStride(),
+							(const void*)(element.Offset + sizeof(float) * count * i));
+						glVertexAttribDivisor(index, 1);
+						index++;
+					}
+					break;
+				}
+			}
 
 			BLIND_ENGINE_TRACE("Added Vertex buffer layout element '{0} with properties: (element index: {1}, vertex stride: {2}, element offset: {3}) to Vertex Buffer ({4}).",
 				element.Name, index, layout.GetStride(), element.Offset, vertexBuffer->GetID());
-
-			index++;
 		}
 		m_VertexBuffers.push_back(vertexBuffer);
 		BLIND_ENGINE_TRACE("Added Vertex Buffer ({0}) to Vertex Array ({1}).", vertexBuffer->GetID(), m_RendererID);
