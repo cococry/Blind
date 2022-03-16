@@ -3,10 +3,10 @@
 ![](git-assets/images/blind-logo.png)
 
 ## About
-Blind is an early state 2D Game Engine for creating interactive application and 2D Rendering implementation.
+Blind is an early state 3D Game Engine for creating interactive applications and with a Batch Rendering implementation.
 The Engine uses [**C++ 17**](https://en.wikipedia.org/wiki/C%2B%2B17) in its core, but the plan is to implement [**C#**](https://de.wikipedia.org/wiki/C-Sharp)
 Scripting for working with the engine. [**OpenGL**](https://de.wikipedia.org/wiki/OpenGL) is the currently used Rendering-API and  [**Premake 5**](https://premake.github.io/)
-is used for linking and project setup. The current state of the Application contains a flexible [OpenGL Data & Vertex Buffer Layout System](https://github.com/cococry/Blind/blob/main/Blind/src/Blind/Renderer/Buffer.h), an easy to use [Shader Library System](https://github.com/cococry/Blind/blob/main/Blind/src/Blind/Renderer/Shader.h), [Texture loading](https://github.com/cococry/Blind/blob/main/Blind/src/Platform/OpenGL/OpenGLTexture.cpp) an own currently BLOCKING [Event System](https://github.com/cococry/Blind/tree/main/Blind/src/Blind/Events). The Engine contains a fully Rendering API (OpenGL/Vulkan...) agnostic Renderer API.
+is used for linking and project setup. The current state of the Application contains a flexible [OpenGL Data & Vertex Buffer Layout System](https://github.com/cococry/Blind/blob/main/Blind/src/Blind/Renderer/Buffer.h), an easy to use [Shader Library System](https://github.com/cococry/Blind/blob/main/Blind/src/Blind/Renderer/Shader.h), [Texture loading](https://github.com/cococry/Blind/blob/main/Blind/src/Platform/OpenGL/OpenGLTexture.cpp) an own currently BLOCKING [Event System](https://github.com/cococry/Blind/tree/main/Blind/src/Blind/Events). The Engine contains a fully working Rendering API (OpenGL/Vulkan...) agnostic Renderer API.
 All of the System are being improved Day by Day and not even nearly finished. The engine is as stated, currently a work in progress.
 
 ***
