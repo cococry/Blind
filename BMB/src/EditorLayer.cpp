@@ -14,7 +14,7 @@
 namespace Blind
 {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController((float)APPLICATION_WINDOW.GetWidth() / (float)APPLICATION_WINDOW.GetHeight())
+		: Layer("EditorLayer")
 	{
 	}
 
@@ -22,10 +22,8 @@ namespace Blind
 	{
 		BL_PROFILE_FUNCTION();
 
-		m_CheckerboardTexture = Texture2D::Create("assets/textures/checkerboard.png");
-
 		FrameBufferSpecification frameBufferSpecification;
-		frameBufferSpecification.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		frameBufferSpecification.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::SHADER_RED_INT, FramebufferTextureFormat::Depth };
 		frameBufferSpecification.Width = APPLICATION_WINDOW.GetWidth();
 		frameBufferSpecification.Height = APPLICATION_WINDOW.GetHeight();
 		m_FrameBuffer = FrameBuffer::Create(frameBufferSpecification);
@@ -50,7 +48,6 @@ namespace Blind
 			(spec.Width != m_ViewportSize.x || spec.Width != m_ViewportSize.y))
 		{
 			m_FrameBuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
@@ -63,10 +60,22 @@ namespace Blind
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 		if (m_ViewportFocused)
 		{
-			m_CameraController.OnUpdate(ts);
 			m_EditorCamera.OnUpdate(ts);
 		}
 
+		auto [iMouseX, iMouseY] = ImGui::GetMousePos();
+		iMouseX -= m_ViewportBounds[0].x;
+		iMouseY -= m_ViewportBounds[0].y;
+		
+		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+		iMouseY = viewportSize.y - iMouseY; // Making the bottom left 0, 0
+		int mouseX = (int)iMouseX;
+		int mouseY = (int)iMouseY;
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+		{
+			int pixeldata = m_FrameBuffer->ReadPixel(1, mouseX, mouseY);
+			BLIND_ENGINE_WARN("Pixeldata: {0}", pixeldata);
+		}
 
 		m_FrameBuffer->Unbind();
 	}
@@ -74,6 +83,98 @@ namespace Blind
 	void EditorLayer::OnImGuiDraw()
 	{
 		BL_PROFILE_FUNCTION();
+		SetupImGuiDockspaceForDraw();
+		m_SceneHierarchyPanel.OnImGuiDraw();
+		HandleAndDrawMenuBar();
+		DrawImGuiSettingsPanel();
+		HandleImGuiViewport();
+		HandleAndDrawImGuizmo();
+	}
+
+	void EditorLayer::OnEvent(Event& e)
+	{
+		m_EditorCamera.OnEvent(e);
+
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnKeyPressed));
+	}
+	void EditorLayer::NewScene()
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+	void EditorLayer::OpenScene()
+	{
+		std::string filepath = FileDialogs::OpenFile("Blind Scene (*.blind)\0*.blind\0");
+		if (!filepath.empty())
+		{
+			m_ActiveScene = CreateRef<Scene>();
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(filepath);
+		}
+	}
+	void EditorLayer::SaveSceneAs()
+	{
+		std::string filepath = FileDialogs::SaveFile("Blind Scene (*.blind)\0*.blind\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filepath);
+		}
+	}
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetRepeatCount() > 0)
+			return false;
+
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		//bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+		switch (e.GetKeyCode())
+		{
+		case Key::N:
+		{
+			if (control)
+				NewScene();
+
+			break;
+		}
+		case Key::O:
+		{
+			if (control)
+				OpenScene();
+
+			break;
+		}
+		case Key::S:
+		{
+			if (control)
+				SaveSceneAs();
+
+			break;
+		}
+
+		case Key::Q:
+		{
+			m_GuizmoType = -1;
+			break;
+		}
+		case Key::W:
+			m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			break;
+		case Key::E:
+			m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
+			break;
+		case Key::R:
+			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
+			break;
+	}
+	}
+	void EditorLayer::SetupImGuiDockspaceForDraw()
+	{
 		static bool dockspaceOpen = true;
 		static bool opt_fullscreen = true;
 		static bool opt_padding = false;
@@ -119,6 +220,9 @@ namespace Blind
 		}
 		style.WindowMinSize.x = minWinSizeX;
 
+	}
+	void EditorLayer::HandleAndDrawMenuBar()
+	{
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -146,39 +250,9 @@ namespace Blind
 			ImGui::EndMenuBar();
 		}
 
-		m_SceneHierarchyPanel.OnImGuiDraw();
-
-		ImGui::Begin("Settings");
-
-		auto stats = Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-
-		ImGui::End();
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		ImGui::Begin("Viewport");
-
-		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
-		APPLICATION.GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
-
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
-		{
-			m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
-
-			m_FrameBuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-		}
-
-		uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
-
-		// Gizmos
+	}
+	void EditorLayer::HandleAndDrawImGuizmo()
+	{
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
 		if (selectedEntity && m_GuizmoType != -1)
 		{
@@ -187,11 +261,6 @@ namespace Blind
 			float windowWidth = (float)ImGui::GetWindowWidth();
 			float windowHeight = (float)ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-
-			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			//const auto& camera = cameraEntity.GetComponent<CameraComponent>();
-			//const glm::mat4& cameraProjection = camera.Camera.GetProjection();
-			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
 			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
 			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
@@ -227,89 +296,50 @@ namespace Blind
 
 		ImGui::End();
 	}
-
-	void EditorLayer::OnEvent(Event& e)
+	void EditorLayer::DrawImGuiSettingsPanel()
 	{
+		ImGui::Begin("Settings");
 
-		m_CameraController.OnEvent(e);
-		m_EditorCamera.OnEvent(e);
+		auto stats = Renderer2D::GetStats();
+		ImGui::Text("Renderer2D Stats:");
+		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+		ImGui::Text("Quads: %d", stats.QuadCount);
+		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnKeyPressed));
+		ImGui::End();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	}
-	void EditorLayer::NewScene()
+	void EditorLayer::HandleImGuiViewport()
 	{
-		m_ActiveScene = CreateRef<Scene>();
-		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-	}
-	void EditorLayer::OpenScene()
-	{
-		std::string filepath = FileDialogs::OpenFile("Blind Scene (*.blind)\0*.blind\0");
-		if (!filepath.empty())
-		{
-			m_ActiveScene = CreateRef<Scene>();
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		ImGui::Begin("Viewport");
+		ImVec2 viewportOffset = ImGui::GetCursorPos();
 
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(filepath);
-		}
-	}
-	void EditorLayer::SaveSceneAs()
-	{
-		std::string filepath = FileDialogs::SaveFile("Blind Scene (*.blind)\0*.blind\0");
-		if (!filepath.empty())
-		{
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(filepath);
-		}
-	}
-	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
-	{
-		if (e.GetRepeatCount() > 0)
-			return false;
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		APPLICATION.GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
-		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
-		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
-		switch (e.GetKeyCode())
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
 		{
-		case Key::N:
-		{
-			if (control)
-				NewScene();
 
-			break;
-		}
-		case Key::O:
-		{
-			if (control)
-				OpenScene();
-
-			break;
-		}
-		case Key::S:
-		{
-			if (control && shift)
-				SaveSceneAs();
-
-			break;
+			m_FrameBuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
+			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		}
 
-		case Key::Q:
-		{
-			m_GuizmoType = -1;
-			break;
-		}
-		case Key::W:
-			m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
-			break;
-		case Key::E:
-			m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
-			break;
-		case Key::R:
-			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
-			break;
-	}
+		uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+
+		// Calculating Viewport bounds
+		ImVec2 windowSize = ImGui::GetWindowSize(); // Viewport
+		ImVec2 minimumBounds = ImGui::GetWindowPos();
+		minimumBounds.x += viewportOffset.x;
+		minimumBounds.y += viewportOffset.y;
+
+		ImVec2 maximumBounds = { minimumBounds.x + windowSize.x, minimumBounds.y + windowSize.y };
+		m_ViewportBounds[0] = { minimumBounds.x, minimumBounds.y };
+		m_ViewportBounds[1] = { maximumBounds.x, maximumBounds.y };
+
 	}
 }

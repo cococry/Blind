@@ -136,7 +136,8 @@ project "Game"
 		"Blind/vendor/spdlog/include",
 		"Blind/src",
 		"Blind/vendor",
-		"%{Dependencies.glm}"
+		"%{Dependencies.glm}",
+		"%{Dependencies.entt}"
 	}
 	links
 	{

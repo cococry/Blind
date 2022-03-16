@@ -13,16 +13,16 @@ namespace Blind
 		{
 			return multisampled ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
 		}
-		static void AttachColorTexture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index)
+		static void AttachColorTexture(uint32_t id, int samples, GLenum glFormat, GLenum format, uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
 			if (multisampled)
 			{
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, glFormat, width, height, GL_FALSE);
 			}
 			else
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, glFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 				
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -53,7 +53,7 @@ namespace Blind
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), id, 0);
 		}
 		
-		static void CreateTextures(bool multisampled, uint32_t* outID, uint32_t count)
+		static void CreateTextures(bool multisampled, uint32_t* outID, size_t count)
 		{
 			glCreateTextures(TextureTarget(multisampled), count, outID);
 		}
@@ -88,7 +88,7 @@ namespace Blind
 	OpenGLFrameBuffer::~OpenGLFrameBuffer()
 	{
 		glDeleteFramebuffers(1, &m_RendererID);
-		glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+		glDeleteTextures(static_cast<GLsizei>(m_ColorAttachments.size()), m_ColorAttachments.data());
 		glDeleteTextures(1, &m_DepthAttachment);
 	}
 
@@ -97,7 +97,7 @@ namespace Blind
 		if (m_RendererID)
 		{
 			glDeleteFramebuffers(1, &m_RendererID);
-			glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+			glDeleteTextures(static_cast<GLsizei>(m_ColorAttachments.size()), m_ColorAttachments.data());
 			glDeleteTextures(1, &m_DepthAttachment);
 			
 			m_ColorAttachments.clear();
@@ -119,7 +119,10 @@ namespace Blind
 				switch (m_ColorAttachmentSpecs[i].TextureFormat)
 				{
 				case FramebufferTextureFormat::RGBA8:
-					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_RGBA8, m_Specification.Width, m_Specification.Height, i);
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_RGBA8, GL_RGBA, m_Specification.Width, m_Specification.Height, i);
+					break;
+				case FramebufferTextureFormat::SHADER_RED_INT:
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_R32I, GL_RED_INTEGER, m_Specification.Width, m_Specification.Height, i);
 					break;
 				}
 			}
@@ -168,5 +171,13 @@ namespace Blind
 		m_Specification.Width = width;
 		m_Specification.Height = height;
 		Invalidate();
+	}
+	int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentI, int x, int y)
+	{
+		BLIND_ENGINE_ASSERT(attachmentI < m_ColorAttachments.size(), "Attachment Index out of bounds!");
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentI);
+		int pixeldata;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixeldata);
+		return pixeldata;
 	}
 }

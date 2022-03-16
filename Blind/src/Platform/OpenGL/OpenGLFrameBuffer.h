@@ -16,6 +16,7 @@ namespace Blind
 		virtual void Unbind() override;
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
+		virtual int ReadPixel(uint32_t attachmentI, int x, int y) override;
 
 		virtual const FrameBufferSpecification& GetSpecification() const override { return m_Specification; };
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { BLIND_ENGINE_ASSERT(index < m_ColorAttachments.size(), "Invalid index!"); return m_ColorAttachments[index]; };
