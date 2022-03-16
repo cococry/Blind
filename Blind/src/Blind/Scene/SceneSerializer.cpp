@@ -177,7 +177,7 @@ namespace Blind {
 	void SceneSerializer::SerializeRuntime(const std::string& filepath)
 	{
 		// Not implemented
-		BLIND_ENGINE_ASSERT(false);
+		BLIND_ENGINE_ASSERT(false, "");
 	}
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
