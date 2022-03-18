@@ -7,6 +7,11 @@
 
 namespace Blind
 {
+	enum class SceneState
+	{
+		Edit = 0,
+		Play = 1
+	};
 	class EditorLayer : public Layer
 	{
 	public:
@@ -23,6 +28,7 @@ namespace Blind
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
+		void DrawUI();
 
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
@@ -35,9 +41,12 @@ namespace Blind
 
 		Ref<Shader> m_FlatColorShader;
 		Ref<FrameBuffer> m_FrameBuffer;
+		Ref<Texture2D> m_StartIcon;
+		Ref<Texture2D> m_StopIcon;
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_HoveredEntity;
+		SceneState m_SceneState = SceneState::Edit;
 
 		glm::vec2 m_ViewportSize = {0.0f, 0.0f};
 		glm::vec2 m_ViewportBounds[2];

@@ -42,7 +42,7 @@ Entities:
     TransformComponent:
       Translation: [-0.00914745033, 0.5, 0.00388133526]
       Rotation: [1.57079613, 0.785398245, -4.21468513e-08]
-      Scale: [0.999999881, 0.999999285, 0.999962211]
+      Scale: [0.999999881, 0.999999285, 0.999961078]
     SpriteRendererComponent:
       Color: [0.0689613968, 0.596570849, 0.99227798, 1]
   - Entity: 12837192831273
@@ -108,3 +108,21 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0.588035405, 0.629343629, 0, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [1.55908097e-07, 1.5539304, -3.93651128]
+      Rotation: [2.75296998, 2.1316277e-14, -3.14159226]
+      Scale: [1.00003099, 1, 1.00001633]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthograhpicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false

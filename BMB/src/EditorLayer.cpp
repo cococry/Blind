@@ -32,6 +32,8 @@ namespace Blind
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778, 0.1f, 1000.0f);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		m_StartIcon = Texture2D::Create("assets/resources/icons/startIcon.png");
+		m_StopIcon = Texture2D::Create("assets/resources/icons/stopIcon.png");
 	}
 
 	void EditorLayer::OnDetach()
@@ -59,7 +61,10 @@ namespace Blind
 
 		m_FrameBuffer->ClearAttachment(1, -1);
 
-		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		if(m_SceneState == SceneState::Edit)
+			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		else
+			m_ActiveScene->OnUpdateRuntime(ts);
 		if (m_ViewportFocused)
 		{
 			m_EditorCamera.OnUpdate(ts);
@@ -93,6 +98,7 @@ namespace Blind
 		m_ContentBrowserPanel.OnImGuiDraw();
 		HandleAndDrawMenuBar();
 		DrawImGuiSettingsPanel();
+		DrawUI();
 		HandleImGuiViewport();
 		HandleAndDrawImGuizmo();
 	}
@@ -138,6 +144,39 @@ namespace Blind
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
 		}
+	}
+	void EditorLayer::DrawUI()
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		auto& colors = ImGui::GetStyle().Colors;
+		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
+		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
+
+		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+		float size = 32.0f;
+		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_StartIcon : m_StopIcon;
+		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		{
+			if (m_SceneState == SceneState::Edit)
+			{
+				m_GuizmoType = -1;
+				m_SceneState = SceneState::Play;
+			}
+			else if (m_SceneState == SceneState::Play)
+			{
+				m_SceneState = SceneState::Edit;
+			}
+				
+		}
+		ImGui::PopStyleVar(2);
+		ImGui::PopStyleColor(3);
+		ImGui::End();
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
@@ -195,7 +234,6 @@ namespace Blind
 				if (m_SceneHierarchyPanel.GetSelectedEntity())
 					m_SceneHierarchyPanel.DuplicateEntity(m_SceneHierarchyPanel.GetSelectedEntity());
 			}
-			break;
 		}
 		return false;
 	}
