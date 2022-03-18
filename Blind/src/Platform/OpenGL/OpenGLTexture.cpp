@@ -57,7 +57,10 @@ namespace Blind
 		BLIND_ENGINE_INFO("Loaded texture file '{0}' (channels: {1} size: {2}x{3}) successfully.", filepath, channels, m_Width, m_Height);
 		stbi_image_free(data);
 	}
-
+	const std::string& OpenGLTexture2D::GetFilepath() const
+	{
+		return m_Path;
+	}
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: m_Width(width), m_Height(height)
 	{

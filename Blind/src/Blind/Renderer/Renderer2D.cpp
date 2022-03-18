@@ -113,6 +113,8 @@ namespace Blind
 	void Renderer2D::Shutdown()
 	{
 		BL_PROFILE_FUNCTION();
+
+		delete[] s_Data.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
@@ -459,7 +461,10 @@ namespace Blind
 
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
-		DrawQuad(transform, src.Color, entityID);
+		if (src.Texture)
+			DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+		else
+			DrawQuad(transform, src.Color, entityID);
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, glm::vec4 color)

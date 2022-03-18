@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Components.h"
+#include "Blind/Renderer/Texture.h"
 
 #include <fstream>
 

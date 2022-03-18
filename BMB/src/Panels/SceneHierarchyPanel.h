@@ -2,6 +2,7 @@
 #include <Blind/Scene/Scene.h>
 #include <Blind/Core/Core.h>
 #include <Blind/Scene/Entity.h>
+#include <Blind/Renderer/Texture.h>
 
 namespace Blind
 {
@@ -24,6 +25,7 @@ namespace Blind
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
 		Ref<Scene> m_Context; 
+		Ref<Texture2D> m_CheckerboardTexture;
 		Entity m_SelectionContext;
 
 		friend class Scene;

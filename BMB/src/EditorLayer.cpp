@@ -90,6 +90,7 @@ namespace Blind
 		BL_PROFILE_FUNCTION();
 		SetupImGuiDockspaceForDraw();
 		m_SceneHierarchyPanel.OnImGuiDraw();
+		m_ContentBrowserPanel.OnImGuiDraw();
 		HandleAndDrawMenuBar();
 		DrawImGuiSettingsPanel();
 		HandleImGuiViewport();
@@ -103,6 +104,7 @@ namespace Blind
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnKeyPressed));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNCTION(EditorLayer::OnMouseButtonPressed));
+
 	}
 	void EditorLayer::NewScene()
 	{
@@ -115,13 +117,18 @@ namespace Blind
 		std::string filepath = FileDialogs::OpenFile("Blind Scene (*.blind)\0*.blind\0");
 		if (!filepath.empty())
 		{
-			m_ActiveScene = CreateRef<Scene>();
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(filepath);
+			OpenScene(filepath);
 		}
+
+	}
+	void EditorLayer::OpenScene(const std::filesystem::path& path)
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(path.string());
 	}
 	void EditorLayer::SaveSceneAs()
 	{
@@ -180,6 +187,17 @@ namespace Blind
 			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
+		switch (e.GetKeyCode())
+		{
+		case Key::D:
+			if (control)
+			{
+				if (m_SceneHierarchyPanel.GetSelectedEntity())
+					m_SceneHierarchyPanel.DuplicateEntity(m_SceneHierarchyPanel.GetSelectedEntity());
+			}
+			break;
+		}
+		return false;
 	}
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
 	{
@@ -326,8 +344,8 @@ namespace Blind
 
 		ImGui::Begin("Help");
 		ImGui::Text("Camera Controller Input:");
-		ImGui::Text("Pan: Ctrl + Middle-Mouse");
-		ImGui::Text("Orbit: Ctrl + Left_Mouse");
+		ImGui::Text("Pan: L Alt + Middle-Mouse");
+		ImGui::Text("Orbit: L Alt + Left_Mouse");
 		ImGui::Text("Zoom: Scrollwheel");
 		ImGui::Text("Gizmos:");
 		ImGui::Text("Move: W");
@@ -341,32 +359,30 @@ namespace Blind
 	void EditorLayer::HandleImGuiViewport()
 	{
 		ImGui::Begin("Viewport");
-		ImVec2 viewportOffset = ImGui::GetCursorPos();
-
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+		
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
 		APPLICATION.GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint64_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		if (ImGui::BeginDragDropTarget())
 		{
-
-			m_FrameBuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+			if (const ImGuiPayload* paylod = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)paylod->Data;
+				OpenScene(std::filesystem::path("assets") / path);
+			}
+			ImGui::EndDragDropTarget();
 		}
-
-		uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
-
-		// Calculating Viewport bounds
-		ImVec2 windowSize = ImGui::GetWindowSize(); // Viewport
-		ImVec2 minimumBounds = ImGui::GetWindowPos();
-		minimumBounds.x += viewportOffset.x;
-		minimumBounds.y += viewportOffset.y;
-
-		ImVec2 maximumBounds = { minimumBounds.x + windowSize.x, minimumBounds.y + windowSize.y };
-		m_ViewportBounds[0] = { minimumBounds.x, minimumBounds.y };
-		m_ViewportBounds[1] = { maximumBounds.x, maximumBounds.y };
-
 	}
 }

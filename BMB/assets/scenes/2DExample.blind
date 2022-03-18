@@ -2,38 +2,65 @@ Scene: Untitled
 Entities:
   - Entity: 12837192831273
     TagComponent:
-      Tag: Background
+      Tag: Rock 1
     TransformComponent:
-      Translation: [0, 0, 0.0562541485]
+      Translation: [-5.22742271, -5.56836033, 0.480162263]
       Rotation: [0, 0, 0]
-      Scale: [20.716856, 14.8492908, 1.59198511]
+      Scale: [1.53941774, 1.63734365, 1]
     SpriteRendererComponent:
-      Color: [0, 0.456701607, 0.799227834, 1]
+      Color: [0.683397651, 0.683397651, 0.683397651, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Ground
+      Tag: Rock 1
     TransformComponent:
-      Translation: [0, -6.45526505, 0.0765396357]
+      Translation: [-7.17835855, -4.55202627, 0.243740439]
       Rotation: [0, 0, 0]
-      Scale: [22.4487362, 2.07851577, 1]
+      Scale: [2.34413695, 3.34013462, 1]
     SpriteRendererComponent:
-      Color: [0, 0.710424721, 0.0109718284, 1]
+      Color: [0.494208515, 0.494208515, 0.494208515, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Cloud 1
+      Tag: Cloud 5
     TransformComponent:
-      Translation: [4.95392466, 6.28057909, 0.229036987]
+      Translation: [-4.90178442, 3.89129829, 0.229036987]
       Rotation: [0, 0, 0]
-      Scale: [7.96846008, 0.834885895, 1]
+      Scale: [2.93775082, 0.899310291, 1]
     SpriteRendererComponent:
       Color: [0.899613917, 0.899613917, 0.899613917, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Cloud 2
+      Tag: Tree Top
     TransformComponent:
-      Translation: [0.05723387, 4.88209581, 0.229036987]
+      Translation: [6.09047604, 0, 0.166437149]
       Rotation: [0, 0, 0]
-      Scale: [1.81679392, 0.915123403, 1]
+      Scale: [2.97007251, 2.95173001, 1]
+    SpriteRendererComponent:
+      Color: [0.216275871, 0.903474927, 0, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Tree Trunk
+    TransformComponent:
+      Translation: [6.08729506, -3.09868765, 0.141854644]
+      Rotation: [0, 0, 0]
+      Scale: [1, 5.6696825, 1]
+    SpriteRendererComponent:
+      Color: [0.810810804, 0.508320451, 0.00313054863, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Sun
+    TransformComponent:
+      Translation: [-8.82856941, 5.61872244, 0.171394587]
+      Rotation: [-0.00708460342, -0.00553976558, 0.86220032]
+      Scale: [1.75275326, 1.83537948, 1]
+    SpriteRendererComponent:
+      Color: [0.945945919, 0.832724571, 0, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Cloud 4
+    TransformComponent:
+      Translation: [7.6849699, 3.89129829, 0.229036987]
+      Rotation: [0, 0, 0]
+      Scale: [1.07455206, 0.899310291, 1]
     SpriteRendererComponent:
       Color: [0.899613917, 0.899613917, 0.899613917, 1]
   - Entity: 12837192831273
@@ -47,64 +74,37 @@ Entities:
       Color: [0.899613917, 0.899613917, 0.899613917, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Cloud 4
+      Tag: Cloud 2
     TransformComponent:
-      Translation: [7.6849699, 3.89129829, 0.229036987]
+      Translation: [0.05723387, 4.88209581, 0.229036987]
       Rotation: [0, 0, 0]
-      Scale: [1.07455206, 0.899310291, 1]
+      Scale: [1.81679392, 0.915123403, 1]
     SpriteRendererComponent:
       Color: [0.899613917, 0.899613917, 0.899613917, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Sun
+      Tag: Cloud 1
     TransformComponent:
-      Translation: [-8.82856941, 5.61872244, 0.171394587]
-      Rotation: [-0.00708460342, -0.00553976558, 0.86220032]
-      Scale: [1.75275326, 1.83537948, 1]
-    SpriteRendererComponent:
-      Color: [0.945945919, 0.832724571, 0, 1]
-  - Entity: 12837192831273
-    TagComponent:
-      Tag: Tree Trunk
-    TransformComponent:
-      Translation: [6.08729506, -3.09868765, 0.600000024]
+      Translation: [4.95392466, 6.28057909, 0.229036987]
       Rotation: [0, 0, 0]
-      Scale: [1, 5.6696825, 1]
-    SpriteRendererComponent:
-      Color: [0.810810804, 0.508320451, 0.00313054863, 1]
-  - Entity: 12837192831273
-    TagComponent:
-      Tag: Tree Top
-    TransformComponent:
-      Translation: [6.09047604, 0, 1.04999995]
-      Rotation: [0, 0, 0]
-      Scale: [2.97007251, 2.95173001, 1]
-    SpriteRendererComponent:
-      Color: [0.216275871, 0.903474927, 0, 1]
-  - Entity: 12837192831273
-    TagComponent:
-      Tag: Cloud 5
-    TransformComponent:
-      Translation: [-4.90178442, 3.89129829, 0.229036987]
-      Rotation: [0, 0, 0]
-      Scale: [2.93775082, 0.899310291, 1]
+      Scale: [7.96846008, 0.834885895, 1]
     SpriteRendererComponent:
       Color: [0.899613917, 0.899613917, 0.899613917, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Rock 1
+      Tag: Ground
     TransformComponent:
-      Translation: [-7.17835855, -4.55202627, 0.243740439]
+      Translation: [0, -6.45526505, 0.0765396357]
       Rotation: [0, 0, 0]
-      Scale: [2.34413695, 3.34013462, 1]
+      Scale: [22.4487362, 2.07851577, 1]
     SpriteRendererComponent:
-      Color: [0.494208515, 0.494208515, 0.494208515, 1]
+      Color: [0, 0.710424721, 0.0109718284, 1]
   - Entity: 12837192831273
     TagComponent:
-      Tag: Rock 1
+      Tag: Background
     TransformComponent:
-      Translation: [-5.22742271, -5.56836033, 0.480162263]
+      Translation: [0, 0, 0.0562541485]
       Rotation: [0, 0, 0]
-      Scale: [1.53941774, 1.63734365, 1]
+      Scale: [20.716856, 14.8492908, 1.59198511]
     SpriteRendererComponent:
-      Color: [0.683397651, 0.683397651, 0.683397651, 1]
+      Color: [0, 0.456701607, 0.799227834, 1]

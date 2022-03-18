@@ -7,8 +7,11 @@
 #include <imgui/imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <Blind/Renderer/RenderCommand.h>
+#include <filesystem>
+
 namespace Blind
 {
+	extern const std::filesystem::path g_AssetPath = "assets";
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
 		SetContext(context);
@@ -16,6 +19,7 @@ namespace Blind
 
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
+		m_CheckerboardTexture = Texture2D::Create("assets/resources/icons/checkerboardIcon.png");
 		m_Context = context;
 		m_SelectionContext = {};
 	}
@@ -330,9 +334,32 @@ namespace Blind
 					ImGui::Checkbox("Fixed Aspect Ratio", &component.FixedAspectRatio);
 				}
 			});
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [&](auto& component)
 			{
 				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+				ImGui::Text("Texture");
+				Ref<Texture2D> draged_texture = component.Texture;
+				Ref<Texture2D> icon = (!draged_texture) ? m_CheckerboardTexture : draged_texture;
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+				ImGui::SameLine();
+				if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { 64, 64 }, { 0, 1 }, { 1, 0 }))
+				{
+					component.Texture = nullptr;
+				}
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* paylod = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)paylod->Data;
+						std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+						component.Texture = Texture2D::Create(texturePath.string());
+					}
+					ImGui::EndDragDropTarget();
+				}
+				ImGui::PopStyleColor();
+				ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
 			});
 	}
 

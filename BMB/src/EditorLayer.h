@@ -2,6 +2,7 @@
 
 #include <BlindEngine.h>
 #include "Panels/SceneHierarchyPanel.h" 
+#include "Panels/ContentBrowserPanel.h" 
 #include "Blind/Renderer/EditorCamera.h" 
 
 namespace Blind
@@ -20,6 +21,7 @@ namespace Blind
 	private:
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 
 		bool OnKeyPressed(KeyPressedEvent& e);
@@ -46,6 +48,8 @@ namespace Blind
 		int32_t m_GuizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		ContentBrowserPanel m_ContentBrowserPanel;
+
 		EditorCamera m_EditorCamera;
 
 	};
