@@ -47,7 +47,7 @@ namespace Blind {
 
 	float EditorCamera::RotationSpeed() const
 	{
-		return 0.8f;
+		return 1.36f;
 	}
 
 	float EditorCamera::ZoomSpeed() const
