@@ -164,19 +164,25 @@ namespace Blind
 		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
 		{
 			if (m_SceneState == SceneState::Edit)
-			{
-				m_GuizmoType = -1;
-				m_SceneState = SceneState::Play;
-			}
+				OnScenePlay();
 			else if (m_SceneState == SceneState::Play)
-			{
-				m_SceneState = SceneState::Edit;
-			}
+				OnSceneStop();
 				
 		}
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);
 		ImGui::End();
+	}
+	void EditorLayer::OnScenePlay()
+	{
+		m_GuizmoType = -1;
+		m_SceneState = SceneState::Play;
+		m_ActiveScene->OnRuntimeStart();
+	}
+	void EditorLayer::OnSceneStop()
+	{
+		m_SceneState = SceneState::Edit;
+		m_ActiveScene->OnRuntimeStop();
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{

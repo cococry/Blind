@@ -11,3 +11,6 @@
 [submodule "Blind/vendor/glm"]
 	path = Blind/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "Blind/vendor/Box2D"]
+	path = Blind/vendor/Box2D
+	url = https://github.com/cococry/box2d/

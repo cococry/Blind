@@ -35,6 +35,28 @@ namespace YAML {
 			return true;
 		}
 	};
+	template<>
+	struct convert<glm::vec2>
+	{
+		static Node encode(const glm::vec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
 
 	template<>
 	struct convert<glm::vec4>
@@ -66,6 +88,12 @@ namespace YAML {
 }
 namespace Blind {
 
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec2& v)
+	{
+		out << YAML::Flow;
+		out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+		return out;
+	}
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
 		out << YAML::Flow;
@@ -85,6 +113,26 @@ namespace Blind {
 	{
 	}
 
+	static std::string RigidBodyTypeToString(RigidBody2DComponent::BodyType bodyType)
+	{
+		switch (bodyType)
+		{
+			case RigidBody2DComponent::BodyType::Dynamic: return "Dynamic";
+			case RigidBody2DComponent::BodyType::Static: return "Static";
+			case RigidBody2DComponent::BodyType::Kinematic: return "Kinematic";
+		}
+		BLIND_ENGINE_ASSERT(false, "Unknown rigidbody type!");
+		return "";
+	}
+	static RigidBody2DComponent::BodyType StringToRigidBodyType(const std::string& bodyType)
+	{
+		if (bodyType == "Static") return RigidBody2DComponent::BodyType::Static;
+		if (bodyType == "Dynamic") return RigidBody2DComponent::BodyType::Dynamic;
+		if (bodyType == "Kinematic") return RigidBody2DComponent::BodyType::Kinematic;
+
+		BLIND_ENGINE_ASSERT(false, "Unknown rigidbody type!");
+		return RigidBody2DComponent::BodyType::Static;
+	}
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		out << YAML::BeginMap; // Entity
@@ -93,62 +141,98 @@ namespace Blind {
 		if (entity.HasComponent<TagComponent>())
 		{
 			out << YAML::Key << "TagComponent";
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // TagComponent
 
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
 			out << YAML::Key << "Tag" << YAML::Value << tag;
 
-			out << YAML::EndMap;
+			out << YAML::EndMap; // TagComponent
 		}
 
 		if (entity.HasComponent<TransformComponent>())
 		{
 			out << YAML::Key << "TransformComponent";
-			out << YAML::BeginMap;;
+			out << YAML::BeginMap; // TransformComponent
 
 			auto& tc = entity.GetComponent<TransformComponent>();
-
 			out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
 			out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
 
-			out << YAML::EndMap;
+			out << YAML::EndMap; // TransformComponent
 		}
 
 		if (entity.HasComponent<CameraComponent>())
 		{
 			out << YAML::Key << "CameraComponent";
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // CameraComponent
 
-			auto& cc = entity.GetComponent<CameraComponent>();
-			auto& camera = cc.Camera;
+			auto& cameraComponent = entity.GetComponent<CameraComponent>();
+			auto& camera = cameraComponent.Camera;
 
 			out << YAML::Key << "Camera" << YAML::Value;
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // Camera
 			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
 			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
 			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
 			out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
 			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
-			out << YAML::Key << "OrthograhpicNear" << YAML::Value << camera.GetOrthographicNearClip();
+			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
 			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
-			out << YAML::EndMap;
+			out << YAML::EndMap; // Camera
 
-			out << YAML::Key << "Primary" << YAML::Value << cc.Primary;
-			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cc.FixedAspectRatio;
+			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
+			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 
-			out << YAML::EndMap;
+			out << YAML::EndMap; // CameraComponent
 		}
 
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
 			out << YAML::Key << "SpriteRendererComponent";
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // SpriteRendererComponent
 
-			auto& src = entity.GetComponent<SpriteRendererComponent>();
-			out << YAML::Key << "Color" << YAML::Value << src.Color;
+			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+			if (spriteRendererComponent.Texture)
+			{
+				std::string filepath = spriteRendererComponent.Texture->GetFilepath();
+				std::replace(filepath.begin(), filepath.end(), '\\', '/');
+				out << YAML::Key << "Texture" << YAML::Value << filepath;
+			}
+			else
+			{
+				out << YAML::Key << "Texture" << YAML::Value << " ";
+			}
 
-			out << YAML::EndMap;
+			out << YAML::EndMap; // SpriteRendererComponent
+		}
+
+		if (entity.HasComponent<RigidBody2DComponent>())
+		{
+			out << YAML::Key << "RigidBody2DComponent";
+			out << YAML::BeginMap; // RigidBody2DComponent
+
+			auto& rb2d = entity.GetComponent<RigidBody2DComponent>();
+			out << YAML::Key << "BodyType" << YAML::Value << RigidBodyTypeToString(rb2d.Type);
+			out << YAML::Key << "FixedRotation" << YAML::Value << rb2d.FixedRotation;
+
+			out << YAML::EndMap; // RigidBody2DComponent
+		}
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			out << YAML::Key << "BoxCollider2DComponent";
+			out << YAML::BeginMap; // BoxCollider2DComponent
+
+			auto& bc2dc = entity.GetComponent<BoxCollider2DComponent>();
+			out << YAML::Key << "Offset" << YAML::Value << bc2dc.Offset;
+			out << YAML::Key << "Size" << YAML::Value << bc2dc.Size;
+			out << YAML::Key << "Density" << YAML::Value << bc2dc.Density;
+			out << YAML::Key << "Friction" << YAML::Value << bc2dc.Friction;
+			out << YAML::Key << "Restitution" << YAML::Value << bc2dc.Restitution;
+			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dc.RestitutionThreshold;
+
+			out << YAML::EndMap; // BoxCollider2DComponent
 		}
 
 		out << YAML::EndMap; // Entity
@@ -178,13 +262,20 @@ namespace Blind {
 	void SceneSerializer::SerializeRuntime(const std::string& filepath)
 	{
 		// Not implemented
-		BLIND_ENGINE_ASSERT(false, "");
+		BLIND_ENGINE_ASSERT(false);
 	}
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		YAML::Node data = YAML::LoadFile(filepath);
-
+		YAML::Node data;
+		try
+		{
+			data = YAML::LoadFile(filepath);
+		}
+		catch (YAML::ParserException e)
+		{
+			return false;
+		}
 
 		if (!data["Scene"])
 			return false;
@@ -231,7 +322,7 @@ namespace Blind {
 					cc.Camera.SetPerspectiveFarClip(cameraProps["PerspectiveFar"].as<float>());
 
 					cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
-					cc.Camera.SetOrthographicNearClip(cameraProps["OrthograhpicNear"].as<float>());
+					cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNear"].as<float>());
 					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFar"].as<float>());
 
 					cc.Primary = cameraComponent["Primary"].as<bool>();
@@ -243,6 +334,29 @@ namespace Blind {
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+					if(spriteRendererComponent["Texture"].as<std::string>() != " ")
+						src.Texture = Texture2D::Create(spriteRendererComponent["Texture"].as<std::string>());
+					
+				}
+
+				auto rigidBody2DComponent = entity["RigidBody2DComponent"];
+				if (rigidBody2DComponent)
+				{
+					auto& rb2d = deserializedEntity.AddComponent<RigidBody2DComponent>();
+					rb2d.Type = StringToRigidBodyType(rigidBody2DComponent["BodyType"].as<std::string>());
+					rb2d.FixedRotation = rigidBody2DComponent["FixedRotation"].as<bool>();
+				}
+				auto boxCollider2DComponent = entity["BoxCollider2DComponent"];
+				if (boxCollider2DComponent)
+				{
+					auto& bc2d = deserializedEntity.AddComponent<BoxCollider2DComponent>();
+					bc2d.Offset = boxCollider2DComponent["Offset"].as<glm::vec2>();
+					bc2d.Size = boxCollider2DComponent["Size"].as<glm::vec2>();
+					bc2d.Density = boxCollider2DComponent["Density"].as<float>();
+					bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
+					bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
+					bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
+				
 				}
 			}
 		}
@@ -253,8 +367,9 @@ namespace Blind {
 	bool SceneSerializer::DeserializeRuntime(const std::string& filepath)
 	{
 		// Not implemented
-		BLIND_ENGINE_TRACE(false);
+		BLIND_ENGINE_ASSERT(false);
 		return false;
 	}
 
 }
+

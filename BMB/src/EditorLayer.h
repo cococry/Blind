@@ -30,6 +30,9 @@ namespace Blind
 		void SaveSceneAs();
 		void DrawUI();
 
+		void OnScenePlay();
+		void OnSceneStop();
+
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 

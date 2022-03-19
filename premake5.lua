@@ -20,12 +20,14 @@ Dependencies["stb_image"] = "Blind/vendor/stb_image"
 Dependencies["entt"] = "Blind/vendor/entt/include"
 Dependencies["yaml_cpp"] = "Blind/vendor/yaml-cpp/include"
 Dependencies["ImGuizmo"] = "Blind/vendor/imguizmo"
+Dependencies["Box2D"] = "Blind/vendor/Box2D/include"
 
 group "Dependencies"
 	include "Blind/vendor/GLFW"
 	include "Blind/vendor/Glad"
 	include "Blind/vendor/imgui"
 	include "Blind/vendor/yaml-cpp"
+	include "Blind/vendor/Box2D"
 group ""
 												
 
@@ -67,11 +69,13 @@ project "Blind"
 		"%{Dependencies.stb_image}",
 		"%{Dependencies.entt}",
 		"%{Dependencies.yaml_cpp}",
-		"%{Dependencies.ImGuizmo}"
+		"%{Dependencies.ImGuizmo}",
+		"%{Dependencies.Box2D}"
 	}
 
 	links
 	{
+		"Box2D",
 		"GLFW",
 		"ImGui",
 		"Glad",
@@ -194,7 +198,6 @@ project "BMB"
 		"Blind/vendor",
 		"%{Dependencies.glm}",
 		"%{Dependencies.entt}",
-		"%{Dependencies.yaml_cpp}",
 		"%{Dependencies.ImGuizmo}"
 		
 	}
