@@ -99,6 +99,9 @@
     <ClInclude Include="src\Blind\Core\Timestep.h">
       <Filter>src\Blind\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blind\Core\UUID.h">
+      <Filter>src\Blind\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Blind\Core\Window.h">
       <Filter>src\Blind\Core</Filter>
     </ClInclude>
@@ -1470,7 +1473,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Blind\Core\UUID.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Blind\Core\Application.cpp">
@@ -1483,6 +1485,9 @@
       <Filter>src\Blind\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\Core\Log.cpp">
+      <Filter>src\Blind\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blind\Core\UUID.cpp">
       <Filter>src\Blind\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Blind\ImGui\ImGuiBuild.cpp">
@@ -1584,6 +1589,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Blind\Core\UUID.cpp" />
   </ItemGroup>
 </Project>

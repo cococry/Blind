@@ -36,7 +36,7 @@ project "Blind"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17";
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
@@ -121,7 +121,7 @@ project "Game"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17";
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
@@ -177,7 +177,7 @@ project "BMB"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17";
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. project_output .. "/%{prj.name}")
 	objdir ("bin-int/" .. project_output .. "/%{prj.name}")
