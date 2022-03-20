@@ -9,11 +9,10 @@ namespace Blind
 	{
 		RecalculateProjection();
 	}
-	SceneCamera::~SceneCamera()
-	{
-	}
+
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
 	{
+		BLIND_ENGINE_ASSERT(width > 0 && height > 0, "");
 		m_AspectRatio = (float)width / (float)height;
 		RecalculateProjection();
 	}
@@ -21,8 +20,8 @@ namespace Blind
 	{
 		m_ProjectionType = ProjectionType::Orthographic;
 		m_OrthographicSize = size;
-		m_OrthgrahpicNear = nearClip;
-		m_OrthographicFar = farClip; 
+		m_OrthographicNear = nearClip;
+		m_OrthographicFar = farClip;
 		RecalculateProjection();
 	}
 	void SceneCamera::RecalculateProjection()
@@ -38,7 +37,8 @@ namespace Blind
 			float orthoBottom = -m_OrthographicSize * 0.5f;
 			float orthoTop = m_OrthographicSize * 0.5f;
 
-			m_Projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, m_OrthgrahpicNear, m_OrthographicFar);
+			m_Projection = glm::ortho(orthoLeft, orthoRight,
+				orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
 		}
 
 	}

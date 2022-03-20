@@ -19,7 +19,6 @@ namespace Blind
 		Entity GetSelectedEntity() const { return m_SelectionContext; }
 		void SetSelectedEntity(Entity entity) { m_SelectionContext = entity; };
 
-		void DuplicateEntity(Entity entity);
 		void ClearScene();
 	private:
 		void DrawEntityNode(Entity entity);

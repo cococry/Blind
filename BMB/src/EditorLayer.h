@@ -28,6 +28,8 @@ namespace Blind
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
+		void SaveScene();
+
 		void DrawUI();
 
 		void OnScenePlay();
@@ -41,6 +43,20 @@ namespace Blind
 		void HandleAndDrawImGuizmo();
 		void DrawImGuiSettingsPanel();
 		void HandleImGuiViewport();
+
+		template<typename UIFunction>
+		void BeginPopup(const char* name, UIFunction UIfunc)
+		{
+			bool running = true;
+	
+			Util::BeginCentered(name);
+			UIfunc();
+
+			if(ImGui::Button("OK", ImVec2(200, 200))) {
+				running = false;
+			}
+			
+		}
 
 		Ref<Shader> m_FlatColorShader;
 		Ref<FrameBuffer> m_FrameBuffer;
@@ -58,6 +74,7 @@ namespace Blind
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
 		bool m_PrimaryCamera   = true;
+		bool m_ErrorPopupOpened = false;
 
 		int32_t m_GuizmoType = -1;
 
@@ -66,5 +83,8 @@ namespace Blind
 
 		EditorCamera m_EditorCamera;
 
+		std::filesystem::path m_EditorScenePath;
+
 	};
+
 }

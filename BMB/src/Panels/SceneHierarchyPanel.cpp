@@ -11,6 +11,7 @@
 
 namespace Blind
 {
+	
 	extern const std::filesystem::path g_AssetPath = "assets";
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
@@ -146,8 +147,8 @@ namespace Blind
 		}
 		if (ImGui::BeginPopupContextItem())
 		{
-			if (ImGui::MenuItem("Duplicate Entity"))
-				DuplicateEntity(m_SelectionContext);
+			if (ImGui::MenuItem("Duplicate Entity") && m_SelectionContext)
+				m_Context->DuplicateEntity(m_SelectionContext);
 
 			ImGui::EndPopup();
 		}
@@ -164,52 +165,6 @@ namespace Blind
 		}
 
 	}
-
-	void SceneHierarchyPanel::DuplicateEntity(Entity entity)
-	{
-		auto new_entity = m_Context->CreateEntity("Duplicate");
-		new_entity.GetComponent<TransformComponent>().Translation = entity.GetComponent<TransformComponent>().Translation;
-		new_entity.GetComponent<TransformComponent>().Rotation = entity.GetComponent<TransformComponent>().Rotation;
-		new_entity.GetComponent<TransformComponent>().Scale = entity.GetComponent<TransformComponent>().Scale;
-
-		new_entity.GetComponent<TagComponent>().Tag = entity.GetComponent<TagComponent>().Tag;
-
-		if (entity.HasComponent<SpriteRendererComponent>())
-		{
-			new_entity.AddComponent<SpriteRendererComponent>(entity.GetComponent<SpriteRendererComponent>().Color);
-			if (entity.GetComponent<SpriteRendererComponent>().Texture)
-			{
-				new_entity.GetComponent<SpriteRendererComponent>().Texture = entity.GetComponent<SpriteRendererComponent>().Texture;
-			}
-		}
-		if (entity.HasComponent<CameraComponent>())
-		{
-			new_entity.AddComponent<CameraComponent>();
-			new_entity.GetComponent<CameraComponent>().Camera = entity.GetComponent<CameraComponent>().Camera;
-			new_entity.GetComponent<CameraComponent>().Primary = entity.GetComponent<CameraComponent>().Primary;
-			new_entity.GetComponent<CameraComponent>().FixedAspectRatio = entity.GetComponent<CameraComponent>().FixedAspectRatio;
-		}
-		if (entity.HasComponent<RigidBody2DComponent>())
-		{
-			new_entity.AddComponent<RigidBody2DComponent>();
-			new_entity.GetComponent<RigidBody2DComponent>().FixedRotation = entity.GetComponent<RigidBody2DComponent>().FixedRotation;
-			new_entity.GetComponent<RigidBody2DComponent>().RuntimeBody = entity.GetComponent<RigidBody2DComponent>().RuntimeBody;
-			new_entity.GetComponent<RigidBody2DComponent>().Type = entity.GetComponent<RigidBody2DComponent>().Type;
-		}
-		if (entity.HasComponent<BoxCollider2DComponent>())
-		{
-			new_entity.AddComponent<BoxCollider2DComponent>();
-			new_entity.GetComponent<BoxCollider2DComponent>().Density = entity.GetComponent<BoxCollider2DComponent>().Density;
-			new_entity.GetComponent<BoxCollider2DComponent>().Friction = entity.GetComponent<BoxCollider2DComponent>().Friction;
-			new_entity.GetComponent<BoxCollider2DComponent>().Offset = entity.GetComponent<BoxCollider2DComponent>().Offset;
-			new_entity.GetComponent<BoxCollider2DComponent>().Restitution = entity.GetComponent<BoxCollider2DComponent>().Restitution;
-			new_entity.GetComponent<BoxCollider2DComponent>().RestitutionThreshold = entity.GetComponent<BoxCollider2DComponent>().RestitutionThreshold;
-			new_entity.GetComponent<BoxCollider2DComponent>().RuntimeFixture = entity.GetComponent<BoxCollider2DComponent>().RuntimeFixture;
-			new_entity.GetComponent<BoxCollider2DComponent>().Size = entity.GetComponent<BoxCollider2DComponent>().Size;
-		}
-		m_SelectionContext = new_entity;
-	}
-
 	void SceneHierarchyPanel::ClearScene()
 	{
 		m_Context->m_Registry.clear();

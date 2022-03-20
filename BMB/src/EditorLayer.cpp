@@ -13,6 +13,21 @@
 
 namespace Blind
 {
+	namespace Util
+	{
+		static bool BeginCentered(const char* name)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			ImVec2 pos(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f);
+			ImGui::SetNextWindowPos(pos, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+			ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove
+				| ImGuiWindowFlags_NoDecoration
+				| ImGuiWindowFlags_AlwaysAutoResize
+				| ImGuiWindowFlags_NoSavedSettings;
+			return ImGui::Begin(name, nullptr, flags);
+		}
+	}
+
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer")
 	{
@@ -117,6 +132,8 @@ namespace Blind
 		m_ActiveScene = CreateRef<Scene>();
 		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		m_EditorScenePath = std::filesystem::path();
 	}
 	void EditorLayer::OpenScene()
 	{
@@ -129,19 +146,24 @@ namespace Blind
 	}
 	void EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
-		if (m_SceneState != SceneState::Edit)
-			OnSceneStop();
 		if (path.extension().string() != ".blind")
 		{
-			BLIND_ENGINE_ERROR("Could not load scene: {0} - not a '.blind' scene file.", path.filename().string());
+			BLIND_ENGINE_ERROR("Could not load file '{0}' - not a .blind scene file", path.filename().string());
 			return;
 		}
-		m_ActiveScene = CreateRef<Scene>();
-		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
-		SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(path.string());
+		Ref<Scene> newScene = CreateRef<Scene>();
+		m_EditorScene = newScene;
+		m_EditorScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		SceneSerializer serializer(newScene);
+		if (serializer.Deserialize(path.string()))
+		{
+			m_ActiveScene = m_EditorScene;
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+			m_EditorScenePath = path;
+		}
+
+	
 	}
 	void EditorLayer::SaveSceneAs()
 	{
@@ -150,7 +172,19 @@ namespace Blind
 		{
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
+
+			m_EditorScenePath = filepath;
 		}
+	}
+	void EditorLayer::SaveScene()
+	{
+		if (!m_EditorScenePath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(m_EditorScenePath.string());
+		}
+		else
+			SaveSceneAs();
 	}
 	void EditorLayer::DrawUI()
 	{
@@ -181,16 +215,33 @@ namespace Blind
 		ImGui::PopStyleColor(3);
 		ImGui::End();
 	}
+
 	void EditorLayer::OnScenePlay()
 	{
-		m_GuizmoType = -1;
-		m_SceneState = SceneState::Play;
-		m_ActiveScene->OnRuntimeStart();
+		if (m_ActiveScene->GetPrimaryCameraEntity())
+		{
+			m_GuizmoType = -1;
+			m_SceneState = SceneState::Play;
+
+			m_ActiveScene = Scene::Copy(m_EditorScene);
+			m_ActiveScene->OnRuntimeStart();
+		}
+		else
+		{
+			if(!m_EditorScenePath.empty())
+				BLIND_ENGINE_WARN("Tried to start scene '{0}' without Camera Entity.", m_EditorScenePath.string());
+			else
+				BLIND_ENGINE_WARN("Tried to start scene without Camera Entity.");
+		}
+		
+
 	}
 	void EditorLayer::OnSceneStop()
 	{
 		m_SceneState = SceneState::Edit;
 		m_ActiveScene->OnRuntimeStop();
+		m_SceneHierarchyPanel.SetSelectedEntity({});
+		m_ActiveScene = m_EditorScene;
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
@@ -198,56 +249,63 @@ namespace Blind
 			return false;
 
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
-		//bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 		switch (e.GetKeyCode())
 		{
-		case Key::N:
-		{
-			if (control)
-				NewScene();
-
-			break;
-		}
-		case Key::O:
-		{
-			if (control)
-				OpenScene();
-
-			break;
-		}
-		case Key::S:
-		{
-			if (control)
-				SaveSceneAs();
-
-			break;
-		}
-		}
-		switch (e.GetKeyCode())
-		{
-		case Key::Q:
-		{
-			m_GuizmoType = -1;
-			break;
-		}
-		case Key::W:
-			m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
-			break;
-		case Key::R:
-			m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
-			break;
-		case Key::S:
-			m_GuizmoType = ImGuizmo::OPERATION::SCALE;
-			break;
-		}
-		switch (e.GetKeyCode())
-		{
-		case Key::D:
-			if (control)
+			case Key::N:
 			{
-				if (m_SceneHierarchyPanel.GetSelectedEntity())
-					m_SceneHierarchyPanel.DuplicateEntity(m_SceneHierarchyPanel.GetSelectedEntity());
+				if (control)
+					NewScene();
+
+				break;
 			}
+			case Key::O:
+			{
+				if (control)
+					OpenScene();
+
+				break;
+			}
+			case Key::S:
+			{
+				if (control)
+				{
+					if (shift)
+						SaveSceneAs();
+					else
+						SaveScene();
+				}
+				break;
+			}
+		}
+		switch (e.GetKeyCode())
+		{
+			case Key::Q:
+			{
+				m_GuizmoType = -1;
+				break;
+			}
+			case Key::W:
+				if(m_SceneState != SceneState::Play && !control)
+					m_GuizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			case Key::R:
+				if (m_SceneState != SceneState::Play && !control)
+					m_GuizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			case Key::S:
+				if (m_SceneState != SceneState::Play && !control)
+					m_GuizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
+			}
+		switch (e.GetKeyCode())
+		{
+			case Key::D:
+				if (control && m_SceneHierarchyPanel.GetSelectedEntity() && m_SceneState != SceneState::Play)
+				{
+					m_ActiveScene->DuplicateEntity(m_SceneHierarchyPanel.GetSelectedEntity());
+				}
+				break;
 		}
 		return false;
 	}

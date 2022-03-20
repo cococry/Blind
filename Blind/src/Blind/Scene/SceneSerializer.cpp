@@ -291,6 +291,7 @@ namespace Blind {
 			for (auto entity : entities)
 			{
 				uint64_t uuid = entity["Entity"].as<uint64_t>();
+
 				std::string name;
 				auto tagComponent = entity["TagComponent"];
 				if (tagComponent)
@@ -303,7 +304,6 @@ namespace Blind {
 				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent)
 				{
-					// Entities always have transforms
 					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
 					tc.Translation = transformComponent["Translation"].as<glm::vec3>();
 					tc.Rotation = transformComponent["Rotation"].as<glm::vec3>();

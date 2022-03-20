@@ -32,6 +32,55 @@ namespace Blind
 	Scene::~Scene()
 	{
 	}
+
+	template<typename Comp>
+	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		auto view = src.view<Comp>();
+		for (auto e : view)
+		{
+			UUID uuid = src.get<IDComponent>(e).ID;
+			entt::entity dstEnttID = enttMap.at(uuid);
+			auto& component = src.get<Comp>(e);
+			dst.emplace_or_replace<Comp>(dstEnttID, component);
+		}
+	}
+	template<typename Comp>
+	static void CopyComponentIfExists(Entity dst, Entity src)
+	{
+		if (src.HasComponent<Comp>())
+			dst.AddOrReplaceComponent<Comp>(src.GetComponent<Comp>());
+	}
+
+	Ref<Scene> Scene::Copy(Ref<Scene> other)
+	{
+		Ref<Scene> newScene = CreateRef<Scene>();
+
+		newScene->m_ViewportWidth = other->m_ViewportWidth;
+		newScene->m_ViewportHeight = other->m_ViewportHeight;
+	
+		auto& srcEnttRegistry = other->m_Registry;
+		auto& destEnttRegistry = newScene->m_Registry;
+		std::unordered_map<UUID, entt::entity> uuidToEnttMap;
+
+		auto entityIDs = srcEnttRegistry.view<IDComponent>();
+		for (auto e : entityIDs)
+		{
+			UUID uuid = srcEnttRegistry.get<IDComponent>(e).ID;
+			const auto& name = srcEnttRegistry.get<TagComponent>(e).Tag;
+			newScene->CreateEntityWithUUID(uuid, name);
+			uuidToEnttMap[uuid] = e;
+		}
+
+		CopyComponent<TransformComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+		CopyComponent<SpriteRendererComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+		CopyComponent<CameraComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+		CopyComponent<RigidBody2DComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+		CopyComponent<BoxCollider2DComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+		CopyComponent<NativeScriptComponent>(destEnttRegistry, srcEnttRegistry, uuidToEnttMap);
+
+		return newScene;
+	}
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
 	{
 		m_ViewportWidth = width;
@@ -94,6 +143,7 @@ namespace Blind
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		return CreateEntityWithUUID(UUID(), name);
+
 	}
 
 	Entity Scene::CreateEntityWithUUID(UUID uuid, const std::string& name)
@@ -110,6 +160,18 @@ namespace Blind
 	void Scene::DestroyEntity(Entity entity)
 	{
 		m_Registry.destroy(entity);
+	}
+
+	void Scene::DuplicateEntity(Entity entity)
+	{
+		Entity newEntity = CreateEntity(entity.GetName());
+
+		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
+		CopyComponentIfExists<CameraComponent>(newEntity, entity);
+		CopyComponentIfExists<RigidBody2DComponent>(newEntity, entity);
+		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
