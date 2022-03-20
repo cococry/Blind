@@ -48,6 +48,8 @@ namespace Blind
 		Ref<Texture2D> m_StopIcon;
 
 		Ref<Scene> m_ActiveScene;
+		Ref<Scene> m_EditorScene, m_RuntimeScene;
+
 		Entity m_HoveredEntity;
 		SceneState m_SceneState = SceneState::Edit;
 

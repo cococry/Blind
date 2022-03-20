@@ -1,13 +1,15 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "SceneCamera.h"
+#include "Blind/Renderer/Texture.h"
+#include "Blind/Core/UUID.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-#include "SceneCamera.h"
-#include "ScriptableEntity.h"
-#include "Blind/Renderer/Texture.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+
 
 namespace Blind
 {
@@ -62,6 +64,8 @@ namespace Blind
 		CameraComponent(const CameraComponent&) = default;
 	};
 
+	class ScriptableEntity;
+
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
@@ -102,5 +106,11 @@ namespace Blind
 
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+	};
+	struct IDComponent
+	{
+		UUID ID;
+		IDComponent() = default;
+		IDComponent(const IDComponent&) = default;
 	};
 }

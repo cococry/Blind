@@ -2,6 +2,7 @@
 #include <entt.hpp>
 
 #include <Blind/Core/Timestep.h>
+#include <Blind/Core/UUID.h>
 #include <Blind/Renderer/EditorCamera.h>
 
 class b2World;
@@ -17,6 +18,7 @@ namespace Blind
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
 		void OnUpdateRuntime(Timestep ts);

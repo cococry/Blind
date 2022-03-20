@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Scene.h"
+#include <Blind/Core/Log.h>
+#include "Components.h"
+#include "Blind/Core/UUID.h"
 
 #include <entt.hpp>
-#include <Blind/Core/Log.h>
 
 namespace Blind
 {
@@ -42,6 +44,8 @@ namespace Blind
 			BLIND_ENGINE_ASSERT(HasComponent<T>(), "Entity does not have this component!");
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
+
+		UUID GetUUID() { return GetComponent<IDComponent>().ID; }
 		const uint32_t GetIntID() const { return (uint32_t)m_EntityHandle; }
 
 		operator bool() const { return m_EntityHandle != entt::null; }

@@ -177,6 +177,10 @@ namespace Blind
 		if (entity.HasComponent<SpriteRendererComponent>())
 		{
 			new_entity.AddComponent<SpriteRendererComponent>(entity.GetComponent<SpriteRendererComponent>().Color);
+			if (entity.GetComponent<SpriteRendererComponent>().Texture)
+			{
+				new_entity.GetComponent<SpriteRendererComponent>().Texture = entity.GetComponent<SpriteRendererComponent>().Texture;
+			}
 		}
 		if (entity.HasComponent<CameraComponent>())
 		{
@@ -184,6 +188,24 @@ namespace Blind
 			new_entity.GetComponent<CameraComponent>().Camera = entity.GetComponent<CameraComponent>().Camera;
 			new_entity.GetComponent<CameraComponent>().Primary = entity.GetComponent<CameraComponent>().Primary;
 			new_entity.GetComponent<CameraComponent>().FixedAspectRatio = entity.GetComponent<CameraComponent>().FixedAspectRatio;
+		}
+		if (entity.HasComponent<RigidBody2DComponent>())
+		{
+			new_entity.AddComponent<RigidBody2DComponent>();
+			new_entity.GetComponent<RigidBody2DComponent>().FixedRotation = entity.GetComponent<RigidBody2DComponent>().FixedRotation;
+			new_entity.GetComponent<RigidBody2DComponent>().RuntimeBody = entity.GetComponent<RigidBody2DComponent>().RuntimeBody;
+			new_entity.GetComponent<RigidBody2DComponent>().Type = entity.GetComponent<RigidBody2DComponent>().Type;
+		}
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			new_entity.AddComponent<BoxCollider2DComponent>();
+			new_entity.GetComponent<BoxCollider2DComponent>().Density = entity.GetComponent<BoxCollider2DComponent>().Density;
+			new_entity.GetComponent<BoxCollider2DComponent>().Friction = entity.GetComponent<BoxCollider2DComponent>().Friction;
+			new_entity.GetComponent<BoxCollider2DComponent>().Offset = entity.GetComponent<BoxCollider2DComponent>().Offset;
+			new_entity.GetComponent<BoxCollider2DComponent>().Restitution = entity.GetComponent<BoxCollider2DComponent>().Restitution;
+			new_entity.GetComponent<BoxCollider2DComponent>().RestitutionThreshold = entity.GetComponent<BoxCollider2DComponent>().RestitutionThreshold;
+			new_entity.GetComponent<BoxCollider2DComponent>().RuntimeFixture = entity.GetComponent<BoxCollider2DComponent>().RuntimeFixture;
+			new_entity.GetComponent<BoxCollider2DComponent>().Size = entity.GetComponent<BoxCollider2DComponent>().Size;
 		}
 		m_SelectionContext = new_entity;
 	}
@@ -365,7 +387,7 @@ namespace Blind
 				Ref<Texture2D> icon = (!draged_texture) ? m_CheckerboardTexture : draged_texture;
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 				ImGui::SameLine();
-				if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { 64, 64 }, { 0, 1 }, { 1, 0 }))
+				if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(icon->GetRendererID()), { 64, 64 }, { 0, 1 }, { 1, 0 }))
 				{
 					component.Texture = nullptr;
 				}
