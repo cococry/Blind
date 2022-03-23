@@ -164,7 +164,8 @@ namespace Blind
 
 	void Scene::DuplicateEntity(Entity entity)
 	{
-		Entity newEntity = CreateEntity(entity.GetName());
+		std::string name = entity.GetName();
+		Entity newEntity = CreateEntity(name);
 
 		CopyComponentIfExists<TransformComponent>(newEntity, entity);
 		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
@@ -244,15 +245,24 @@ namespace Blind
 		if (mainCamera)
 		{
 			Renderer2D::BeginScene(*mainCamera, cameraTransform);
-
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+				for (auto entity : group)
+				{
+					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+					Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+				}
 			}
+			{
+				auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+				for (auto entity : view)
+				{
+					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 
+					Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+				}
+			}
 			Renderer2D::EndScene();
 		}
 
@@ -260,13 +270,25 @@ namespace Blind
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
 		Renderer2D::BeginScene(camera);
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
 		{
-			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+			}
 		}
+		{
+			auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+
+				Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+			}
+		}
+		
 		Renderer2D::EndScene();
 	}
 	template <typename T>
@@ -294,4 +316,6 @@ namespace Blind
 	void Scene::OnComponentAdded<RigidBody2DComponent>(Entity entity, RigidBody2DComponent& component) {}
 	template<>
 	void Scene::OnComponentAdded<BoxCollider2DComponent>(Entity entity, BoxCollider2DComponent& component) {}
+	template<>
+	void Scene::OnComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component) {}
 }

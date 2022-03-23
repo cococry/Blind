@@ -39,6 +39,7 @@ namespace Blind
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tilingFactor = 1.0f, const glm::vec4 tintColor = glm::vec4(1.0f));
 
 		static void DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID);
+		static void DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness = 1.0f, float fade = 0.005,int entityID = -1);
 
 		struct Statistics
 		{
@@ -51,6 +52,7 @@ namespace Blind
 
 		static Statistics GetStats();
 		static void ResetStats();
+		static void StartBatch();
 	private:
 		static void FlushAndReset();
 	};

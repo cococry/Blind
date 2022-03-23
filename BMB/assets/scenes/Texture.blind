@@ -1,6 +1,6 @@
 Scene: Untitled
 Entities:
-  - Entity: 14232070189542379962
+  - Entity: 6294768023222213087
     TagComponent:
       Tag: Texture (Canada)
     TransformComponent:
@@ -28,3 +28,13 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
+  - Entity: 14232070189542379962
+    TagComponent:
+      Tag: Texture (Canada)
+    TransformComponent:
+      Translation: [4.45650864, 3, 0]
+      Rotation: [0, 0, 0]
+      Scale: [3.06061077, 2.54966092, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Texture: assets/textures/canada.jpg

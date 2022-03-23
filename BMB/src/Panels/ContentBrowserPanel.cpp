@@ -1,5 +1,6 @@
 #include <blindpch.h>
 #include "ContentBrowserPanel.h"
+#include <Blind/Utils/PlatformUtils.h>
 
 #include <imgui/imgui.h>
 
@@ -72,6 +73,12 @@ namespace Blind
 
 		ImGui::SliderFloat("Thumbnail Size", &thumbnailSize, 16, 512);
 		ImGui::SliderFloat("Padding", &padding, 0, 32);
+
+		if (ImGui::Button("Show in Explorer", ImVec2(140, 30)))
+		{
+			std::string& current_dir = m_CurrentDirectory.string();
+			FileDialogs::OpenFile("", current_dir.c_str());
+		}
 
 		ImGui::End();
 	}

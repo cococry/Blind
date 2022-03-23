@@ -10,7 +10,7 @@
 
 namespace Blind
 {
-	std::string FileDialogs::OpenFile(const char* filter)
+	std::string FileDialogs::OpenFile(const char* filter, const char* dir)
 	{
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
@@ -20,6 +20,7 @@ namespace Blind
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
 		ofn.lpstrFilter = filter;
+		ofn.lpstrInitialDir = dir;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 		if (GetOpenFileNameA(&ofn) == TRUE)

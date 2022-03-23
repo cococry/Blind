@@ -44,9 +44,10 @@ namespace Blind
 		m_FrameBuffer = FrameBuffer::Create(frameBufferSpecification);
 
 		m_ActiveScene = CreateRef<Scene>();
+		m_EditorScene = m_ActiveScene;
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		m_SceneHierarchyPanel.SetContext(m_EditorScene);
 		m_StartIcon = Texture2D::Create("assets/resources/icons/startIcon.png");
 		m_StopIcon = Texture2D::Create("assets/resources/icons/stopIcon.png");
 	}
@@ -222,25 +223,19 @@ namespace Blind
 		{
 			m_GuizmoType = -1;
 			m_SceneState = SceneState::Play;
-
 			m_ActiveScene = Scene::Copy(m_EditorScene);
 			m_ActiveScene->OnRuntimeStart();
 		}
 		else
 		{
-			if(!m_EditorScenePath.empty())
-				BLIND_ENGINE_WARN("Tried to start scene '{0}' without Camera Entity.", m_EditorScenePath.string());
-			else
-				BLIND_ENGINE_WARN("Tried to start scene without Camera Entity.");
+			BLIND_ENGINE_WARN("Tried to start scene without camera entity!");
 		}
-		
-
 	}
 	void EditorLayer::OnSceneStop()
 	{
 		m_SceneState = SceneState::Edit;
 		m_ActiveScene->OnRuntimeStop();
-		m_SceneHierarchyPanel.SetSelectedEntity({});
+
 		m_ActiveScene = m_EditorScene;
 	}
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)

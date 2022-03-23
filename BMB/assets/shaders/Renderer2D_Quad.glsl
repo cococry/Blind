@@ -1,4 +1,6 @@
-// Basic Texture Shader
+// -------------------------------------------
+// Blind Engine Quad Shader for Batch Renderer
+// -------------------------------------------
 
 #type vertex
 #version 450 core
