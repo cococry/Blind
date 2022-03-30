@@ -249,18 +249,24 @@ namespace Blind
 				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 				for (auto entity : group)
 				{
-					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					if(!m_Registry.has<MeshComponent>(entity))
+					{
+						auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-					Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+						Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+					}
 				}
 			}
 			{
 				auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
 				for (auto entity : view)
 				{
-					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+					if (!m_Registry.has<MeshComponent>(entity))
+					{
+						auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 
-					Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+						Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+					}
 				}
 			}
 			Renderer2D::EndScene();
@@ -274,18 +280,24 @@ namespace Blind
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				if (!m_Registry.has<MeshComponent>(entity))
+				{
+					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+					Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+				}
 			}
 		}
 		{
 			auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
 			for (auto entity : view)
 			{
-				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+				if (!m_Registry.has<MeshComponent>(entity))
+				{
+					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 
-				Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+					Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+				}
 			}
 		}
 		
@@ -318,4 +330,6 @@ namespace Blind
 	void Scene::OnComponentAdded<BoxCollider2DComponent>(Entity entity, BoxCollider2DComponent& component) {}
 	template<>
 	void Scene::OnComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component) {}
+	template<>
+	void Scene::OnComponentAdded<MeshComponent>(Entity entity, MeshComponent& component) {}
 }

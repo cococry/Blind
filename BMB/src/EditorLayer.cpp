@@ -8,8 +8,10 @@
 #include "Blind/Scene/SceneSerializer.h"
 #include "Blind/Utils/PlatformUtils.h"
 #include "Blind/Math/Mathematics.h"
+#include "Blind/Scene/Components.h"
 
 #include "ImGuizmo.h"
+
 
 namespace Blind
 {
@@ -50,6 +52,9 @@ namespace Blind
 		m_SceneHierarchyPanel.SetContext(m_EditorScene);
 		m_StartIcon = Texture2D::Create("assets/resources/icons/startIcon.png");
 		m_StopIcon = Texture2D::Create("assets/resources/icons/stopIcon.png");
+		m_WhiteFileIcon = Texture2D::Create("assets/resources/icons/fileIconWhite.png");
+		m_BlackFileIcon = Texture2D::Create("assets/resources/icons/fileIconBlack.png");
+
 	}
 
 	void EditorLayer::OnDetach()
@@ -72,7 +77,10 @@ namespace Blind
 
 		Renderer2D::ResetStats();
 		m_FrameBuffer->Bind();
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		if(m_CurrentScemeType == ScemeType::Dark)
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		if (m_CurrentScemeType == ScemeType::White)
+			RenderCommand::SetClearColor({ 0.5f, 0.5f, 0.5f, 1.0f });
 		RenderCommand::Clear();
 
 		m_FrameBuffer->ClearAttachment(1, -1);
@@ -382,6 +390,35 @@ namespace Blind
 				ImGui::Separator();
 				if (ImGui::MenuItem("Exit"))  APPLICATION.Close();
 
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Edit"))
+			{
+				ImGui::Text("Color Sceme...   ");
+				ImGui::SameLine();
+				ImGui::PushItemWidth(100);
+				const char* scemeOptions[] = { "Dark", "White" };
+				const char* currentScemeOption = scemeOptions[(int)m_CurrentScemeType];
+				if (ImGui::BeginCombo(" ", currentScemeOption))
+				{
+					for (int32_t i = 0; i < 2; ++i)
+					{
+						bool isSelected = currentScemeOption == scemeOptions[i];
+						if (ImGui::Selectable(scemeOptions[i], isSelected))
+						{
+							currentScemeOption = scemeOptions[i];
+							m_CurrentScemeType = (ScemeType)i;
+							ImGuiLayer::SetColorSceme(m_CurrentScemeType);
+							m_ContentBrowserPanel.SetFileIcon(m_CurrentScemeType == ScemeType::White ? m_BlackFileIcon : m_WhiteFileIcon);
+						}
+						if (isSelected)
+						{
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::PopItemWidth();
 				ImGui::EndMenu();
 			}
 

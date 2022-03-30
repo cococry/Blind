@@ -32,6 +32,10 @@ namespace Blind
 		{
 			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
 		}	
+		inline static void DrawIndexed(RendererID vertexArray, uint32_t indexCount = 0)
+		{
+			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
+		}
 	private:
 		static RendererAPI* s_RendererAPI;
 	};

@@ -8,6 +8,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <Blind/Renderer/Mesh.h>
 
 
 
@@ -122,5 +123,12 @@ namespace Blind
 		UUID ID;
 		IDComponent() = default;
 		IDComponent(const IDComponent&) = default;
+	};
+	struct MeshComponent
+	{
+		Ref<Mesh> MeshData = nullptr;
+
+		MeshComponent() = default;
+		MeshComponent(const MeshComponent&) = default;
 	};
 }

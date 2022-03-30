@@ -3,7 +3,6 @@
 #include <Blind/Core/Core.h>
 #include <Blind/Scene/Entity.h>
 #include <Blind/Renderer/Texture.h>
-
 namespace Blind
 {
 	class SceneHierarchyPanel

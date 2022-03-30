@@ -110,7 +110,8 @@ namespace Blind
 		{
 			if (ImGui::MenuItem("Create Empty Entity"))
 				m_Context->CreateEntity("Empty Entity");
-
+			ImGui::MenuItem("Create 3D Mesh");
+				
 			ImGui::EndPopup();
 		}
 

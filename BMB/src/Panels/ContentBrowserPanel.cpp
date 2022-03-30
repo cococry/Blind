@@ -13,7 +13,7 @@ namespace Blind
 		: m_CurrentDirectory(g_AssetPath)
 	{
 		m_FolderIcon = Texture2D::Create("assets/resources/icons/folderIcon.png");
-		m_FileIcon = Texture2D::Create("assets/resources/icons/fileIcon.png");
+		m_FileIcon = Texture2D::Create("assets/resources/icons/fileIconWhite.png");
 	}
 	void ContentBrowserPanel::OnImGuiDraw()
 	{

@@ -4,7 +4,8 @@
 #include "Panels/SceneHierarchyPanel.h" 
 #include "Panels/ContentBrowserPanel.h" 
 #include "Blind/Renderer/EditorCamera.h" 
-
+#include "Blind/Renderer/MeshLoader.h" 
+#include "Blind/ImGui/ImGuiLayer.h"
 namespace Blind
 {
 	enum class SceneState
@@ -12,6 +13,7 @@ namespace Blind
 		Edit = 0,
 		Play = 1
 	};
+
 	class EditorLayer : public Layer
 	{
 	public:
@@ -63,9 +65,13 @@ namespace Blind
 		Ref<Texture2D> m_StartIcon;
 		Ref<Texture2D> m_StopIcon;
 
+		Ref<Texture2D> m_BlackFileIcon;
+		Ref<Texture2D> m_WhiteFileIcon;
+
 		Ref<Scene> m_ActiveScene;
 		Ref<Scene> m_EditorScene;
 
+		MeshLoader m_MeshLoader;
 		Entity m_HoveredEntity;
 		SceneState m_SceneState = SceneState::Edit;
 
@@ -84,6 +90,8 @@ namespace Blind
 		EditorCamera m_EditorCamera;
 
 		std::filesystem::path m_EditorScenePath;
+
+		ScemeType m_CurrentScemeType = ScemeType::Dark;
 
 	};
 

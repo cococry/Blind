@@ -19,7 +19,7 @@ namespace Blind
 		inline uint32_t GetID() const override { return m_RendererID; }
 
 
-		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffs() const override { return m_VertexBuffers; };
+		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override { return m_VertexBuffers; };
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const override { return m_IndexBuffer; };
 	private:
 		std::vector<Ref<VertexBuffer>> m_VertexBuffers;

@@ -13,6 +13,7 @@ namespace Blind
 		virtual void Clear() override;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) override;
+		virtual void DrawIndexed(RendererID vertexArray, uint32_t indexCount) override;
 
 	private:
 	};

@@ -6,6 +6,11 @@
 
 namespace Blind
 {
+	enum class ScemeType
+	{
+		Dark = 0,
+		White = 1
+	};
 	class ImGuiLayer : public Layer
 	{
 	public:
@@ -15,6 +20,8 @@ namespace Blind
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
 		virtual void OnEvent(Event& e) override;
+
+		static void SetColorSceme(const ScemeType& type);
 
 		void Begin();
 		void End();

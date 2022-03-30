@@ -54,4 +54,5 @@ namespace Blind
 	}
 	using MouseCode = int;
 	using KeyCode = int;
+	using RendererID = uint32_t;
 }
